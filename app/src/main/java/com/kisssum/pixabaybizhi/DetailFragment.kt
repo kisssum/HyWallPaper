@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
+import rxhttp.wrapper.param.RxHttp
 import java.util.*
 
 
@@ -94,27 +93,28 @@ class DetailFragment : Fragment() {
         }
 
         binding.btnDownload.setOnClickListener {
-            downLoadVolley(lastUrl!!)
+            downLoadRxHttp(lastUrl!!)
         }
     }
 
-    private fun downLoadVolley(url: String) {
-        val queue = Volley.newRequestQueue(context)
+    private fun downLoadRxHttp(url: String) {
+        RxHttp.get(url)
+            .asBitmap<Bitmap>()
+            .subscribe(
+                {
+                    saveImage(it)
+                    Toast.makeText(activity, "下载成功", Toast.LENGTH_SHORT).show()
+                },
+                { Toast.makeText(activity, "下载失败", Toast.LENGTH_SHORT).show() }
+            )
+    }
 
-        val imageRequest = ImageRequest(
-            url,
-            {
-                MediaStore.Images.Media.insertImage(
-                    context?.contentResolver,
-                    it,
-                    UUID.randomUUID().toString() + ".png",
-                    "drawing"
-                )
-
-                Toast.makeText(activity, "下载成功", Toast.LENGTH_SHORT).show()
-            }, 0, 0, Bitmap.Config.RGB_565,
-            { Toast.makeText(activity, "下载失败", Toast.LENGTH_SHORT).show() })
-
-        queue.add(imageRequest)
+    private fun saveImage(bitmap: Bitmap) {
+        MediaStore.Images.Media.insertImage(
+            context?.contentResolver,
+            bitmap,
+            UUID.randomUUID().toString() + ".png",
+            "drawing"
+        )
     }
 }
