@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
-import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,9 +28,8 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var binding: FragmentHomeBinding? = null
+    private lateinit var binding: FragmentHomeBinding
     private var adpater: RvAdpater? = null
-
     private var viewModel: MyViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +45,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
-        return binding!!.root
+        return binding.root
     }
 
     companion object {
@@ -103,15 +101,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSwipeRefresh() {
-        binding?.swipeRefresh?.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             viewModel?.getJson()
 
-            binding?.swipeRefresh?.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 
     private fun initFloatingButton() {
-        binding?.floatingActionButton?.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             viewModel?.getJson(true)
 
             Toast.makeText(activity, "图片加载中...", Toast.LENGTH_SHORT).show()
@@ -120,7 +118,7 @@ class HomeFragment : Fragment() {
 
 
     private fun initRecyclerView() {
-        binding?.recyclerView?.let {
+        binding.recyclerView.let {
             val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             it.layoutManager = layout
             it.adapter = adpater
@@ -128,7 +126,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSearchView() {
-        binding?.searchView?.let {
+        binding.searchView.let {
             it.isIconifiedByDefault = false
             it.isSubmitButtonEnabled = true
             it.queryHint = "请输入关键字"
@@ -137,7 +135,7 @@ class HomeFragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     query!!.let {
                         viewModel?.let {
-                            it.getSearchQ()?.value = binding?.searchView?.query.toString()
+                            it.getSearchQ()?.value = binding.searchView.query.toString()
                             it.getJson()
                         }
                     }
@@ -151,7 +149,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initToolBar() {
-        binding?.toolBar?.let {
+        binding.toolBar.let {
             it.setNavigationIcon(R.drawable.ic_baseline_menu_24)
             it.setNavigationOnClickListener {
                 activity?.findViewById<DrawerLayout>(R.id.drawerLayout)

@@ -34,7 +34,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getPage() = when (page == null) {
+    private fun getPage() = when (page == null) {
         false -> page
         else -> {
             page = MutableLiveData()
