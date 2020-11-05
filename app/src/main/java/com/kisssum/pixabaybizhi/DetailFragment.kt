@@ -1,13 +1,22 @@
 package com.kisssum.pixabaybizhi
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.os.Message
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +32,7 @@ class DetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var handler: Handler
 
     private lateinit var binding: FragmentDetailBinding
 
@@ -70,6 +80,7 @@ class DetailFragment : Fragment() {
 
     private fun initUi() {
         val url = arguments?.getString("webformatURL")
+        val lastUrl = arguments?.getString("largeImageURL")
 
         Glide.with(context?.applicationContext!!)
             .load(url)
@@ -83,5 +94,41 @@ class DetailFragment : Fragment() {
                 Navigation.findNavController(requireActivity(), R.id.fragment).popBackStack()
             }
         }
+
+        binding.btnDownload.setOnClickListener { downLoad(lastUrl!!) }
+
+        handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                Toast.makeText(activity, "下载成功", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun downLoad(url: String) {
+        Thread(kotlinx.coroutines.Runnable {
+            try {
+                val client = OkHttpClient()
+
+                val request = Request.Builder()
+                    .url(url)
+                    .build()
+
+                val response = client.newCall(request).execute()
+                val inStream = response.body!!.byteStream()
+                val b = BitmapFactory.decodeStream(inStream)
+
+                MediaStore.Images.Media.insertImage(
+                    context?.contentResolver,
+                    b,
+                    UUID.randomUUID().toString() + ".png",
+                    "drawing"
+                )
+
+                handler.sendMessage(Message())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }).start()
     }
 }
