@@ -2,6 +2,7 @@ package com.kisssum.pixabaybizhi
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -25,12 +26,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class DetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentDetailBinding
+    private lateinit var handler: Handler
+    val SAVE_OK = 0
+    val SAVE_FAIL = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +77,20 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUi()
+       
+        handler = Handler() {
+            when (it.what) {
+                SAVE_OK -> {
+                    showToast("下载成功")
+                    true
+                }
+                SAVE_FAIL -> {
+                    showToast("下载失败")
+                    true
+                }
+                else -> true
+            }
+        }
     }
 
     private fun initUi() {
@@ -85,28 +104,38 @@ class DetailFragment : Fragment() {
             .into(binding.imageView)
 
         binding.toolbar.let {
-            it.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_24)
-
             it.setNavigationOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment).popBackStack()
             }
-        }
 
-        binding.btnDownload.setOnClickListener {
-            downLoadRxHttp(lastUrl!!)
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.Item_download -> {
+                        downLoadRxHttp(lastUrl!!)
+                        true
+                    }
+                    else -> true
+                }
+            }
         }
     }
 
     private fun downLoadRxHttp(url: String) {
+        showToast("开始下载")
+
         RxHttp.get(url)
             .asBitmap<Bitmap>()
             .subscribe(
                 {
                     saveImage(it)
-                    Toast.makeText(activity, "下载成功", Toast.LENGTH_SHORT).show()
+                    handler.sendEmptyMessage(SAVE_OK)
                 },
-                { Toast.makeText(activity, "下载失败", Toast.LENGTH_SHORT).show() }
+                { handler.sendEmptyMessage(SAVE_FAIL) }
             )
+    }
+
+    private fun showToast(str: String) {
+        Toast.makeText(activity, str, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveImage(bitmap: Bitmap) {
