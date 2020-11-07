@@ -14,7 +14,9 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="图片" />
+        app:menu="@menu/home_toolbar_menu"
+        app:navigationIcon="@drawable/ic_baseline_menu_24"
+        app:title="@string/app_name" />
 
     <SearchView
         android:id="@+id/searchView"

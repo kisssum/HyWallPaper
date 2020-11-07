@@ -150,13 +150,11 @@ class HomeFragment : Fragment() {
 
     private fun initToolBar() {
         binding.toolBar.let {
-            it.setNavigationIcon(R.drawable.ic_baseline_menu_24)
             it.setNavigationOnClickListener {
                 activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
                     ?.openDrawer(GravityCompat.START)
             }
 
-            it.inflateMenu(R.menu.home_toolbar_menu)
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_refresh -> {
