@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
 
@@ -80,24 +81,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
-            ).get(
-                MyViewModel::class.java
-            )
-
-        // 观察者
-        viewModel?.getData()?.observe(viewLifecycleOwner) {
-            adpater?.setData(it)
-        }
-
-        // 添加数据
-        if (adpater?.itemCount == null) {
-            adpater = RvAdpater(activity?.applicationContext!!)
-            viewModel?.getJson()
-        }
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
+        ).get(MyViewModel::class.java)
     }
 
     private fun initSwipeRefresh() {
@@ -116,13 +103,29 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun initRecyclerView() {
-        binding.recyclerView.let {
-            val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            it.layoutManager = layout
-            it.adapter = adpater
+        // 观察者(layoutManager)
+        viewModel?.getItemLayoutManager()?.observe(viewLifecycleOwner) {
+            when (it) {
+                0 -> binding.recyclerView.layoutManager =
+                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                1 -> binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                else -> ""
+            }
         }
+
+        // 观察者(adpater)
+        viewModel?.getData()?.observe(viewLifecycleOwner) {
+            adpater?.setData(it)
+        }
+
+        // 添加数据
+        if (adpater?.itemCount == null) {
+            adpater = RvAdpater(activity?.applicationContext!!)
+            viewModel?.getJson()
+        }
+
+        binding.recyclerView.adapter = adpater
     }
 
     private fun initSearchView() {
@@ -159,6 +162,15 @@ class HomeFragment : Fragment() {
                 when (it.itemId) {
                     R.id.Item_refresh -> {
                         viewModel?.getJson()
+                        true
+                    }
+                    R.id.Item_change -> {
+                        val v = viewModel?.getItemLayoutManager()
+                        when (v?.value) {
+                            0 -> v.value = 1
+                            1 -> v.value = 0
+                            else -> v?.value = 0
+                        }
                         true
                     }
                     else -> true
