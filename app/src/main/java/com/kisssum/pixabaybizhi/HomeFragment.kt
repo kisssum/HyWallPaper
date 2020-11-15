@@ -100,14 +100,17 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
         // 观察者(layoutManager)
-        viewModel?.getItemLayoutManager()?.observe(viewLifecycleOwner) {
-            when (it) {
-                0 -> binding.recyclerView.layoutManager =
-                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                1 -> binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                else -> ""
-            }
-        }
+//        viewModel?.getItemLayoutManager()?.observe(viewLifecycleOwner) {
+//            when (it) {
+//                0 -> binding.recyclerView.layoutManager =
+//                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+//                1 -> binding.recyclerView.layoutManager = LinearLayoutManager(context)
+//                else -> ""
+//            }
+//        }
+
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         // 观察者(adpater)
         viewModel?.getData()?.observe(viewLifecycleOwner) {
@@ -159,15 +162,15 @@ class HomeFragment : Fragment() {
                         viewModel?.getJson()
                         true
                     }
-                    R.id.Item_change -> {
-                        val v = viewModel?.getItemLayoutManager()
-                        when (v?.value) {
-                            0 -> v.value = 1
-                            1 -> v.value = 0
-                            else -> v?.value = 0
-                        }
-                        true
-                    }
+//                    R.id.Item_change -> {
+//                        val v = viewModel?.getItemLayoutManager()
+//                        when (v?.value) {
+//                            0 -> v.value = 1
+//                            1 -> v.value = 0
+//                            else -> v?.value = 0
+//                        }
+//                        true
+//                    }
                     else -> true
                 }
             }

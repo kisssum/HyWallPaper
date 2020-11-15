@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     if (backTime + 2000 < System.currentTimeMillis()) {
                         backTime = System.currentTimeMillis()
 
-                        val toast = Toast.makeText(this, "在按一次退出程序", Toast.LENGTH_SHORT)
+                        val toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT)
                         toast.setGravity(Gravity.CENTER, 0, 0)
                         toast.show()
                     } else

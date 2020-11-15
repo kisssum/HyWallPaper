@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
 import rxhttp.wrapper.param.RxHttp
@@ -77,7 +78,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUi()
-       
+
         handler = Handler() {
             when (it.what) {
                 SAVE_OK -> {
@@ -105,7 +106,7 @@ class DetailFragment : Fragment() {
 
         binding.toolbar.let {
             it.setNavigationOnClickListener {
-                Navigation.findNavController(requireActivity(), R.id.fragment).popBackStack()
+                Navigation.findNavController(requireActivity(), R.id.fragment).navigateUp()
             }
 
             it.setOnMenuItemClickListener {
