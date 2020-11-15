@@ -74,7 +74,6 @@ class HomeFragment : Fragment() {
 
         initViewModel()
         initToolBar()
-        initSearchView()
         initSwipeRefresh()
         initRecyclerView()
     }
@@ -126,36 +125,36 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = adpater
     }
 
-    private fun initSearchView() {
-        binding.searchView.let {
-            it.isIconifiedByDefault = false
-            it.isSubmitButtonEnabled = true
-            it.queryHint = "请输入关键字"
-
-            it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    query!!.let {
-                        viewModel?.let {
-                            it.getSearchQ()?.value = binding.searchView.query.toString()
-                            it.getJson()
-                        }
-                    }
-
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?) = true
-            })
-        }
-    }
-
     private fun initToolBar() {
         binding.toolBar.let {
+            // 导航
             it.setNavigationOnClickListener {
                 activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
                     ?.openDrawer(GravityCompat.START)
             }
 
+            // 搜索
+            val searchView = it.findViewById<SearchView>(R.id.Item_search)
+            searchView.let {
+                it.isSubmitButtonEnabled = true
+                it.queryHint = "搜索"
+
+                it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query.let {
+                            viewModel?.let {
+                                it.getSearchQ()?.value = searchView.query.toString()
+                                it.getJson()
+                            }
+                        }
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?) = true
+                })
+            }
+
+            // 项目
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_refresh -> {
