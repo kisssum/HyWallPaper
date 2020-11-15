@@ -77,7 +77,6 @@ class HomeFragment : Fragment() {
         initSearchView()
         initSwipeRefresh()
         initRecyclerView()
-        initFloatingButton()
     }
 
     private fun initViewModel() {
@@ -88,18 +87,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSwipeRefresh() {
-        binding.swipeRefresh.setOnRefreshListener {
+        binding.smartRefreshLayout.setOnRefreshListener {
             viewModel?.getJson()
-
-            binding.swipeRefresh.isRefreshing = false
+            binding.smartRefreshLayout.finishRefresh()
         }
-    }
 
-    private fun initFloatingButton() {
-        binding.floatingActionButton.setOnClickListener {
+        binding.smartRefreshLayout.setOnLoadMoreListener {
             viewModel?.getJson(true)
-
-            Toast.makeText(activity, "图片加载中...", Toast.LENGTH_SHORT).show()
+            binding.smartRefreshLayout.finishLoadMore()
         }
     }
 

@@ -76,4 +76,9 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'com.ljx.rxlife3:rxlife-rxjava:3.0.0' //管理RxJava3生命周期，页面销毁，关闭请求
+
+    // smartRefreshLayout
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation  'com.scwang.smart:refresh-header-classics:2.0.1'
+    implementation  'com.scwang.smart:refresh-footer-classics:2.0.1'
 }
