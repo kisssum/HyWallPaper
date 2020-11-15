@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
 
@@ -80,7 +78,7 @@ class HomeFragment : Fragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(
-            this,
+            requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
         ).get(MyViewModel::class.java)
     }

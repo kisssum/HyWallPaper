@@ -49,8 +49,7 @@ class RvAdpater(var context: Context) : RecyclerView.Adapter<RvAdpater.MyViewHol
 
             it.itemView.setOnClickListener {
                 val bundel = Bundle()
-                bundel.putString("webformatURL", map["webformatURL"])
-                bundel.putString("largeImageURL", map["largeImageURL"])
+                bundel.putInt("indexImg", position)
 
                 Navigation.findNavController(it)
                     .navigate(R.id.action_homeFragment_to_detailFragment, bundel)

@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
 import rxhttp.wrapper.param.RxHttp
 import java.util.*
@@ -28,13 +28,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-class DetailFragment : Fragment() {
+class DetailFragment() : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentDetailBinding
     private lateinit var handler: Handler
+    private var viewModel: MyViewModel? = null
     val SAVE_OK = 0
     val SAVE_FAIL = 1
 
@@ -77,6 +78,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         initUi()
 
         handler = Handler() {
@@ -94,15 +96,34 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun initUi() {
-        val webUrl = arguments?.getString("webformatURL")
-        val lastUrl = arguments?.getString("largeImageURL")
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
+        ).get(MyViewModel::class.java)
+    }
 
-        // 加载图片
-        Glide.with(context?.applicationContext!!)
-            .load(webUrl)
-            .placeholder(R.drawable.ic_launcher_background)
-            .into(binding.imageView)
+    private fun initUi() {
+        var index = arguments!!.getInt("indexImg")
+        var size = viewModel?.getData()?.value?.size
+
+        binding.viewPager.currentItem = size!! / 2
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount() = size!!
+
+            override fun createFragment(position: Int): Fragment {
+                val url = viewModel?.getData()?.value?.get(index)?.get("webformatURL")
+
+                if (++index >= size!!) {
+                    viewModel?.getJson(true)
+                    size = viewModel?.getData()?.value?.size
+                }
+
+                binding.toolbar.title = "${index}/${size!!}"
+
+                return ImageFragment(url!!)
+            }
+        }
 
         binding.toolbar.let {
             it.setNavigationOnClickListener {
@@ -112,7 +133,8 @@ class DetailFragment : Fragment() {
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_download -> {
-                        downLoadRxHttp(lastUrl!!)
+                        val url = viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")
+                        downLoadRxHttp(url!!)
                         true
                     }
                     else -> true
