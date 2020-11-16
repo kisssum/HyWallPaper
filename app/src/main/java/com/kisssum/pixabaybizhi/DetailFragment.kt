@@ -1,5 +1,7 @@
 package com.kisssum.pixabaybizhi
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -104,22 +106,26 @@ class DetailFragment() : Fragment() {
     }
 
     private fun initUi() {
-        var index = arguments!!.getInt("indexImg")
+        // 传入的图片位置
+        var index = requireArguments().getInt("indexImg")
+        // 图片总数
         var size = viewModel?.getData()?.value?.size
 
-        binding.viewPager.currentItem = size!! / 2
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = size!!
 
             override fun createFragment(position: Int): Fragment {
+                // 获取图片地址
                 val url = viewModel?.getData()?.value?.get(index)?.get("webformatURL")
 
-                if (++index >= size!!) {
+                // 如果后面没有图片了则添加图片
+                if (index + 1 >= size!!) {
                     viewModel?.getJson(true)
                     size = viewModel?.getData()?.value?.size
                 }
 
-                binding.toolbar.title = "${index}/${size!!}"
+                // 更新显示数字
+                binding.toolbar.title = "${++index}/${size!!}"
 
                 return ImageFragment(url!!)
             }
@@ -133,8 +139,7 @@ class DetailFragment() : Fragment() {
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_download -> {
-                        val url = viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")
-                        downLoadRxHttp(url!!)
+                        downLoadDialog(index)
                         true
                     }
                     else -> true
@@ -143,7 +148,22 @@ class DetailFragment() : Fragment() {
         }
     }
 
-    private fun downLoadRxHttp(url: String) {
+    private fun downLoadDialog(index: Int) {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("下载图片")
+            .setMessage("你确定要下载此图片吗?")
+            .setCancelable(true)
+            .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
+                val url = viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")
+                downLoadImage(url!!)
+            }
+            .setNegativeButton("取消", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun downLoadImage(url: String) {
         showToast("开始下载")
 
         RxHttp.get(url)
