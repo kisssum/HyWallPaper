@@ -185,7 +185,7 @@ class DetailFragment() : Fragment() {
         MediaStore.Images.Media.insertImage(
             context?.contentResolver,
             bitmap,
-            UUID.randomUUID().toString() + ".png",
+            UUID.randomUUID().toString(),
             "drawing"
         )
     }
