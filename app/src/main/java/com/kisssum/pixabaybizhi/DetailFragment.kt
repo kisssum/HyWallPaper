@@ -110,6 +110,7 @@ class DetailFragment() : Fragment() {
         var index = requireArguments().getInt("indexImg")
         // 图片总数
         var size = viewModel?.getData()?.value?.size
+        var flag = false
 
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = size!!
@@ -119,13 +120,19 @@ class DetailFragment() : Fragment() {
                 val url = viewModel?.getData()?.value?.get(index)?.get("webformatURL")
 
                 // 如果后面没有图片了则添加图片
-                if (index + 1 >= size!!) {
+                if (++index >= size!!) {
                     viewModel?.getJson(true)
                     size = viewModel?.getData()?.value?.size
                 }
 
-                // 更新显示数字
-                binding.toolbar.title = "${++index}/${size!!}"
+                // 更新显示数字(第一次初始化要-1显示)
+                binding.toolbar.title = when (flag) {
+                    true -> "${index - 1}/${size!!}"
+                    else -> {
+                        flag = !flag
+                        "${index}/${size!!}"
+                    }
+                }
 
                 return ImageFragment(url!!)
             }
@@ -139,7 +146,11 @@ class DetailFragment() : Fragment() {
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_download -> {
-                        downLoadDialog(index)
+                        if (index > 2)
+                            downLoadDialog(index - 2)
+                        else
+                            downLoadDialog(index - 1)
+
                         true
                     }
                     else -> true
@@ -154,7 +165,7 @@ class DetailFragment() : Fragment() {
             .setMessage("你确定要下载此图片吗?")
             .setCancelable(true)
             .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
-                val url = viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")
+                val url = viewModel?.getData()?.value?.get(index)?.get("largeImageURL")
                 downLoadImage(url!!)
             }
             .setNegativeButton("取消", null)
