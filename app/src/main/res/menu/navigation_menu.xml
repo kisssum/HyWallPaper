@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <item
-        android:id="@+id/Item_Pixabay"
-        android:title="Pixabay" />
-
-    <item
-        android:id="@+id/Item_bian"
-        android:title="彼岸图" />
-
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/Item_Pixabay"
+            android:title="Pixabay" />
+        <item
+            android:id="@+id/Item_bian"
+            android:title="彼岸图" />
+    </group>
     <item
         android:id="@+id/Item_about"
         android:title="关于" />
+
 </menu>

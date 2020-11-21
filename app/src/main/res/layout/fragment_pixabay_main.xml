@@ -11,7 +11,7 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/home_toolbar_menu"
+        app:menu="@menu/pixabay_main_toolbar_menu"
         app:navigationIcon="@drawable/ic_baseline_menu_24"
         app:title="@string/app_name" />
 

@@ -101,7 +101,7 @@ class BianAllFragment(val tag: Int) : Fragment() {
 
     private fun initRecyclerView() {
         binding.recyclerView.let {
-            it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            it.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
             it.adapter = adpater
         }
     }
