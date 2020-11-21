@@ -48,7 +48,7 @@ class ImageFragment(var url: String) : Fragment() {
         // 加载图片
         Glide.with(context?.applicationContext!!)
             .load(url)
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_baseline_refresh_24)
             .into(binding.imageView)
     }
 

@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
         }
 
         // 添加数据
-        if (adpater?.itemCount == null) {
+        if (adpater == null) {
             adpater = PixabayListAdpater(activity?.applicationContext!!)
             viewModel?.getJson()
         }

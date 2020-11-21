@@ -41,7 +41,7 @@ class BianAllFragment(val tag: Int) : Fragment() {
     val BIAN_BEIJING = 12
 
     private lateinit var binding: FragmentBianPagerBinding
-    private lateinit var adpater: BianPagerAdpater
+    private var adpater: BianPagerAdpater? = null
     private lateinit var handler: Handler
     private var page = 1
 
@@ -71,15 +71,19 @@ class BianAllFragment(val tag: Int) : Fragment() {
                 val list = msg.obj as ArrayList<String>
 
                 when (msg.what) {
-                    1 -> adpater.addData(list)
-                    2 -> adpater.setData(list)
+                    1 -> adpater?.addData(list)
+                    2 -> adpater?.setData(list)
                     else -> ""
                 }
             }
         }
 
+        if (adpater == null) {
+            adpater = BianPagerAdpater(requireContext())
+            getImgUrl(page++)
+        }
+
         initRecyclerView()
-        getImgUrl(page++)
         initRefreshLayout()
     }
 
@@ -98,8 +102,6 @@ class BianAllFragment(val tag: Int) : Fragment() {
     private fun initRecyclerView() {
         binding.recyclerView.let {
             it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-            adpater = BianPagerAdpater(requireContext())
             it.adapter = adpater
         }
     }

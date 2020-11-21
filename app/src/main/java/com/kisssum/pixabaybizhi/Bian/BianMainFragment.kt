@@ -28,6 +28,9 @@ class BianFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    val list =
+        arrayOf("全部", "风景", "美女", "游戏", "动漫", "影视", "明星", "汽车", "动物", "人物", "美食", "宗教", "背景")
+
     private lateinit var binding: FragmentBianMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,27 +60,12 @@ class BianFragment : Fragment() {
         }
 
         binding.viewPage.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount() = 13
+            override fun getItemCount() = list.size
             override fun createFragment(position: Int) = BianAllFragment(position)
         }
 
         TabLayoutMediator(binding.tablayout, binding.viewPage) { tab: TabLayout.Tab, i: Int ->
-            tab.text = when (i) {
-                0 -> "全部"
-                1 -> "风景"
-                2 -> "美女"
-                3 -> "游戏"
-                4 -> "动漫"
-                5 -> "影视"
-                6 -> "明星"
-                7 -> "汽车"
-                8 -> "动物"
-                9 -> "人物"
-                10 -> "美食"
-                11 -> "宗教"
-                12 -> "背景"
-                else -> "其它"
-            }
+            tab.text = list[i]
         }.attach()
     }
 
