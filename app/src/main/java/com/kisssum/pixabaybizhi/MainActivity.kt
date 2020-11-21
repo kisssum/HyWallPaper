@@ -62,20 +62,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        findNavController(R.id.fragment).let {
-            when (it.currentDestination!!.id) {
-                R.id.homeFragment -> {
-                    if (backTime + 2000 < System.currentTimeMillis()) {
-                        backTime = System.currentTimeMillis()
+        val list = arrayOf(R.id.homeFragment, R.id.bianFragment)
 
-                        val toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT)
-                        toast.setGravity(Gravity.CENTER, 0, 0)
-                        toast.show()
-                    } else
-                        super.onBackPressed()
-                }
-                else -> it.navigateUp()
-            }
+        findNavController(R.id.fragment).let {
+            if (it.currentDestination!!.id in list)
+                if (backTime + 2000 < System.currentTimeMillis()) {
+                    backTime = System.currentTimeMillis()
+
+                    val toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
+                } else
+                    super.onBackPressed()
+            else it.navigateUp()
         }
     }
 }
