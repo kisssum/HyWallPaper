@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.kisssum.pixabaybizhi.Pixabay.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_pixabay_main" >
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment"
@@ -22,12 +22,12 @@
         android:id="@+id/detailFragment"
         android:name="com.kisssum.pixabaybizhi.showImg.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_img_main" />
     <fragment
         android:id="@+id/bianFragment"
         android:name="com.kisssum.pixabaybizhi.Bian.BianFragment"
         android:label="fragment_bian"
-        tools:layout="@layout/fragment_bian" >
+        tools:layout="@layout/fragment_bian_main" >
         <action
             android:id="@+id/action_bianFragment_to_detailFragment"
             app:destination="@id/detailFragment"

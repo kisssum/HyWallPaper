@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.FragmentImageBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentImgShowBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ class ImageFragment(var url: String) : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentImageBinding
+    private lateinit var binding: FragmentImgShowBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class ImageFragment(var url: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentImageBinding.inflate(inflater)
+        binding = FragmentImgShowBinding.inflate(inflater)
         return binding.root
     }
 

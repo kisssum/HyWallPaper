@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentPixabayMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,9 +28,9 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentHomeBinding
-    private var adpater: RvAdpater? = null
-    private var viewModel: MyViewModel? = null
+    private lateinit var binding: FragmentPixabayMainBinding
+    private var adpater: PixabayListAdpater? = null
+    private var viewModel: PixabayViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentPixabayMainBinding.inflate(inflater)
         return binding.root
     }
 
@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
-        ).get(MyViewModel::class.java)
+        ).get(PixabayViewModel::class.java)
     }
 
     private fun initSwipeRefresh() {
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
 
         // 添加数据
         if (adpater?.itemCount == null) {
-            adpater = RvAdpater(activity?.applicationContext!!)
+            adpater = PixabayListAdpater(activity?.applicationContext!!)
             viewModel?.getJson()
         }
 

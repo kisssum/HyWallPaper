@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 
-class RvAdpater(var context: Context) : RecyclerView.Adapter<RvAdpater.MyViewHolder>() {
+class PixabayListAdpater(var context: Context) : RecyclerView.Adapter<PixabayListAdpater.MyViewHolder>() {
     private var data: List<Map<String, String>> = ArrayList()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,7 +24,7 @@ class RvAdpater(var context: Context) : RecyclerView.Adapter<RvAdpater.MyViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val item =
-            LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.pixabay_list_item, parent, false)
         return MyViewHolder(item)
     }
 

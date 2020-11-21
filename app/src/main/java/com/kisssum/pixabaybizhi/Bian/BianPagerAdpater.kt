@@ -2,7 +2,6 @@ package com.kisssum.pixabaybizhi.Bian
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 
-class BianAllAdpater(var context: Context) : RecyclerView.Adapter<BianAllAdpater.MyViewHolder>() {
+class BianPagerAdpater(var context: Context) : RecyclerView.Adapter<BianPagerAdpater.MyViewHolder>() {
     private var data = arrayListOf<String>()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,7 +30,7 @@ class BianAllAdpater(var context: Context) : RecyclerView.Adapter<BianAllAdpater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.bian_all_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.bian_pager_list_item, parent, false)
         return MyViewHolder(view)
     }
 

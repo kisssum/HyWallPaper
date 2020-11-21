@@ -10,7 +10,7 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 import kotlin.random.Random
 
-class MyViewModel(application: Application) : AndroidViewModel(application) {
+class PixabayViewModel(application: Application) : AndroidViewModel(application) {
     private var date: MutableLiveData<List<Map<String, String>>>? = null
 
     //    private var itemLayoutManager: MutableLiveData<Int>? = null

@@ -1,6 +1,5 @@
 package com.kisssum.pixabaybizhi.Bian
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -9,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.kisssum.pixabaybizhi.databinding.FragmentBianAllBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentBianPagerBinding
 import org.jsoup.Jsoup
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,8 +40,8 @@ class BianAllFragment(val tag: Int) : Fragment() {
     val BIAN_ZONGJIAO = 11
     val BIAN_BEIJING = 12
 
-    private lateinit var binding: FragmentBianAllBinding
-    private lateinit var adpater: BianAllAdpater
+    private lateinit var binding: FragmentBianPagerBinding
+    private lateinit var adpater: BianPagerAdpater
     private lateinit var handler: Handler
     private var page = 1
 
@@ -58,7 +57,7 @@ class BianAllFragment(val tag: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBianAllBinding.inflate(inflater)
+        binding = FragmentBianPagerBinding.inflate(inflater)
         return binding.root
     }
 
@@ -100,7 +99,7 @@ class BianAllFragment(val tag: Int) : Fragment() {
         binding.recyclerView.let {
             it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-            adpater = BianAllAdpater(requireContext())
+            adpater = BianPagerAdpater(requireContext())
             it.adapter = adpater
         }
     }

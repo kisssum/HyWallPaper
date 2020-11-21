@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.kisssum.pixabaybizhi.Pixabay.MyViewModel
+import com.kisssum.pixabaybizhi.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
 import rxhttp.wrapper.param.RxHttp
 import java.util.*
 
@@ -37,9 +37,9 @@ class DetailFragment() : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentDetailBinding
+    private lateinit var binding: FragmentImgMainBinding
     private lateinit var handler: Handler
-    private var viewModel: MyViewModel? = null
+    private var viewModel: PixabayViewModel? = null
     val SAVE_OK = 0
     val SAVE_FAIL = 1
 
@@ -55,7 +55,7 @@ class DetailFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentDetailBinding.inflate(inflater)
+        binding = FragmentImgMainBinding.inflate(inflater)
         return binding.root
     }
 
@@ -110,7 +110,7 @@ class DetailFragment() : Fragment() {
         viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
-        ).get(MyViewModel::class.java)
+        ).get(PixabayViewModel::class.java)
     }
 
     private fun initBianUi() {
