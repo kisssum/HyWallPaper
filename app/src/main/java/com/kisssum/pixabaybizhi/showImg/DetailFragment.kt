@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi
+package com.kisssum.pixabaybizhi.showImg
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.kisssum.pixabaybizhi.Pixabay.MyViewModel
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentDetailBinding
 import rxhttp.wrapper.param.RxHttp
 import java.util.*
@@ -80,9 +82,6 @@ class DetailFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
-        initUi()
-
         handler = Handler() {
             when (it.what) {
                 SAVE_OK -> {
@@ -96,6 +95,15 @@ class DetailFragment() : Fragment() {
                 else -> true
             }
         }
+
+        when (requireArguments().getInt("type")) {
+            1 -> {
+                initViewModel()
+                initPxiUi()
+            }
+            2 -> initBianUi()
+            else -> ""
+        }
     }
 
     private fun initViewModel() {
@@ -105,7 +113,37 @@ class DetailFragment() : Fragment() {
         ).get(MyViewModel::class.java)
     }
 
-    private fun initUi() {
+    private fun initBianUi() {
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount() = 1
+
+            override fun createFragment(position: Int): Fragment {
+                // 获取图片地址
+                val url = requireArguments().getString("imgUrl")!!
+                return ImageFragment(url)
+            }
+        }
+
+        binding.toolbar.let {
+            it.setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment).navigateUp()
+            }
+
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.Item_download -> {
+                        val url = requireArguments().getString("imgUrl")!!
+                        downLoadDialog(url)
+                        true
+                    }
+                    else -> true
+                }
+            }
+        }
+
+    }
+
+    private fun initPxiUi() {
         // 传入的图片位置
         var index = requireArguments().getInt("indexImg")
         // 图片总数
@@ -146,10 +184,15 @@ class DetailFragment() : Fragment() {
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_download -> {
-                        if (index > 2)
-                            downLoadDialog(index - 2)
-                        else
-                            downLoadDialog(index - 1)
+                        if (index > 2) {
+                            val url =
+                                viewModel?.getData()?.value?.get(index - 2)?.get("largeImageURL")!!
+                            downLoadDialog(url)
+                        } else {
+                            val url =
+                                viewModel?.getData()?.value?.get(index - 2)?.get("largeImageURL")!!
+                            downLoadDialog(url)
+                        }
 
                         true
                     }
@@ -159,14 +202,13 @@ class DetailFragment() : Fragment() {
         }
     }
 
-    private fun downLoadDialog(index: Int) {
+    private fun downLoadDialog(url: String) {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("下载图片")
             .setMessage("你确定要下载此图片吗?")
             .setCancelable(true)
             .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
-                val url = viewModel?.getData()?.value?.get(index)?.get("largeImageURL")
-                downLoadImage(url!!)
+                downLoadImage(url)
             }
             .setNegativeButton("取消", null)
             .create()

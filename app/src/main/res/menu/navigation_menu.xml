@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <item android:title="描述" />
+    <item
+        android:id="@+id/Item_Pixabay"
+        android:title="Pixabay" />
+
+    <item
+        android:id="@+id/Item_bian"
+        android:title="彼岸图" />
+
     <item
         android:id="@+id/Item_about"
         android:icon="@drawable/ic_baseline_contact_support_24"

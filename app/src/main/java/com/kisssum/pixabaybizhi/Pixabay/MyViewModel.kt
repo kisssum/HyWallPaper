@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi
+package com.kisssum.pixabaybizhi.Pixabay
 
 import android.app.Application
 import android.widget.Toast

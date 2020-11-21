@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi
+package com.kisssum.pixabaybizhi.Pixabay
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match

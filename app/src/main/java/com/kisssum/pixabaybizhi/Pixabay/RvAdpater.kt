@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi
+package com.kisssum.pixabaybizhi.Pixabay
 
 import android.content.Context
 import android.os.Bundle
@@ -10,12 +10,13 @@ import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kisssum.pixabaybizhi.R
 
 class RvAdpater(var context: Context) : RecyclerView.Adapter<RvAdpater.MyViewHolder>() {
     private var data: List<Map<String, String>> = ArrayList()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var img = itemView.findViewById<ImageView>(R.id.r_img)
+        var img = itemView.findViewById<ImageView>(R.id.img)
         var user = itemView.findViewById<TextView>(R.id.r_user)
         var likes = itemView.findViewById<TextView>(R.id.r_likes)
         var favorites = itemView.findViewById<TextView>(R.id.r_favorites)
@@ -49,6 +50,7 @@ class RvAdpater(var context: Context) : RecyclerView.Adapter<RvAdpater.MyViewHol
 
             it.itemView.setOnClickListener {
                 val bundel = Bundle()
+                bundel.putInt("type", 1)
                 bundel.putInt("indexImg", position)
 
                 Navigation.findNavController(it)

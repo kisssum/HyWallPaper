@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.kisssum.pixabaybizhi.HomeFragment"
+        android:name="com.kisssum.pixabaybizhi.Pixabay.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,7 +20,20 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.kisssum.pixabaybizhi.DetailFragment"
+        android:name="com.kisssum.pixabaybizhi.showImg.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/bianFragment"
+        android:name="com.kisssum.pixabaybizhi.Bian.BianFragment"
+        android:label="fragment_bian"
+        tools:layout="@layout/fragment_bian" >
+        <action
+            android:id="@+id/action_bianFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/scale_from_0_to_100"
+            app:exitAnim="@anim/alpha_from_1_to_0"
+            app:popEnterAnim="@anim/alpha_from_0_to_1"
+            app:popExitAnim="@anim/scale_from_100_to_0" />
+    </fragment>
 </navigation>
