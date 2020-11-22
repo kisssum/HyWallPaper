@@ -65,12 +65,17 @@ class BianAllFragment(val tag: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initHandler()
+        initRecyclerView()
+        initRefreshLayout()
+    }
+
+    private fun initHandler() {
         handler = object : Handler() {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
 
                 val list = msg.obj as ArrayList<String>
-
                 when (msg.what) {
                     1 -> adpater?.addData(list)
                     2 -> adpater?.setData(list)
@@ -78,9 +83,6 @@ class BianAllFragment(val tag: Int) : Fragment() {
                 }
             }
         }
-
-        initRecyclerView()
-        initRefreshLayout()
     }
 
     private fun initRefreshLayout() {
@@ -99,13 +101,8 @@ class BianAllFragment(val tag: Int) : Fragment() {
         binding.recyclerView.let {
             it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-            if (adpater == null) {
-                adpater = BianPagerAdpater(requireContext())
-                getImgUrl(page++)
-            }
-
-            Log.d("BIAN", "${adpater?.itemCount}")
-            Log.d("BIAN", "page:${page}")
+            adpater = BianPagerAdpater(requireContext())
+            getImgUrl(page++)
 
             it.adapter = adpater
         }
@@ -128,31 +125,27 @@ class BianAllFragment(val tag: Int) : Fragment() {
             "4kbeijing/"
         )
 
-        var url = "http://pic.netbian.com/${type[tag]}"
-
-        when (page) {
-            1 -> url += "index.html"
-            else -> url += "index_$page.html"
+        val baseUrl = "http://pic.netbian.com"
+        val url = "${baseUrl}/${type[tag]}" + when (page) {
+            1 -> "index.html"
+            else -> "index_$page.html"
         }
 
         Thread {
             try {
                 val doc = Jsoup.connect(url).get()
-
-                val es = when (page) {
-                    1 -> doc.select("#main > div.slist > ul > li > a > span > img")
+                val es = when {
+                    (page == 1 && tag == 0) -> doc.select("#main > div.slist > ul > li > a > span > img")
                     else -> doc.select("#main > div.slist > ul > li > a > img")
                 }
 
                 val list = arrayListOf<String>()
-
                 for (e in es)
-                    list.add("http://pic.netbian.com" + e.attr("src"))
+                    list.add(baseUrl + e.attr("src"))
 
                 val message = Message.obtain()
                 message.obj = list
                 if (up) message.what = 1 else message.what = 2
-
                 handler.sendMessage(message)
             } catch (e: Exception) {
                 e.printStackTrace()
