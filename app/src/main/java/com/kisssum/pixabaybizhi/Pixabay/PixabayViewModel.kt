@@ -13,19 +13,9 @@ import kotlin.random.Random
 class PixabayViewModel(application: Application) : AndroidViewModel(application) {
     private var date: MutableLiveData<List<Map<String, String>>>? = null
 
-    //    private var itemLayoutManager: MutableLiveData<Int>? = null
     private var searchQ: MutableLiveData<String>? = null
     private var page: MutableLiveData<Int>? = null
     private val MAX_PAGE = 25
-
-//    fun getItemLayoutManager() = when (itemLayoutManager == null) {
-//        false -> itemLayoutManager
-//        else -> {
-//            itemLayoutManager = MutableLiveData()
-//            itemLayoutManager?.value = 0
-//            itemLayoutManager
-//        }
-//    }
 
     fun getData() = when (date == null) {
         false -> date

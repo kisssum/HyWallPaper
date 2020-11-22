@@ -3,6 +3,7 @@ package com.kisssum.pixabaybizhi.Bian
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,11 +79,6 @@ class BianAllFragment(val tag: Int) : Fragment() {
             }
         }
 
-        if (adpater == null) {
-            adpater = BianPagerAdpater(requireContext())
-            getImgUrl(page++)
-        }
-
         initRecyclerView()
         initRefreshLayout()
     }
@@ -101,7 +97,16 @@ class BianAllFragment(val tag: Int) : Fragment() {
 
     private fun initRecyclerView() {
         binding.recyclerView.let {
-            it.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+            if (adpater == null) {
+                adpater = BianPagerAdpater(requireContext())
+                getImgUrl(page++)
+            }
+
+            Log.d("BIAN", "${adpater?.itemCount}")
+            Log.d("BIAN", "page:${page}")
+
             it.adapter = adpater
         }
     }

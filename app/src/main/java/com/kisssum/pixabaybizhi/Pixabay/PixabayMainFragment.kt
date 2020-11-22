@@ -97,31 +97,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        // 观察者(layoutManager)
-//        viewModel?.getItemLayoutManager()?.observe(viewLifecycleOwner) {
-//            when (it) {
-//                0 -> binding.recyclerView.layoutManager =
-//                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//                1 -> binding.recyclerView.layoutManager = LinearLayoutManager(context)
-//                else -> ""
-//            }
-//        }
+        binding.recyclerView.let {
+            it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            // 添加数据
+            if (adpater == null) {
+                adpater = PixabayListAdpater(requireContext())
+                viewModel?.getJson()
+            }
+
+            it.adapter = adpater
+        }
 
         // 观察者(adpater)
         viewModel?.getData()?.observe(viewLifecycleOwner) {
             adpater?.setData(it)
         }
-
-        // 添加数据
-        if (adpater == null) {
-            adpater = PixabayListAdpater(activity?.applicationContext!!)
-            viewModel?.getJson()
-        }
-
-        binding.recyclerView.adapter = adpater
     }
 
     private fun initToolBar() {
@@ -160,15 +151,6 @@ class HomeFragment : Fragment() {
                         viewModel?.getJson()
                         true
                     }
-//                    R.id.Item_change -> {
-//                        val v = viewModel?.getItemLayoutManager()
-//                        when (v?.value) {
-//                            0 -> v.value = 1
-//                            1 -> v.value = 0
-//                            else -> v?.value = 0
-//                        }
-//                        true
-//                    }
                     else -> true
                 }
             }
