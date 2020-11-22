@@ -71,34 +71,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
-        initToolBar()
-        initSwipeRefresh()
-        initRecyclerView()
-    }
-
-    private fun initViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
         ).get(PixabayViewModel::class.java)
-    }
 
-    private fun initSwipeRefresh() {
-        binding.smartRefreshLayout.setOnRefreshListener {
-            viewModel?.getJson()
-            binding.smartRefreshLayout.finishRefresh()
+        binding.smartRefreshLayout.apply {
+            this.setOnRefreshListener {
+                viewModel?.getJson()
+                binding.smartRefreshLayout.finishRefresh()
+            }
+
+            this.setOnLoadMoreListener {
+                viewModel?.getJson(true)
+                it.finishLoadMore()
+            }
         }
 
-        binding.smartRefreshLayout.setOnLoadMoreListener {
-            viewModel?.getJson(true)
-            binding.smartRefreshLayout.finishLoadMore()
-        }
-    }
-
-    private fun initRecyclerView() {
-        binding.recyclerView.let {
-            it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.apply {
+            this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
             // 添加数据
             if (adpater == null) {
@@ -106,46 +97,27 @@ class HomeFragment : Fragment() {
                 viewModel?.getJson()
             }
 
-            it.adapter = adpater
+            // 观察者(adpater)
+            viewModel?.getData()?.observe(viewLifecycleOwner) {
+                adpater?.setData(it)
+            }
+
+            this.adapter = adpater
         }
 
-        // 观察者(adpater)
-        viewModel?.getData()?.observe(viewLifecycleOwner) {
-            adpater?.setData(it)
-        }
+        initToolBar()
     }
 
     private fun initToolBar() {
-        binding.toolBar.let {
+        binding.toolBar.apply {
             // 导航
-            it.setNavigationOnClickListener {
+            this.setNavigationOnClickListener {
                 activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
                     ?.openDrawer(GravityCompat.START)
             }
 
-            // 搜索
-            val searchView = it.findViewById<SearchView>(R.id.Item_search)
-            searchView.let {
-                it.isSubmitButtonEnabled = true
-                it.queryHint = "搜索"
-
-                it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        query.let {
-                            viewModel?.let {
-                                it.getSearchQ()?.value = searchView.query.toString()
-                                it.getJson()
-                            }
-                        }
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String?) = true
-                })
-            }
-
             // 项目
-            it.setOnMenuItemClickListener {
+            this.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_refresh -> {
                         viewModel?.getJson()
@@ -154,6 +126,27 @@ class HomeFragment : Fragment() {
                     else -> true
                 }
             }
+        }
+
+        // 搜索
+        val searchView = binding.toolBar.findViewById<SearchView>(R.id.Item_search)
+        searchView.apply {
+            this.isSubmitButtonEnabled = true
+            this.queryHint = "搜索"
+
+            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query.let {
+                        viewModel?.let {
+                            it.getSearchQ()?.value = searchView.query.toString()
+                            it.getJson()
+                        }
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?) = true
+            })
         }
     }
 }
