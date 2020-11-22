@@ -2,6 +2,8 @@ package com.kisssum.pixabaybizhi.Bian
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +12,41 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
+import org.jsoup.Jsoup
 
-class BianPagerAdpater(var context: Context) :
+class BianPagerAdpater(private val context: Context, private val typeIndex: Int) :
     RecyclerView.Adapter<BianPagerAdpater.MyViewHolder>() {
     private var data = arrayListOf<String>()
+    private var page = 1
+    private val handler: Handler
+
+    init {
+        handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+
+                page++
+
+                val list = msg.obj as ArrayList<String>
+                when (msg.what) {
+                    1 -> addData(list)
+                    2 -> setData(list)
+                    else -> ""
+                }
+            }
+        }
+    }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img = itemView.findViewById<ImageView>(R.id.img)
     }
 
-    fun setData(data: ArrayList<String>) {
+    private fun setData(data: ArrayList<String>) {
         this.data = data
         notifyDataSetChanged()
     }
 
-    fun addData(data: ArrayList<String>) {
+    private fun addData(data: ArrayList<String>) {
         this.data.addAll(data)
         notifyDataSetChanged()
     }
@@ -55,4 +77,48 @@ class BianPagerAdpater(var context: Context) :
     }
 
     override fun getItemCount() = data.size
+
+    fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
+        val types = arrayOf(
+            "",
+            "4kfengjing/",
+            "4kmeinv/",
+            "4kyouxi/",
+            "4kdongman/",
+            "4kyingshi/",
+            "4kmingxing/",
+            "4kqiche/",
+            "4kdongwu/",
+            "4krenwu/",
+            "4kmeishi/",
+            "4kzongjiao/",
+            "4kbeijing/"
+        )
+        val baseUrl = "http://pic.netbian.com"
+        val url = "${baseUrl}/${types[typeIndex]}" + when (page) {
+            1 -> "index.html"
+            else -> "index_$page.html"
+        }
+
+        Thread {
+            try {
+                val doc = Jsoup.connect(url).get()
+                val es = when {
+                    (page == 1 && typeIndex == 0) -> doc.select("#main > div.slist > ul > li > a > span > img")
+                    else -> doc.select("#main > div.slist > ul > li > a > img")
+                }
+
+                val list = arrayListOf<String>()
+                for (e in es)
+                    list.add(baseUrl + e.attr("src"))
+
+                val message = Message.obtain()
+                message.obj = list
+                if (upgrad) message.what = 1 else message.what = 2
+                handler.sendMessage(message)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
 }
