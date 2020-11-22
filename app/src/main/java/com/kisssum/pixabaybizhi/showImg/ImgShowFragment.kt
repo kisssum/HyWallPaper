@@ -46,7 +46,7 @@ class ImageFragment(var url: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 加载图片
-        Glide.with(context?.applicationContext!!)
+        Glide.with(requireContext())
             .load(url)
             .placeholder(R.drawable.ic_baseline_refresh_24)
             .into(binding.imageView)

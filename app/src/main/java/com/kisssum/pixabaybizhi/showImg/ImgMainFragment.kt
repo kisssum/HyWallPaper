@@ -140,7 +140,6 @@ class DetailFragment() : Fragment() {
                 }
             }
         }
-
     }
 
     private fun initPxiUi() {
@@ -190,7 +189,7 @@ class DetailFragment() : Fragment() {
                             downLoadDialog(url)
                         } else {
                             val url =
-                                viewModel?.getData()?.value?.get(index - 2)?.get("largeImageURL")!!
+                                viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
                             downLoadDialog(url)
                         }
 
@@ -202,44 +201,35 @@ class DetailFragment() : Fragment() {
         }
     }
 
-    private fun downLoadDialog(url: String) {
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("下载图片")
-            .setMessage("你确定要下载此图片吗?")
-            .setCancelable(true)
-            .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
-                downLoadImage(url)
-            }
-            .setNegativeButton("取消", null)
-            .create()
-
-        dialog.show()
-    }
-
-    private fun downLoadImage(url: String) {
-        showToast("开始下载")
-
-        RxHttp.get(url)
-            .asBitmap<Bitmap>()
-            .subscribe(
-                {
-                    saveImage(it)
-                    handler.sendEmptyMessage(SAVE_OK)
-                },
-                { handler.sendEmptyMessage(SAVE_FAIL) }
-            )
-    }
-
     private fun showToast(str: String) {
         Toast.makeText(activity, str, Toast.LENGTH_SHORT).show()
     }
 
-    private fun saveImage(bitmap: Bitmap) {
-        MediaStore.Images.Media.insertImage(
-            context?.contentResolver,
-            bitmap,
-            UUID.randomUUID().toString(),
-            "drawing"
-        )
+    private fun downLoadDialog(url: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("下载图片")
+            .setMessage("你确定要下载此图片吗?")
+            .setCancelable(true)
+            .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
+                showToast("开始下载")
+                RxHttp.get(url)
+                    .asBitmap<Bitmap>()
+                    .subscribe(
+                        {
+                            MediaStore.Images.Media.insertImage(
+                                requireContext().contentResolver,
+                                it,
+                                UUID.randomUUID().toString(),
+                                "drawing"
+                            )
+
+                            handler.sendEmptyMessage(SAVE_OK)
+                        },
+                        { handler.sendEmptyMessage(SAVE_FAIL) }
+                    )
+            }
+            .setNegativeButton("取消", null)
+            .create()
+            .show()
     }
 }
