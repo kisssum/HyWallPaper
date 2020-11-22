@@ -76,6 +76,7 @@ class BianAllFragment(val tag: Int) : Fragment() {
                 super.handleMessage(msg)
 
                 val list = msg.obj as ArrayList<String>
+
                 when (msg.what) {
                     1 -> adpater?.addData(list)
                     2 -> adpater?.setData(list)
@@ -83,6 +84,9 @@ class BianAllFragment(val tag: Int) : Fragment() {
                 }
             }
         }
+
+        initRecyclerView()
+        initRefreshLayout()
     }
 
     private fun initRefreshLayout() {
@@ -101,8 +105,10 @@ class BianAllFragment(val tag: Int) : Fragment() {
         binding.recyclerView.let {
             it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-            adpater = BianPagerAdpater(requireContext())
-            getImgUrl(page++)
+            if (adpater == null) {
+                adpater = BianPagerAdpater(requireContext())
+                getImgUrl(page++)
+            }
 
             it.adapter = adpater
         }
@@ -140,12 +146,14 @@ class BianAllFragment(val tag: Int) : Fragment() {
                 }
 
                 val list = arrayListOf<String>()
+
                 for (e in es)
                     list.add(baseUrl + e.attr("src"))
 
                 val message = Message.obtain()
                 message.obj = list
                 if (up) message.what = 1 else message.what = 2
+
                 handler.sendMessage(message)
             } catch (e: Exception) {
                 e.printStackTrace()
