@@ -4,7 +4,7 @@
     android:id="@+id/smartRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavHome.Bian.BianPagerFragment">
+    tools:context=".NavHome.BZ36.BZ36PagerFragment">
 
     <com.scwang.smart.refresh.header.ClassicsHeader
         android:layout_width="match_parent"

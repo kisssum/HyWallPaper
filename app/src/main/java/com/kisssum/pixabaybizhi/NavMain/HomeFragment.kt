@@ -56,6 +56,10 @@ class HomeFragment : Fragment() {
                     if (nav.currentDestination?.id != R.id.pixabayMainFragment) nav.navigate(R.id.pixabayMainFragment)
                     true
                 }
+                R.id.Item_bz36 -> {
+                    if (nav.currentDestination?.id != R.id.BZ36MainFragment) nav.navigate(R.id.BZ36MainFragment)
+                    true
+                }
                 R.id.Item_me -> {
                     if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
                     true

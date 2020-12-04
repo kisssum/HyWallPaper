@@ -20,4 +20,9 @@
         android:name="com.kisssum.pixabaybizhi.NavHome.Me.MeFragment"
         android:label="fragment_me"
         tools:layout="@layout/fragment_me" />
+    <fragment
+        android:id="@+id/BZ36MainFragment"
+        android:name="com.kisssum.pixabaybizhi.NavHome.BZ36.BZ36MainFragment"
+        android:label="fragment_b_z36_main"
+        tools:layout="@layout/fragment_b_z36_main" />
 </navigation>

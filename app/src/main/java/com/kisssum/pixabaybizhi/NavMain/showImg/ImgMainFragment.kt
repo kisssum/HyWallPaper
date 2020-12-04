@@ -5,7 +5,9 @@ import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
+import org.jsoup.Jsoup
 import rxhttp.wrapper.param.RxHttp
 import java.util.*
 
@@ -97,31 +100,60 @@ class ImgMainFragment() : Fragment() {
         }
 
         when (requireArguments().getInt("type")) {
-            1 -> {
-                initViewModel()
-                initPxiUi()
-            }
+            1 -> initPxiUi()
             2 -> initBianUi()
+            3 -> initBZ()
             else -> ""
         }
     }
 
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
-        ).get(PixabayViewModel::class.java)
+    private fun initBZ() {
+        val hBZ = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                val url = msg.obj as String
+                downLoadDialog(url)
+            }
+        }
+
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount() = 1
+            override fun createFragment(position: Int) =
+                ImageFragment(requireArguments().getString("lazysrc2x")!!)
+        }
+
+        binding.toolbar.let {
+            it.setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+            }
+
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.Item_download -> {
+                        val href = requireArguments().getString("href")!!
+                        Thread {
+                            val doc = Jsoup.connect(href).get()
+                            val url =
+                                doc.select("body > div.showtitle > div.morew > a")
+                                    .attr("href")
+
+                            val message = Message.obtain()
+                            message.obj = url
+                            hBZ.sendMessage(message)
+                        }.start()
+                        true
+                    }
+                    else -> true
+                }
+            }
+        }
     }
 
     private fun initBianUi() {
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 1
-
-            override fun createFragment(position: Int): Fragment {
-                // 获取图片地址
-                val url = requireArguments().getString("imgUrl")!!
-                return ImageFragment(url)
-            }
+            override fun createFragment(position: Int) =
+                ImageFragment(requireArguments().getString("imgUrl")!!)
         }
 
         binding.toolbar.let {
@@ -143,6 +175,11 @@ class ImgMainFragment() : Fragment() {
     }
 
     private fun initPxiUi() {
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
+        ).get(PixabayViewModel::class.java)
+
         // 传入的图片位置
         var index = requireArguments().getInt("indexImg")
         // 图片总数
@@ -183,16 +220,9 @@ class ImgMainFragment() : Fragment() {
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.Item_download -> {
-                        if (index > 2) {
-                            val url =
-                                viewModel?.getData()?.value?.get(index - 2)?.get("largeImageURL")!!
-                            downLoadDialog(url)
-                        } else {
-                            val url =
-                                viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
-                            downLoadDialog(url)
-                        }
-
+                        val url =
+                            viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
+                        downLoadDialog(url)
                         true
                     }
                     else -> true
