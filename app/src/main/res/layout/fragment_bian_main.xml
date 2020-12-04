@@ -5,19 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Bian.BianFragment">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_baseline_menu_24"
-        app:title="彼岸" />
+    tools:context=".NavHome.Bian.BianFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorAnimationDuration="@integer/mr_controller_volume_group_list_fade_in_duration_ms"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
         app:tabMode="scrollable">
 
         <com.google.android.material.tabs.TabItem

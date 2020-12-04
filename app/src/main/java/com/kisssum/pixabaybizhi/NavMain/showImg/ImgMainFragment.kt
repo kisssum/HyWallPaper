@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.showImg
+package com.kisssum.pixabaybizhi.NavMain.showImg
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.kisssum.pixabaybizhi.Pixabay.PixabayViewModel
+import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
 import rxhttp.wrapper.param.RxHttp
@@ -28,11 +28,11 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
+ * Use the [ImgMainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 
-class DetailFragment() : Fragment() {
+class ImgMainFragment() : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -71,7 +71,7 @@ class DetailFragment() : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
+            ImgMainFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -126,7 +126,7 @@ class DetailFragment() : Fragment() {
 
         binding.toolbar.let {
             it.setNavigationOnClickListener {
-                Navigation.findNavController(requireActivity(), R.id.fragment).navigateUp()
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
             }
 
             it.setOnMenuItemClickListener {
@@ -177,7 +177,7 @@ class DetailFragment() : Fragment() {
 
         binding.toolbar.let {
             it.setNavigationOnClickListener {
-                Navigation.findNavController(requireActivity(), R.id.fragment).navigateUp()
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
             }
 
             it.setOnMenuItemClickListener {

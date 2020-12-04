@@ -1,16 +1,14 @@
-package com.kisssum.pixabaybizhi.Pixabay
+package com.kisssum.pixabaybizhi.NavHome.Pixabay
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentPixabayMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -105,40 +103,16 @@ class HomeFragment : Fragment() {
             this.adapter = adpater
         }
 
-        initToolBar()
-    }
-
-    private fun initToolBar() {
-        binding.toolBar.apply {
-            // 导航
-            this.setNavigationOnClickListener {
-                activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-                    ?.openDrawer(GravityCompat.START)
-            }
-
-            // 项目
-            this.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.Item_refresh -> {
-                        viewModel?.getJson()
-                        true
-                    }
-                    else -> true
-                }
-            }
-        }
-
         // 搜索
-        val searchView = binding.toolBar.findViewById<SearchView>(R.id.Item_search)
-        searchView.apply {
+        binding.search.apply {
             this.isSubmitButtonEnabled = true
-            this.queryHint = "搜索"
 
-            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    query.let {
+                    query?.let {
                         viewModel?.let {
-                            it.getSearchQ()?.value = searchView.query.toString()
+                            it.getSearchQ()?.value = binding.search.query.toString()
                             it.getJson()
                         }
                     }

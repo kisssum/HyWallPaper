@@ -1,5 +1,6 @@
-package com.kisssum.pixabaybizhi.Bian
+package com.kisssum.pixabaybizhi.NavHome.Bian
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -71,8 +72,8 @@ class BianPagerAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putInt("type", 2)
             bundel.putString("imgUrl", url)
 
-            Navigation.findNavController(it)
-                .navigate(R.id.action_bianFragment_to_detailFragment, bundel)
+            Navigation.findNavController(context as Activity, R.id.fragment_main)
+                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
         }
     }
 

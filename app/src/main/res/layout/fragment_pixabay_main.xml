@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Pixabay.HomeFragment">
+    tools:context=".NavHome.Pixabay.HomeFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/pixabay_main_toolbar_menu"
-        app:navigationIcon="@drawable/ic_baseline_menu_24"
-        app:title="@string/app_name" />
+        app:defaultQueryHint="Search"
+        app:iconifiedByDefault="false" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/smartRefreshLayout"

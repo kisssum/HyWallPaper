@@ -1,16 +1,13 @@
-package com.kisssum.pixabaybizhi.Bian
+package com.kisssum.pixabaybizhi.NavHome.Bian
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentBianMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,20 +41,13 @@ class BianFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentBianMainBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.toolbar.let {
-            it.setNavigationOnClickListener {
-                requireActivity().findViewById<DrawerLayout>(R.id.drawerLayout)
-                    .openDrawer(GravityCompat.START)
-            }
-        }
 
         binding.viewPage.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = list.size

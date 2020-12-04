@@ -1,5 +1,6 @@
-package com.kisssum.pixabaybizhi.Pixabay
+package com.kisssum.pixabaybizhi.NavHome.Pixabay
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 
-class PixabayListAdpater(var context: Context) : RecyclerView.Adapter<PixabayListAdpater.MyViewHolder>() {
+class PixabayListAdpater(private val context: Context) :
+    RecyclerView.Adapter<PixabayListAdpater.MyViewHolder>() {
     private var data: List<Map<String, String>> = ArrayList()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -53,8 +55,8 @@ class PixabayListAdpater(var context: Context) : RecyclerView.Adapter<PixabayLis
                 bundel.putInt("type", 1)
                 bundel.putInt("indexImg", position)
 
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_homeFragment_to_detailFragment, bundel)
+                Navigation.findNavController(context as Activity, R.id.fragment_main)
+                    .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
             }
         }
     }

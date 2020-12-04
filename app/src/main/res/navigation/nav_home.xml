@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/bianMainFragment">
+
+    <fragment
+        android:id="@+id/bianMainFragment"
+        android:name="com.kisssum.pixabaybizhi.NavHome.Bian.BianFragment"
+        android:label="fragment_bian_main"
+        tools:layout="@layout/fragment_bian_main" />
+    <fragment
+        android:id="@+id/pixabayMainFragment"
+        android:name="com.kisssum.pixabaybizhi.NavHome.Pixabay.HomeFragment"
+        android:label="fragment_pixabay_main"
+        tools:layout="@layout/fragment_pixabay_main" />
+    <fragment
+        android:id="@+id/meFragment"
+        android:name="com.kisssum.pixabaybizhi.NavHome.Me.MeFragment"
+        android:label="fragment_me"
+        tools:layout="@layout/fragment_me" />
+</navigation>
