@@ -119,7 +119,7 @@ class ImgMainFragment() : Fragment() {
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 1
             override fun createFragment(position: Int) =
-                ImageFragment(requireArguments().getString("lazysrc2x")!!)
+                ImageFragment(requireArguments().getString("lazysrc2x")!!, 1)
         }
 
         binding.toolbar.let {
