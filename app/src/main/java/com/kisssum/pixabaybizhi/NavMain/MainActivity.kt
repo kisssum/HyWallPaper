@@ -24,8 +24,13 @@ class MainActivity : AppCompatActivity() {
         Glide.get(this)
 
         supportActionBar?.hide()
-        window.statusBarColor = Color.TRANSPARENT
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        window.let {
+            it.statusBarColor = Color.TRANSPARENT
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
     }
 
     override fun onBackPressed() {
