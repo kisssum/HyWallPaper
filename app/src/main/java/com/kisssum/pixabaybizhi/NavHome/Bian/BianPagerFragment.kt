@@ -46,7 +46,7 @@ class BianPagerFragment(private val typeIndex: Int) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.let {
-            it.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            it.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
 
             if (adpater == null) {
                 adpater = BianPagerAdpater(requireContext(), typeIndex)
