@@ -12,10 +12,10 @@
         <action
             android:id="@+id/action_homeFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"
-            app:enterAnim="@anim/scale_from_0_to_100"
-            app:exitAnim="@anim/alpha_from_1_to_0"
-            app:popEnterAnim="@anim/alpha_from_0_to_1"
-            app:popExitAnim="@anim/scale_from_100_to_0" />
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/from_0_to_f100"
+            app:popEnterAnim="@anim/from_f100_to_0"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"

@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.recyclerView.apply {
-            this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            this.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
 
             // 添加数据
             if (adpater == null) {
