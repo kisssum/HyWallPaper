@@ -13,8 +13,8 @@
             android:id="@+id/action_homeFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"
             app:enterAnim="@anim/from_100_to_0"
-            app:exitAnim="@anim/from_0_to_f100"
-            app:popEnterAnim="@anim/from_f100_to_0"
+            app:exitAnim="@anim/alpha_keep_1"
+            app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
