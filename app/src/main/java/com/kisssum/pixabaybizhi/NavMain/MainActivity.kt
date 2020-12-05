@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 初始化Glide
-        Glide.get(this)
-
         supportActionBar?.hide()
 
         window.let {
@@ -31,13 +28,14 @@ class MainActivity : AppCompatActivity() {
                 it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
+
+        // 初始化Glide
+        Glide.get(this)
     }
 
     override fun onBackPressed() {
-        val list = arrayOf(R.id.homeFragment, R.id.bianMainFragment)
-
         findNavController(R.id.fragment_main).let {
-            if (it.currentDestination!!.id in list)
+            if (it.currentDestination!!.id == R.id.homeFragment)
                 if (backTime + 2000 < System.currentTimeMillis()) {
                     backTime = System.currentTimeMillis()
 
