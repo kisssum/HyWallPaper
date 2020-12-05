@@ -57,7 +57,7 @@ class ImgMainFragment() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentImgMainBinding.inflate(inflater)
         return binding.root
     }
@@ -85,23 +85,23 @@ class ImgMainFragment() : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        requireActivity().window.let {
-            it.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            }
-        }
+        // 改变状态栏文字颜色为浅色
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+
+        // 保持屏幕常亮
+        requireActivity().window.addFlags(FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        requireActivity().window.let {
-            it.clearFlags(FLAG_LAYOUT_NO_LIMITS)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        requireActivity().window.clearFlags(FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -23,10 +24,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         window.let {
+            // 设置状态栏背景透明
             it.statusBarColor = Color.TRANSPARENT
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            // 设置状态栏文字为深色
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
                 it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
+
+            // 设置状态栏能被穿过
+            it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
 
         // 初始化Glide
