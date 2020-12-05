@@ -55,7 +55,7 @@ class BianPagerAdpater(private val context: Context, private val typeIndex: Int)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.bian_pager_list_item, parent, false)
+                .inflate(R.layout.base_pager_list_item, parent, false)
         return MyViewHolder(view)
     }
 

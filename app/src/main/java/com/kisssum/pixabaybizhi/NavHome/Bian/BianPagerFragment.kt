@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.kisssum.pixabaybizhi.databinding.FragmentBianPagerBinding
+import com.kisssum.pixabaybizhi.databinding.BasePagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +23,7 @@ class BianPagerFragment(private val typeIndex: Int) : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentBianPagerBinding
+    private lateinit var binding: BasePagerBinding
     private var adpater: BianPagerAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class BianPagerFragment(private val typeIndex: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBianPagerBinding.inflate(inflater)
+        binding = BasePagerBinding.inflate(inflater)
         return binding.root
     }
 

@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.bian_pager_list_item, parent, false)
+                .inflate(R.layout.base_pager_list_item, parent, false)
         return MyViewHolder(view)
     }
 
