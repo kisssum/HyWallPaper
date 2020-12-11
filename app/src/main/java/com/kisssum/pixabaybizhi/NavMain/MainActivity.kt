@@ -21,6 +21,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initWindow()
+       
+        // 初始化Glide
+        Glide.get(this)
+    }
+
+    private fun initWindow() {
         supportActionBar?.hide()
 
         window.let {
@@ -34,9 +41,6 @@ class MainActivity : AppCompatActivity() {
             // 设置状态栏能被穿过
             it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
-
-        // 初始化Glide
-        Glide.get(this)
     }
 
     override fun onBackPressed() {
