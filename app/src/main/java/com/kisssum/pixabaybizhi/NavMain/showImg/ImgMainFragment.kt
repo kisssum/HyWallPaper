@@ -41,10 +41,6 @@ class ImgMainFragment() : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentImgMainBinding
-    private lateinit var handler: Handler
-    private var viewModel: PixabayViewModel? = null
-    val SAVE_OK = 0
-    val SAVE_FAIL = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,25 +103,10 @@ class ImgMainFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        handler = Handler() {
-            when (it.what) {
-                SAVE_OK -> {
-                    showToast("下载成功")
-                    true
-                }
-                SAVE_FAIL -> {
-                    showToast("下载失败")
-                    true
-                }
-                else -> true
-            }
-        }
-
         when (requireArguments().getInt("type")) {
             1 -> initPxiUi()
             2 -> initBianUi()
-            3 -> initBZ()
-            else -> ""
+            else -> initBZ()
         }
     }
 
@@ -197,7 +178,7 @@ class ImgMainFragment() : Fragment() {
     }
 
     private fun initPxiUi() {
-        viewModel = ViewModelProvider(
+        val viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
         ).get(PixabayViewModel::class.java)
@@ -205,7 +186,7 @@ class ImgMainFragment() : Fragment() {
         // 传入的图片位置
         var index = requireArguments().getInt("indexImg")
         // 图片总数
-        var size = viewModel?.getData()?.value?.size
+        var size = viewModel.getData()?.value?.size
         var flag = false
 
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
@@ -213,12 +194,12 @@ class ImgMainFragment() : Fragment() {
 
             override fun createFragment(position: Int): Fragment {
                 // 获取图片地址
-                val url = viewModel?.getData()?.value?.get(index)?.get("webformatURL")
+                val url = viewModel.getData()?.value?.get(index)?.get("webformatURL")
 
                 // 如果后面没有图片了则添加图片
                 if (++index >= size!!) {
-                    viewModel?.getJson(true)
-                    size = viewModel?.getData()?.value?.size
+                    viewModel.getJson(true)
+                    size = viewModel.getData()?.value?.size
                 }
 
                 // 更新显示数字(第一次初始化要-1显示)
@@ -243,7 +224,7 @@ class ImgMainFragment() : Fragment() {
                 when (it.itemId) {
                     R.id.Item_download -> {
                         val url =
-                            viewModel?.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
+                            viewModel.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
                         downLoadDialog(url)
                         true
                     }
@@ -253,32 +234,18 @@ class ImgMainFragment() : Fragment() {
         }
     }
 
-    private fun showToast(str: String) {
-        Toast.makeText(activity, str, Toast.LENGTH_SHORT).show()
-    }
-
     private fun downLoadDialog(url: String) {
+        val downloadViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(DownLoadViewModel::class.java)
+
         AlertDialog.Builder(requireContext())
             .setTitle("下载图片")
             .setMessage("你确定要下载此图片吗?")
             .setCancelable(true)
             .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
-                showToast("开始下载")
-                RxHttp.get(url)
-                    .asBitmap<Bitmap>()
-                    .subscribe(
-                        {
-                            MediaStore.Images.Media.insertImage(
-                                requireContext().contentResolver,
-                                it,
-                                UUID.randomUUID().toString(),
-                                "drawing"
-                            )
-
-                            handler.sendEmptyMessage(SAVE_OK)
-                        },
-                        { handler.sendEmptyMessage(SAVE_FAIL) }
-                    )
+                downloadViewModel.downLoad(url)
             }
             .setNegativeButton("取消", null)
             .create()
