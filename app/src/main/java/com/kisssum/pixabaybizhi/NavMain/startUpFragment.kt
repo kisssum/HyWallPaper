@@ -40,6 +40,19 @@ class startUpFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_start_up, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

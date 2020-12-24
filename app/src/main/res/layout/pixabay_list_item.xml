@@ -46,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:srcCompat="@drawable/ic_baseline_thumb_up_24" />
+            app:srcCompat="@drawable/ic_baseline_thumb_up_12" />
 
         <ImageView
             android:id="@+id/imageView5"

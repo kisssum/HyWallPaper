@@ -34,10 +34,6 @@ class MainActivity : AppCompatActivity() {
             // 设置状态栏背景透明
             it.statusBarColor = Color.TRANSPARENT
 
-            // 设置状态栏文字为深色
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
-                it.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
             // 设置状态栏能被穿过
             it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }

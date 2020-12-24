@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".NavHome.Bian.BianFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewPage"
+        app:layout_constraintStart_toStartOf="@+id/viewPage"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorAnimationDuration="@integer/mr_controller_volume_group_list_fade_in_duration_ms"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable">
@@ -83,7 +86,11 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tablayout" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
