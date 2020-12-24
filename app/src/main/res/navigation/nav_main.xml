@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/startUpFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.kisssum.pixabaybizhi.NavMain.HomeFragment"
@@ -22,4 +22,13 @@
         android:name="com.kisssum.pixabaybizhi.NavMain.showImg.ImgMainFragment"
         android:label="fragment_img_main"
         tools:layout="@layout/fragment_img_main" />
+    <fragment
+        android:id="@+id/startUpFragment"
+        android:name="com.kisssum.pixabaybizhi.NavMain.startUpFragment"
+        android:label="fragment_start_up"
+        tools:layout="@layout/fragment_start_up" >
+        <action
+            android:id="@+id/action_startUpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
