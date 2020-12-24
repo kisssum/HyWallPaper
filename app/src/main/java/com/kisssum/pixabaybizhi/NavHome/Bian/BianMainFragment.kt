@@ -25,8 +25,10 @@ class BianFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    //    val list =
+//        arrayOf("全部", "风景", "美女", "游戏", "动漫", "影视", "明星", "汽车", "动物", "人物", "美食", "宗教", "背景")
     val list =
-        arrayOf("全部", "风景", "美女", "游戏", "动漫", "影视", "明星", "汽车", "动物", "人物", "美食", "宗教", "背景")
+        arrayOf("全部", "风景", "游戏", "动漫", "影视", "明星", "汽车", "动物", "人物", "美食", "宗教", "背景")
 
     private lateinit var binding: FragmentBianMainBinding
 

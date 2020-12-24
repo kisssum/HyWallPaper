@@ -83,7 +83,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
     fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
         val types = arrayOf(
             "sjbz/",
-            "wallMV/",
+//            "wallMV/",
             "wallMX/",
             "wallYS/",
             "wallDM/",

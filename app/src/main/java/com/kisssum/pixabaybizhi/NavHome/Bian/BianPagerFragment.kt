@@ -37,7 +37,7 @@ class BianPagerFragment(private val typeIndex: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = BasePagerBinding.inflate(inflater)
         return binding.root
     }

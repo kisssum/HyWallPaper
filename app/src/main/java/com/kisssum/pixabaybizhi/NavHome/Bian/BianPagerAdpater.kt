@@ -80,11 +80,25 @@ class BianPagerAdpater(private val context: Context, private val typeIndex: Int)
     override fun getItemCount() = data.size
 
     fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
+//        val types = arrayOf(
+//            "",
+//            "4kfengjing/",
+//            "4kmeinv/",
+//            "4kyouxi/",
+//            "4kdongman/",
+//            "4kyingshi/",
+//            "4kmingxing/",
+//            "4kqiche/",
+//            "4kdongwu/",
+//            "4krenwu/",
+//            "4kmeishi/",
+//            "4kzongjiao/",
+//            "4kbeijing/"
+//        )
         val types = arrayOf(
             "",
             "4kfengjing/",
             "4kmeinv/",
-            "4kyouxi/",
             "4kdongman/",
             "4kyingshi/",
             "4kmingxing/",

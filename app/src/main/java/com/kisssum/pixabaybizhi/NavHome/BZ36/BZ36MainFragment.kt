@@ -29,7 +29,7 @@ class BZ36MainFragment : Fragment() {
     private lateinit var binding: FragmentBZ36MainBinding
     private val list = arrayOf(
         "全部",
-        "美女",
+//        "美女",
         "明星",
         "影视",
         "动漫",
@@ -61,7 +61,7 @@ class BZ36MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentBZ36MainBinding.inflate(inflater)
         return binding.root
     }
