@@ -52,7 +52,7 @@ class ImgMainFragment() : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentImgMainBinding.inflate(inflater)
         return binding.root
@@ -240,14 +240,20 @@ class ImgMainFragment() : Fragment() {
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(DownLoadViewModel::class.java)
 
+        val items = arrayOf("收藏", "下载", "分享", "制作壁纸", "制作日签", "反馈图片问题")
+
         AlertDialog.Builder(requireContext())
-            .setTitle("下载图片")
-            .setMessage("你确定要下载此图片吗?")
-            .setCancelable(true)
-            .setPositiveButton("确定") { dialogInterface: DialogInterface, i: Int ->
-                downloadViewModel.downLoad(url)
+            .setTitle("工具")
+            .setItems(items) { dialogInterface: DialogInterface, i: Int ->
+                when (i) {
+                    1 -> {
+                        downloadViewModel.downLoad(url)
+                    }
+                    else -> {
+                    }
+                }
             }
-            .setNegativeButton("取消", null)
+            .setNegativeButton("取消") { dialogInterface: DialogInterface, i: Int -> }
             .create()
             .show()
     }
