@@ -2,16 +2,13 @@ package com.kisssum.pixabaybizhi.NavMain.showImg
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager.LayoutParams.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -20,8 +17,6 @@ import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
 import org.jsoup.Jsoup
-import rxhttp.wrapper.param.RxHttp
-import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -240,7 +235,7 @@ class ImgMainFragment() : Fragment() {
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(DownLoadViewModel::class.java)
 
-        val items = arrayOf("收藏", "下载", "分享", "制作壁纸", "制作日签", "反馈图片问题")
+        val items = arrayOf("收藏", "下载", "分享", "设为壁纸", "制作日签", "反馈图片问题")
 
         AlertDialog.Builder(requireContext())
             .setTitle("工具")
@@ -248,6 +243,9 @@ class ImgMainFragment() : Fragment() {
                 when (i) {
                     1 -> {
                         downloadViewModel.downLoad(url)
+                    }
+                    3 -> {
+                        downloadViewModel.setWallpaer(url)
                     }
                     else -> {
                     }
