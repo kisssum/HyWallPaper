@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.databinding.BasePagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +36,7 @@ class BZ36PagerFragment(private val typeIndex: Int) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = BasePagerBinding.inflate(inflater)
         return binding.root
@@ -46,7 +46,8 @@ class BZ36PagerFragment(private val typeIndex: Int) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.let {
-            it.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+            it.layoutManager =
+                GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
                 adpater = BZ36PagerAdpater(requireContext(), typeIndex)
