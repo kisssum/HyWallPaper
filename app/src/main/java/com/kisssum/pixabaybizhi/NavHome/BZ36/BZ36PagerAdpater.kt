@@ -109,6 +109,10 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             else -> "index_${page}.html"
         }
 
+        // 设置单次加载最大图片数量
+        val maxImgCount = if (typeIndex == 0) 24
+        else 18
+
         RxHttp.get(url)
             .add("User-Agent",
                 "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.142 Safari/537.36")
@@ -119,7 +123,8 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
                 val lazysrc2x = """lazysrc2x="(.+?) 2x"""".toRegex().findAll(it)
 
                 val list = arrayListOf<Map<String, String>>()
-                for (i in 0 until (href.count() - 1)) {
+
+                for (i in 0 until maxImgCount) {
                     val map = hashMapOf<String, String>()
                     map["href"] = href.toList()[i].destructured.component1()
                     map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
