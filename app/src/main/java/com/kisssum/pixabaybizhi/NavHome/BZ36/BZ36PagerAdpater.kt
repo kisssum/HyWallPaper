@@ -26,12 +26,16 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
 
-                page++
-
                 val list = msg.obj as ArrayList<Map<String, String>>
                 when (msg.what) {
-                    1 -> addData(list)
-                    2 -> setData(list)
+                    1 -> {
+                        addData(list)
+                        page++
+                    }
+                    2 -> {
+                        setData(list)
+                        page++
+                    }
                     else -> ""
                 }
             }
@@ -123,17 +127,21 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
                 val lazysrc2x = """lazysrc2x="(.+?) 2x"""".toRegex().findAll(it)
 
                 val list = arrayListOf<Map<String, String>>()
-
-                for (i in 0 until maxImgCount) {
-                    val map = hashMapOf<String, String>()
-                    map["href"] = href.toList()[i].destructured.component1()
-                    map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
-                    map["lazysrc2x"] = lazysrc2x.toList()[i].destructured.component1()
-                    list.add(map)
+                if (href.count() != 0) {
+                    for (i in 0 until maxImgCount) {
+                        val map = hashMapOf<String, String>()
+                        map["href"] = href.toList()[i].destructured.component1()
+                        map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
+                        map["lazysrc2x"] = lazysrc2x.toList()[i].destructured.component1()
+                        list.add(map)
+                    }
                 }
 
                 val message = Message.obtain()
-                if (upgrad) message.what = 1 else message.what = 2
+                message.what = when {
+                    upgrad -> 1
+                    else -> 2
+                }
                 message.obj = list
                 handler.sendMessage(message)
             }, {})
