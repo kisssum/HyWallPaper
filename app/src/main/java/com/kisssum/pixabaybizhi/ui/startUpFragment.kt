@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavMain
+package com.kisssum.pixabaybizhi.ui
 
 import android.os.Bundle
 import android.os.Handler
