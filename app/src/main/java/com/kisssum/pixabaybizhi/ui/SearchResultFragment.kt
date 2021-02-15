@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.R
+import com.kisssum.pixabaybizhi.adpater.SearchResultAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentSearchResultBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +27,7 @@ class SearchResultFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentSearchResultBinding
+    private var adpater: SearchResultAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +45,47 @@ class SearchResultFragment : Fragment() {
         return binding.root
     }
 
+    private var query = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (arguments != null)
+            query = requireArguments().getString("query", "")
+
+        binding.searchResultToolbar.apply {
+            title = "关于“${query}”的图片"
+
+            setNavigationOnClickListener {
+                val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
+                controller.popBackStack();
+            }
+        }
+
+        binding.searchResultList.apply {
+            this.list.layoutManager =
+                GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+
+            if (adpater == null) {
+                adpater = SearchResultAdpater(requireContext())
+                adpater?.getQuery(query = query)
+            }
+
+            this.list.adapter = adpater
+            this.smartRefresh.apply {
+                setOnRefreshListener {
+                    adpater?.getQuery(query = query)
+                    finishRefresh()
+                }
+
+                setOnLoadMoreListener {
+                    adpater?.getQuery(upgrad = true, query = query)
+                    finishLoadMore()
+                }
+            }
+        }
     }
-   
+
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -22,21 +22,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initWindow()
-       
+
         // 初始化Glide
         Glide.get(this)
     }
 
     private fun initWindow() {
         supportActionBar?.hide()
-
-        window.let {
-            // 设置状态栏背景透明
-            it.statusBarColor = Color.TRANSPARENT
-
-            // 设置状态栏能被穿过
-//            it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        }
+        window.statusBarColor = Color.TRANSPARENT
     }
 
     override fun onBackPressed() {

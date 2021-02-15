@@ -16,8 +16,10 @@
         android:theme="?attr/actionBarTheme"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <include
         android:id="@+id/searchResultList"
+        layout="@layout/model_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

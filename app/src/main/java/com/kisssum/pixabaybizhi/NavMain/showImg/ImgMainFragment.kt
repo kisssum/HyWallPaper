@@ -8,6 +8,7 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -76,6 +77,8 @@ class ImgMainFragment() : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        requireActivity().window.addFlags(FLAG_LAYOUT_NO_LIMITS)
+
         // 改变状态栏文字颜色为浅色
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
             requireActivity().window.decorView.systemUiVisibility =
@@ -87,6 +90,8 @@ class ImgMainFragment() : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
             requireActivity().window.decorView.systemUiVisibility =
