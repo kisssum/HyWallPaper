@@ -8,7 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.kisssum.pixabaybizhi.NavMain.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_navigation_control">
         <action
             android:id="@+id/action_homeFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"

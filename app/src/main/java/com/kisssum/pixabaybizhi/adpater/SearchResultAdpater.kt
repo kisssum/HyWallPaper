@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 import org.jsoup.Jsoup
-import rxhttp.wrapper.param.RxHttp
 import java.lang.Exception
 
 class SearchResultAdpater(private val context: Context) :
@@ -102,7 +100,7 @@ class SearchResultAdpater(private val context: Context) :
 
                 val imgs = arrayListOf<Map<String, String>>()
                 var map: HashMap<String, String>
-                for (i in 0 until 24) {
+                for (i in 0 until maxImgCount) {
                     map = HashMap()
                     map["src"] = list[i].select("img").attr("src")
                     map["href"] = list[i].select("a").attr("href")
