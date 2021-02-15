@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             it.statusBarColor = Color.TRANSPARENT
 
             // 设置状态栏能被穿过
-            it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//            it.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 

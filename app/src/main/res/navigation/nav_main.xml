@@ -16,6 +16,12 @@
             app:exitAnim="@anim/alpha_keep_1"
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
@@ -31,4 +37,14 @@
             android:id="@+id/action_startUpFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result" />
 </navigation>
