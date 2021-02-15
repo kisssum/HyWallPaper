@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_home"
-    app:startDestination="@id/BZ36MainFragment">
+    app:startDestination="@id/masterFragment">
 
     <fragment
         android:id="@+id/bianMainFragment"
@@ -25,4 +25,9 @@
         android:name="com.kisssum.pixabaybizhi.NavHome.BZ36.BZ36MainFragment"
         android:label="fragment_b_z36_main"
         tools:layout="@layout/fragment_b_z36_main" />
+    <fragment
+        android:id="@+id/masterFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.MasterFragment"
+        android:label="MasterFragment"
+        tools:layout="@layout/fragment_master" />
 </navigation>
