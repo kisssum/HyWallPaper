@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.MasterFragment">
+    tools:context=".ui.TypesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,18 +12,16 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/masterSearch"
+            android:id="@+id/typesSearch"
             layout="@layout/search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            android:id="@+id/masterList"
+            android:id="@+id/typesList"
             layout="@layout/model_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/masterSearch" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>
