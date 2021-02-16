@@ -1,6 +1,5 @@
-package com.kisssum.pixabaybizhi.NavMain
+package com.kisssum.pixabaybizhi.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.FragmentHomeBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentNavigationControlBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,11 +19,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment() {
+class NavigationControlFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentNavigationControlBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +37,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentNavigationControlBinding.inflate(inflater)
         return binding.root
     }
 
@@ -61,12 +60,9 @@ class HomeFragment : Fragment() {
                 R.id.Item_pix -> {
                     if (nav.currentDestination?.id != R.id.pixabayMainFragment) nav.navigate(R.id.pixabayMainFragment)
                 }
-                R.id.Item_bz36 -> {
-                    if (nav.currentDestination?.id != R.id.BZ36MainFragment) nav.navigate(R.id.BZ36MainFragment)
+                R.id.Item_me -> {
+                    if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
                 }
-//                R.id.Item_me -> {
-//                    if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
-//                }
                 else -> true
             }
 
@@ -86,7 +82,7 @@ class HomeFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
+            NavigationControlFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

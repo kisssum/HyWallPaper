@@ -18,6 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="最新"
+            android:textColor="?attr/actionMenuTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <include
             android:id="@+id/masterList"
             layout="@layout/model_list"

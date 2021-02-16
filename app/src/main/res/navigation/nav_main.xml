@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/navigationControlFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.kisssum.pixabaybizhi.NavMain.HomeFragment"
-        android:label="fragment_home"
+        android:id="@+id/navigationControlFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.NavigationControlFragment"
+        android:label="fragment_navigation_control"
         tools:layout="@layout/fragment_navigation_control">
         <action
             android:id="@+id/action_homeFragment_to_imgMainFragment"
@@ -26,6 +26,9 @@
             app:exitAnim="@anim/alpha_keep_1"
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
+        <action
+            android:id="@+id/action_homeFragment_to_BZ36MainFragment2"
+            app:destination="@id/BZ36MainFragment2" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
@@ -34,12 +37,12 @@
         tools:layout="@layout/fragment_img_main" />
     <fragment
         android:id="@+id/startUpFragment"
-        android:name="com.kisssum.pixabaybizhi.NavMain.startUpFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.startUpFragment"
         android:label="fragment_start_up"
         tools:layout="@layout/fragment_start_up">
         <action
             android:id="@+id/action_startUpFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/navigationControlFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -59,4 +62,14 @@
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
+    <fragment
+        android:id="@+id/BZ36MainFragment2"
+        android:name="com.kisssum.pixabaybizhi.NavHome.BZ36.BZ36MainFragment"
+        android:label="fragment_b_z36_main"
+        tools:layout="@layout/fragment_b_z36_main">
+        <action
+            android:id="@+id/action_BZ36MainFragment2_to_imgMainFragment"
+            app:destination="@id/imgMainFragment" />
+    </fragment>
+
 </navigation>

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         findNavController(R.id.fragment_main).let {
-            if (it.currentDestination!!.id == R.id.homeFragment)
+            if (it.currentDestination!!.id == R.id.navigationControlFragment)
                 if (backTime + 2000 < System.currentTimeMillis()) {
                     backTime = System.currentTimeMillis()
 

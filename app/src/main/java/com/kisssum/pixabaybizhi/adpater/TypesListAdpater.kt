@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavHome.BZ36
+package com.kisssum.pixabaybizhi.adpater
 
 import android.app.Activity
 import android.content.Context
@@ -13,38 +13,58 @@ import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kisssum.pixabaybizhi.NavMain.showImg.ImageFragment
 import com.kisssum.pixabaybizhi.R
+import com.kisssum.pixabaybizhi.databinding.ModelListItem2Binding
 import rxhttp.wrapper.param.RxHttp
 
-class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int) :
-    RecyclerView.Adapter<BZ36PagerAdpater.MyViewHolder>() {
+class TypesListAdpater(private val context: Context, private val typeIndex: Int) :
+    RecyclerView.Adapter<TypesListAdpater.MyViewHolder>() {
+
     private var data = arrayListOf<Map<String, String>>()
-    private var page = 1
-    private val handler: Handler
+    private val handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
 
-    init {
-        handler = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                super.handleMessage(msg)
-
-                val list = msg.obj as ArrayList<Map<String, String>>
-                when (msg.what) {
-                    1 -> {
-                        addData(list)
-                        page++
-                    }
-                    2 -> {
-                        setData(list)
-                        page++
-                    }
-                    else -> ""
+            val list = msg.obj as ArrayList<Map<String, String>>
+            when (msg.what) {
+                1 -> {
+                    setData(list)
                 }
+                else -> ""
             }
         }
     }
+    private val types = arrayOf(
+        "wallMV/",
+        "wallMX/",
+        "wallYS/",
+        "wallDM/",
+        "wallKT/",
+        "wallQC/",
+        "wallAQ/",
+        "wallYX/",
+        "wallTY/",
+        "wallCM/",
+        "wallQFJ/",
+        "wallPP/",
+        "wallKA/",
+        "wallJR/",
+        "wallJZ/",
+        "wallZW/",
+        "wallDW/",
+        "wallCY/",
+        "wallQT/",
+    )
+    private val baseUrl = "https://www.3gbizhi.com"
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img = itemView.findViewById<ImageView>(R.id.img)
+
+    init {
+        loadData()
+    }
+
+    class MyViewHolder(binding: ModelListItem2Binding) : RecyclerView.ViewHolder(binding.root) {
+        val img = binding.img
     }
 
     private fun setData(data: ArrayList<Map<String, String>>) {
@@ -52,16 +72,10 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
         notifyDataSetChanged()
     }
 
-    private fun addData(data: ArrayList<Map<String, String>>) {
-        this.data.addAll(data)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.base_pager_list_item, parent, false)
-        return MyViewHolder(view)
+        val binding =
+            ModelListItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -79,44 +93,14 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putString("lazysrc2x", url["lazysrc2x"])
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_BZ36MainFragment2_to_imgMainFragment, bundel)
+                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
         }
     }
 
     override fun getItemCount() = data.size
 
-    fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
-        val types = arrayOf(
-//            "sjbz/",
-            "wallMV/",
-            "wallMX/",
-            "wallYS/",
-            "wallDM/",
-            "wallKT/",
-            "wallQC/",
-            "wallAQ/",
-            "wallYX/",
-            "wallTY/",
-            "wallCM/",
-            "wallQFJ/",
-            "wallPP/",
-            "wallKA/",
-            "wallJR/",
-            "wallJZ/",
-            "wallZW/",
-            "wallDW/",
-            "wallCY/",
-            "wallQT/",
-        )
-        val baseUrl = "https://www.3gbizhi.com"
-        val url = "${baseUrl}/${types[typeIndex]}" + when (page) {
-            1 -> ""
-            else -> "index_${page}.html"
-        }
-        Log.d("BIAN", "getImgUrl: ${url}")
-
-        // 设置单次加载最大图片数量
-        val maxImgCount = 18
+    private fun loadData() {
+        val url = "${baseUrl}/${types[typeIndex]}"
 
         RxHttp.get(url)
             .add("User-Agent",
@@ -129,7 +113,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
 
                 val list = arrayListOf<Map<String, String>>()
                 if (href.count() != 0) {
-                    for (i in 0 until maxImgCount) {
+                    for (i in 0 until href.count()) {
                         val map = hashMapOf<String, String>()
                         map["href"] = href.toList()[i].destructured.component1()
                         map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
@@ -139,10 +123,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
                 }
 
                 val message = Message.obtain()
-                message.what = when {
-                    upgrad -> 1
-                    else -> 2
-                }
+                message.what = 1
                 message.obj = list
                 handler.sendMessage(message)
             }, {})

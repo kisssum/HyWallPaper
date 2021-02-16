@@ -61,18 +61,18 @@ class TypesFragment : Fragment() {
 
             if (adpater == null) {
                 adpater = TypesAdpater(requireContext())
-//                adpater?.getImgUrl()
+                adpater!!.loadData()
             }
 
             this.list.adapter = adpater
             this.smartRefresh.apply {
                 setOnRefreshListener {
-//                    adpater?.getImgUrl()
+                    adpater!!.loadData()
                     finishRefresh()
                 }
 
                 setOnLoadMoreListener {
-//                    adpater?.getImgUrl(upgrad = true)
+                    adpater!!.loadData()
                     finishLoadMore()
                 }
             }

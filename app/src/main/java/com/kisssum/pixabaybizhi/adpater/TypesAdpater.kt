@@ -1,11 +1,16 @@
 package com.kisssum.pixabaybizhi.adpater
 
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.ModelListItemBinding
 import org.jsoup.Jsoup
 import java.lang.Exception
@@ -49,23 +54,23 @@ class TypesAdpater(private val context: Context) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val obj = data[position]
+        val activity = context as Activity
+
         holder.type.text = obj["name"]
         holder.count.text = obj["count"]
-//
-//        Glide.with(context)
-//            .load(url["src"])
-//            .placeholder(R.drawable.ic_baseline_refresh_24)
-//            .into(holder.img)
-//
-//        holder.itemView.setOnClickListener {
-//            val bundel = Bundle()
-//            bundel.putInt("type", 3)
-//            bundel.putString("href", url["href"])
-//            bundel.putString("lazysrc2x", url["src"])
-//
-//            Navigation.findNavController(context as Activity, R.id.fragment_main)
-//                .navigate(R.id.action_searchResultFragment_to_imgMainFragment, bundel)
-//        }
+        holder.enter.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("type", position)
+
+            Navigation.findNavController(activity, R.id.fragment_main)
+                .navigate(R.id.action_homeFragment_to_BZ36MainFragment2, bundle)
+        }
+        holder.list.apply {
+            layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+
+            adapter = TypesListAdpater(context, position)
+        }
     }
 
     override fun getItemCount() = data.size
@@ -75,7 +80,7 @@ class TypesAdpater(private val context: Context) :
         notifyDataSetChanged()
     }
 
-    private fun loadData() {
+    fun loadData() {
         val url = "https://www.3gbizhi.com/sjbz/"
 
         Thread {
@@ -91,8 +96,8 @@ class TypesAdpater(private val context: Context) :
                     map["name"] = doc[i].select("em:nth-child(1)").text()
 
                     val c1 = doc[i].select("em:nth-child(2)").text()
-                    val c2="""\d+""".toRegex().find(c1)?.value
-                    map["count"] =c2!!
+                    val c2 = """\d+""".toRegex().find(c1)?.value
+                    map["count"] = c2!!
 
                     list.add(map)
                 }

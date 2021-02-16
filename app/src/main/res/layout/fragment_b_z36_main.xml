@@ -10,7 +10,6 @@
         android:id="@+id/tablayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@+id/viewpager"
         app:layout_constraintStart_toStartOf="@+id/viewpager"
         app:layout_constraintTop_toTopOf="parent"

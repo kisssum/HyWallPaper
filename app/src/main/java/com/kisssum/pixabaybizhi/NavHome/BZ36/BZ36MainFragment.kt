@@ -1,6 +1,7 @@
 package com.kisssum.pixabaybizhi.NavHome.BZ36
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,8 @@ class BZ36MainFragment : Fragment() {
     private var param2: String? = null
     private lateinit var binding: FragmentBZ36MainBinding
     private val list = arrayOf(
-        "全部",
-//        "美女",
+//        "全部",
+        "美女",
         "明星",
         "影视",
         "动漫",
@@ -60,7 +61,7 @@ class BZ36MainFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentBZ36MainBinding.inflate(inflater)
         return binding.root
@@ -73,6 +74,9 @@ class BZ36MainFragment : Fragment() {
             override fun getItemCount() = list.size
             override fun createFragment(position: Int) = BZ36PagerFragment(position)
         }
+
+        val cType = requireArguments().getInt("type")
+        binding.viewpager.currentItem = cType
 
         TabLayoutMediator(
             binding.tablayout,
