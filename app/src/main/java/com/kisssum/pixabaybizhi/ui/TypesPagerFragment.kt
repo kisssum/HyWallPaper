@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.kisssum.pixabaybizhi.NavHome.BZ36.BZ36PagerFragment
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesPagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -70,7 +69,7 @@ class TypesPagerFragment : Fragment() {
 
         binding.viewpager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = list.size
-            override fun createFragment(position: Int) = BZ36PagerFragment(position)
+            override fun createFragment(position: Int) = TypesPagerListFragment(position)
         }
 
         val cType = requireArguments().getInt("type")

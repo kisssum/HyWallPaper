@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavHome.BZ36
+package com.kisssum.pixabaybizhi.adpater
 
 import android.app.Activity
 import android.content.Context
@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 import rxhttp.wrapper.param.RxHttp
 
-class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int) :
-    RecyclerView.Adapter<BZ36PagerAdpater.MyViewHolder>() {
+class TypesPagerListAdpater(private val context: Context, private val typeIndex: Int) :
+    RecyclerView.Adapter<TypesPagerListAdpater.MyViewHolder>() {
     private var data = arrayListOf<Map<String, String>>()
     private var page = 1
     private val handler: Handler
