@@ -71,10 +71,7 @@ class TypesFragment : Fragment() {
                     finishRefresh()
                 }
 
-                setOnLoadMoreListener {
-                    adpater!!.loadData()
-                    finishLoadMore()
-                }
+                setOnLoadMoreListener { finishLoadMore() }
             }
         }
     }

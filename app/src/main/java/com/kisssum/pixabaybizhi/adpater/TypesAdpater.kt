@@ -44,6 +44,7 @@ class TypesAdpater(private val context: Context) :
         val count = binding.count
         val enter = binding.enter
         val list = binding.list
+        val topTitle = binding.topTitle
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -58,7 +59,7 @@ class TypesAdpater(private val context: Context) :
 
         holder.type.text = obj["name"]
         holder.count.text = obj["count"]
-        holder.enter.setOnClickListener {
+        holder.topTitle.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("type", position)
 
