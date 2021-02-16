@@ -27,8 +27,8 @@
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
         <action
-            android:id="@+id/action_homeFragment_to_BZ36MainFragment2"
-            app:destination="@id/BZ36MainFragment2" />
+            android:id="@+id/action_navigationControlFragment_to_typesPagerFragment"
+            app:destination="@id/typesPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
@@ -63,12 +63,12 @@
             app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
-        android:id="@+id/BZ36MainFragment2"
-        android:name="com.kisssum.pixabaybizhi.NavHome.BZ36.BZ36MainFragment"
-        android:label="fragment_b_z36_main"
-        tools:layout="@layout/fragment_b_z36_main">
+        android:id="@+id/typesPagerFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.TypesPagerFragment"
+        android:label="fragment_types_pager"
+        tools:layout="@layout/fragment_types_pager" >
         <action
-            android:id="@+id/action_BZ36MainFragment2_to_imgMainFragment"
+            android:id="@+id/action_typesPagerFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment" />
     </fragment>
 

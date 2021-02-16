@@ -64,7 +64,8 @@ class TypesAdpater(private val context: Context) :
             bundle.putInt("type", position)
 
             Navigation.findNavController(activity, R.id.fragment_main)
-                .navigate(R.id.action_homeFragment_to_BZ36MainFragment2, bundle)
+//                .navigate(R.id.action_homeFragment_to_BZ36MainFragment2, bundle)
+                .navigate(R.id.action_navigationControlFragment_to_typesPagerFragment, bundle)
         }
         holder.list.apply {
             layoutManager =

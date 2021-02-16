@@ -79,7 +79,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putString("lazysrc2x", url["lazysrc2x"])
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_BZ36MainFragment2_to_imgMainFragment, bundel)
+                .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
         }
     }
 
