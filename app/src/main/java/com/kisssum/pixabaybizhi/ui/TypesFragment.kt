@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kisssum.pixabaybizhi.R
+import com.kisssum.pixabaybizhi.adpater.MasterAdpater
+import com.kisssum.pixabaybizhi.adpater.TypesAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +29,7 @@ class TypesFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentTypesBinding
+    private var adpater: TypesAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,29 @@ class TypesFragment : Fragment() {
         binding.typesSearch.searchBorder.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        binding.typesList.apply {
+            this.list.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            if (adpater == null) {
+                adpater = TypesAdpater(requireContext())
+//                adpater?.getImgUrl()
+            }
+
+            this.list.adapter = adpater
+            this.smartRefresh.apply {
+                setOnRefreshListener {
+//                    adpater?.getImgUrl()
+                    finishRefresh()
+                }
+
+                setOnLoadMoreListener {
+//                    adpater?.getImgUrl(upgrad = true)
+                    finishLoadMore()
+                }
+            }
         }
     }
 
