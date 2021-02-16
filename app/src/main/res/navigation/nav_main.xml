@@ -18,7 +18,11 @@
             app:popExitAnim="@anim/from_0_to_100" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/alpha_keep_1"
+            app:popEnterAnim="@anim/alpha_keep_1"
+            app:popExitAnim="@anim/from_0_to_100" />
         <action
             android:id="@+id/action_homeFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment"
@@ -28,7 +32,11 @@
             app:popExitAnim="@anim/from_0_to_100" />
         <action
             android:id="@+id/action_navigationControlFragment_to_typesPagerFragment"
-            app:destination="@id/typesPagerFragment" />
+            app:destination="@id/typesPagerFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/alpha_keep_1"
+            app:popEnterAnim="@anim/alpha_keep_1"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
@@ -42,7 +50,11 @@
         tools:layout="@layout/fragment_start_up">
         <action
             android:id="@+id/action_startUpFragment_to_homeFragment"
-            app:destination="@id/navigationControlFragment" />
+            app:destination="@id/navigationControlFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/alpha_keep_1"
+            app:popEnterAnim="@anim/alpha_keep_1"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -66,10 +78,14 @@
         android:id="@+id/typesPagerFragment"
         android:name="com.kisssum.pixabaybizhi.ui.TypesPagerFragment"
         android:label="fragment_types_pager"
-        tools:layout="@layout/fragment_types_pager" >
+        tools:layout="@layout/fragment_types_pager">
         <action
             android:id="@+id/action_typesPagerFragment_to_imgMainFragment"
-            app:destination="@id/imgMainFragment" />
+            app:destination="@id/imgMainFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/alpha_keep_1"
+            app:popEnterAnim="@anim/alpha_keep_1"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
 
 </navigation>

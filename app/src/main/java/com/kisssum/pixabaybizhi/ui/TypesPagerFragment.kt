@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesPagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +68,12 @@ class TypesPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.typesPagerToolbar.apply {
+            setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+            }
+        }
 
         binding.viewpager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = list.size

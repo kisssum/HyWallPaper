@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.kisssum.pixabaybizhi"
-        minSdkVersion 22
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1920
         versionName "4.0"
@@ -33,7 +33,7 @@ android {
         }
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
