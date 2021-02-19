@@ -12,20 +12,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="热门"
+            android:textColor="?attr/actionMenuTextColor"
+            android:textSize="24sp" />
+
         <include
             android:id="@+id/masterSearch"
             layout="@layout/search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="最新"
-            android:textColor="?attr/actionMenuTextColor"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <include
             android:id="@+id/masterList"
