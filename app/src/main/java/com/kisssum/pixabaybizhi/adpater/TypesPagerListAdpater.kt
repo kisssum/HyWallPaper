@@ -1,10 +1,11 @@
-package com.kisssum.pixabaybizhi.NavHome.BZ36
+package com.kisssum.pixabaybizhi.adpater
 
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,8 @@ import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
 import rxhttp.wrapper.param.RxHttp
 
-class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int) :
-    RecyclerView.Adapter<BZ36PagerAdpater.MyViewHolder>() {
+class TypesPagerListAdpater(private val context: Context, private val typeIndex: Int) :
+    RecyclerView.Adapter<TypesPagerListAdpater.MyViewHolder>() {
     private var data = arrayListOf<Map<String, String>>()
     private var page = 1
     private val handler: Handler
@@ -40,6 +41,8 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
                 }
             }
         }
+
+        getImgUrl()
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -78,7 +81,7 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putString("lazysrc2x", url["lazysrc2x"])
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
+                .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
         }
     }
 
@@ -86,8 +89,8 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
 
     fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
         val types = arrayOf(
-            "sjbz/",
-//            "wallMV/",
+//            "sjbz/",
+            "wallMV/",
             "wallMX/",
             "wallYS/",
             "wallDM/",
@@ -112,10 +115,10 @@ class BZ36PagerAdpater(private val context: Context, private val typeIndex: Int)
             1 -> ""
             else -> "index_${page}.html"
         }
+        Log.d("BIAN", "getImgUrl: ${url}")
 
         // 设置单次加载最大图片数量
-        val maxImgCount = if (typeIndex == 0) 24
-        else 18
+        val maxImgCount = 18
 
         RxHttp.get(url)
             .add("User-Agent",

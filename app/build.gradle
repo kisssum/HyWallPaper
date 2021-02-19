@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.kisssum.pixabaybizhi"
-        minSdkVersion 22
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1920
         versionName "4.0"
@@ -33,7 +33,7 @@ android {
         }
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -79,6 +79,8 @@ dependencies {
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'
     implementation 'com.scwang.smart:refresh-header-classics:2.0.1'
     implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'
+    implementation 'com.scwang.smart:refresh-header-radar:2.0.3'
+    implementation 'com.scwang.smart:refresh-footer-ball:2.0.3'
 
     // jsoup
     implementation 'org.jsoup:jsoup:1.13.1'

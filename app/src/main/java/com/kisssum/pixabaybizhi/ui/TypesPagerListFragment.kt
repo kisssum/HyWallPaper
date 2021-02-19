@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavHome.BZ36
+package com.kisssum.pixabaybizhi.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kisssum.pixabaybizhi.databinding.BasePagerBinding
+import com.kisssum.pixabaybizhi.adpater.TypesPagerListAdpater
+import com.kisssum.pixabaybizhi.databinding.ModelListBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,13 +19,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [BZ36PagerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BZ36PagerFragment(private val typeIndex: Int) : Fragment() {
+class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: BasePagerBinding
-    private var adpater: BZ36PagerAdpater? = null
+    private lateinit var binding: ModelListBinding
+    private var listAdpater: TypesPagerListAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,33 +39,32 @@ class BZ36PagerFragment(private val typeIndex: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = BasePagerBinding.inflate(inflater)
+        binding = ModelListBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.let {
+        binding.list.let {
             it.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
-            if (adpater == null) {
-                adpater = BZ36PagerAdpater(requireContext(), typeIndex)
-                adpater?.getImgUrl()
+            if (listAdpater == null) {
+                listAdpater = TypesPagerListAdpater(requireContext(), typeIndex)
             }
 
-            it.adapter = adpater
+            it.adapter = listAdpater
         }
 
-        binding.smartRefreshLayout.let {
+        binding.smartRefresh.let {
             it.setOnRefreshListener {
-                adpater?.getImgUrl()
+                listAdpater?.getImgUrl()
                 it.finishRefresh()
             }
 
             it.setOnLoadMoreListener {
-                adpater?.getImgUrl(upgrad = true)
+                listAdpater?.getImgUrl(upgrad = true)
                 it.finishLoadMore()
             }
         }
@@ -82,7 +82,7 @@ class BZ36PagerFragment(private val typeIndex: Int) : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            BZ36PagerFragment(0).apply {
+            TypesPagerListFragment(0).apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

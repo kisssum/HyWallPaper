@@ -1,16 +1,16 @@
-package com.kisssum.pixabaybizhi.NavHome.BZ36
+package com.kisssum.pixabaybizhi.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.kisssum.pixabaybizhi.NavHome.Bian.BianPagerFragment
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.FragmentBZ36MainBinding
+import com.kisssum.pixabaybizhi.databinding.FragmentTypesPagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,14 +22,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [BZ36MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BZ36MainFragment : Fragment() {
+class TypesPagerFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding: FragmentBZ36MainBinding
+    private lateinit var binding: FragmentTypesPagerBinding
     private val list = arrayOf(
-        "全部",
-//        "美女",
+//        "全部",
+        "美女",
         "明星",
         "影视",
         "动漫",
@@ -60,19 +60,28 @@ class BZ36MainFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentBZ36MainBinding.inflate(inflater)
+        binding = FragmentTypesPagerBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.typesPagerToolbar.apply {
+            setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+            }
+        }
+
         binding.viewpager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = list.size
-            override fun createFragment(position: Int) = BZ36PagerFragment(position)
+            override fun createFragment(position: Int) = TypesPagerListFragment(position)
         }
+
+        val cType = requireArguments().getInt("type")
+        binding.viewpager.setCurrentItem(cType, false)
 
         TabLayoutMediator(
             binding.tablayout,
@@ -92,7 +101,7 @@ class BZ36MainFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            BZ36MainFragment().apply {
+            TypesPagerFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -20,6 +20,22 @@ class BianPagerAdpater(private val context: Context, private val typeIndex: Int)
     private var data = arrayListOf<String>()
     private var page = 1
     private val handler: Handler
+    private val types = arrayOf(
+        "",
+        "4kfengjing/",
+        "4kmeinv/",
+        "4kyouxi/",
+        "4kdongman/",
+        "4kyingshi/",
+        "4kmingxing/",
+        "4kqiche/",
+        "4kdongwu/",
+        "4krenwu/",
+        "4kmeishi/",
+        "4kzongjiao/",
+        "4kbeijing/"
+    )
+    private val baseUrl = "http://pic.netbian.com"
 
     init {
         handler = object : Handler() {
@@ -73,43 +89,13 @@ class BianPagerAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putString("imgUrl", url)
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
+                .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
         }
     }
 
     override fun getItemCount() = data.size
 
     fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
-//        val types = arrayOf(
-//            "",
-//            "4kfengjing/",
-//            "4kmeinv/",
-//            "4kyouxi/",
-//            "4kdongman/",
-//            "4kyingshi/",
-//            "4kmingxing/",
-//            "4kqiche/",
-//            "4kdongwu/",
-//            "4krenwu/",
-//            "4kmeishi/",
-//            "4kzongjiao/",
-//            "4kbeijing/"
-//        )
-        val types = arrayOf(
-            "",
-            "4kfengjing/",
-            "4kmeinv/",
-            "4kdongman/",
-            "4kyingshi/",
-            "4kmingxing/",
-            "4kqiche/",
-            "4kdongwu/",
-            "4krenwu/",
-            "4kmeishi/",
-            "4kzongjiao/",
-            "4kbeijing/"
-        )
-        val baseUrl = "http://pic.netbian.com"
         val url = "${baseUrl}/${types[typeIndex]}" + when (page) {
             1 -> "index.html"
             else -> "index_$page.html"

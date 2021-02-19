@@ -6,46 +6,61 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
+import com.kisssum.pixabaybizhi.databinding.ModelListItem2Binding
 import rxhttp.wrapper.param.RxHttp
 
-class MasterAdpater(private val context: Context) :
-    RecyclerView.Adapter<MasterAdpater.MyViewHolder>() {
+class TypesListAdpater(private val context: Context, private val typeIndex: Int) :
+    RecyclerView.Adapter<TypesListAdpater.MyViewHolder>() {
+
     private var data = arrayListOf<Map<String, String>>()
-    private var page = 1
-    private val handler: Handler
+    private val handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
 
-    init {
-        handler = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                super.handleMessage(msg)
-
-                val list = msg.obj as ArrayList<Map<String, String>>
-                when (msg.what) {
-                    1 -> {
-                        addData(list)
-                        page++
-                    }
-                    2 -> {
-                        setData(list)
-                        page++
-                    }
-                    else -> ""
+            val list = msg.obj as ArrayList<Map<String, String>>
+            when (msg.what) {
+                1 -> {
+                    setData(list)
                 }
+                else -> ""
             }
         }
+    }
+    private val types = arrayOf(
+        "wallMV/",
+        "wallMX/",
+        "wallYS/",
+        "wallDM/",
+        "wallKT/",
+        "wallQC/",
+        "wallAQ/",
+        "wallYX/",
+        "wallTY/",
+        "wallCM/",
+        "wallQFJ/",
+        "wallPP/",
+        "wallKA/",
+        "wallJR/",
+        "wallJZ/",
+        "wallZW/",
+        "wallDW/",
+        "wallCY/",
+        "wallQT/",
+    )
+    private val baseUrl = "https://www.3gbizhi.com"
 
-        getImgUrl()
+
+    init {
+        loadData()
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img = itemView.findViewById<ImageView>(R.id.img)
+    class MyViewHolder(binding: ModelListItem2Binding) : RecyclerView.ViewHolder(binding.root) {
+        val img = binding.img
     }
 
     private fun setData(data: ArrayList<Map<String, String>>) {
@@ -53,16 +68,10 @@ class MasterAdpater(private val context: Context) :
         notifyDataSetChanged()
     }
 
-    private fun addData(data: ArrayList<Map<String, String>>) {
-        this.data.addAll(data)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.base_pager_list_item, parent, false)
-        return MyViewHolder(view)
+        val binding =
+            ModelListItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -86,20 +95,8 @@ class MasterAdpater(private val context: Context) :
 
     override fun getItemCount() = data.size
 
-    fun reLoad() {
-        page = 1
-        getImgUrl()
-    }
-
-    fun getImgUrl(page: Int = this.page, upgrad: Boolean = false) {
-        val type = "sjbz/"
-        val baseUrl = "https://www.3gbizhi.com"
-        val url = "${baseUrl}/${type}" + when (page) {
-            1 -> ""
-            else -> "index_${page}.html"
-        }
-        // 设置单次加载最大图片数量
-        val maxImgCount = 24
+    private fun loadData() {
+        val url = "${baseUrl}/${types[typeIndex]}"
 
         RxHttp.get(url)
             .add("User-Agent",
@@ -112,7 +109,7 @@ class MasterAdpater(private val context: Context) :
 
                 val list = arrayListOf<Map<String, String>>()
                 if (href.count() != 0) {
-                    for (i in 0 until maxImgCount) {
+                    for (i in 0 until href.count()) {
                         val map = hashMapOf<String, String>()
                         map["href"] = href.toList()[i].destructured.component1()
                         map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
@@ -122,10 +119,7 @@ class MasterAdpater(private val context: Context) :
                 }
 
                 val message = Message.obtain()
-                message.what = when {
-                    upgrad -> 1
-                    else -> 2
-                }
+                message.what = 1
                 message.obj = list
                 handler.sendMessage(message)
             }, {})

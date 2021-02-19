@@ -10,7 +10,6 @@
         android:id="@+id/search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         app:defaultQueryHint="Search"
         app:iconifiedByDefault="false"
         app:layout_constraintBottom_toTopOf="@+id/smartRefreshLayout"
