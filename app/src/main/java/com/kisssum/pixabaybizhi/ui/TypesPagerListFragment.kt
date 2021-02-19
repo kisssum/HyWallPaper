@@ -52,7 +52,6 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
 
             if (listAdpater == null) {
                 listAdpater = TypesPagerListAdpater(requireContext(), typeIndex)
-                listAdpater?.getImgUrl()
             }
 
             it.adapter = listAdpater

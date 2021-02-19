@@ -40,6 +40,8 @@ class MasterAdpater(private val context: Context) :
                 }
             }
         }
+
+        getImgUrl()
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -78,7 +80,7 @@ class MasterAdpater(private val context: Context) :
             bundel.putString("lazysrc2x", url["lazysrc2x"])
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
+                .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
         }
     }
 

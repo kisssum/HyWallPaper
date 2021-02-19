@@ -41,6 +41,8 @@ class TypesPagerListAdpater(private val context: Context, private val typeIndex:
                 }
             }
         }
+
+        getImgUrl()
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

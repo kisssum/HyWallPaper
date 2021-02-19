@@ -59,7 +59,6 @@ class MasterFragment : Fragment() {
 
             if (adpater == null) {
                 adpater = MasterAdpater(requireContext())
-                adpater?.getImgUrl()
             }
 
             this.adapter = adpater

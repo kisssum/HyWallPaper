@@ -59,7 +59,6 @@ class TypesFragment : Fragment() {
 
             if (adpater == null) {
                 adpater = TypesAdpater(requireContext())
-                adpater!!.loadData()
             }
 
             this.adapter = adpater

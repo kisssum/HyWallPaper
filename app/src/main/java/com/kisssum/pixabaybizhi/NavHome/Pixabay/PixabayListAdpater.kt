@@ -56,7 +56,7 @@ class PixabayListAdpater(private val context: Context) :
                 bundel.putInt("indexImg", position)
 
                 Navigation.findNavController(context as Activity, R.id.fragment_main)
-                    .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
+                    .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
             }
         }
     }

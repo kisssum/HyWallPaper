@@ -81,7 +81,7 @@ class TypesPagerFragment : Fragment() {
         }
 
         val cType = requireArguments().getInt("type")
-        binding.viewpager.currentItem = cType
+        binding.viewpager.setCurrentItem(cType, false)
 
         TabLayoutMediator(
             binding.tablayout,

@@ -10,7 +10,7 @@
         android:label="fragment_navigation_control"
         tools:layout="@layout/fragment_navigation_control">
         <action
-            android:id="@+id/action_homeFragment_to_imgMainFragment"
+            android:id="@+id/action_navigationControlFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"
             app:enterAnim="@anim/from_100_to_0"
             app:exitAnim="@anim/alpha_keep_1"

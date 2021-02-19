@@ -63,7 +63,6 @@ class NavigationControlFragment : Fragment() {
                 R.id.Item_me -> {
                     if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
                 }
-                else -> true
             }
 
             true

@@ -5,15 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kisssum.pixabaybizhi.NavMain.showImg.ImageFragment
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.ModelListItem2Binding
 import rxhttp.wrapper.param.RxHttp
@@ -93,7 +89,7 @@ class TypesListAdpater(private val context: Context, private val typeIndex: Int)
             bundel.putString("lazysrc2x", url["lazysrc2x"])
 
             Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_homeFragment_to_imgMainFragment, bundel)
+                .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
         }
     }
 
