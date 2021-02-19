@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/fragment_master.xml" value="0.255078125" />
-        <entry key="app/src/main/res/layout/model_list.xml" value="0.255078125" />
-        <entry key="app/src/main/res/layout/search_layout.xml" value="0.255078125" />
+        <entry key="app/src/main/res/drawable/search_style.xml" value="0.2703125" />
+        <entry key="app/src/main/res/layout/fragment_master.xml" value="0.2554300608166811" />
+        <entry key="app/src/main/res/layout/fragment_types.xml" value="0.255078125" />
+        <entry key="app/src/main/res/layout/fragment_types_pager.xml" value="0.8" />
+        <entry key="app/src/main/res/layout/model_list.xml" value="0.8" />
+        <entry key="app/src/main/res/layout/model_list_item.xml" value="0.255078125" />
+        <entry key="app/src/main/res/layout/model_list_item_2.xml" value="0.255078125" />
+        <entry key="app/src/main/res/layout/search_layout.xml" value="0.2730593607305936" />
       </map>
     </option>
   </component>

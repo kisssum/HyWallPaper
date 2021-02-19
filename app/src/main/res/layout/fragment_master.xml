@@ -7,32 +7,48 @@
     android:fillViewport="true"
     tools:context=".ui.MasterFragment">
 
-    <LinearLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/masterRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="热门"
-            android:textColor="?attr/actionMenuTextColor"
-            android:textSize="24sp" />
-
-        <include
-            android:id="@+id/masterSearch"
-            layout="@layout/search_layout"
+        <com.scwang.smart.refresh.header.BezierRadarHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/masterList"
-            layout="@layout/model_list"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/masterSearch" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="热门"
+                android:textColor="?attr/actionMenuTextColor"
+                android:textSize="24sp" />
+
+            <include
+                android:id="@+id/masterSearch"
+                layout="@layout/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/masterList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp" />
+
+        </LinearLayout>
+
+        <com.scwang.smart.refresh.footer.BallPulseFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </androidx.core.widget.NestedScrollView>

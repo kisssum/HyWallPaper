@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.adpater.MasterAdpater
 import com.kisssum.pixabaybizhi.adpater.TypesAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesBinding
 
@@ -56,7 +54,7 @@ class TypesFragment : Fragment() {
         }
 
         binding.typesList.apply {
-            this.list.layoutManager =
+            this.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
@@ -64,15 +62,16 @@ class TypesFragment : Fragment() {
                 adpater!!.loadData()
             }
 
-            this.list.adapter = adpater
-            this.smartRefresh.apply {
-                setOnRefreshListener {
-                    adpater!!.loadData()
-                    finishRefresh()
-                }
+            this.adapter = adpater
+        }
 
-                setOnLoadMoreListener { finishLoadMore() }
+        binding.typesRefresh.apply {
+            setOnRefreshListener {
+                adpater!!.loadData()
+                finishRefresh()
             }
+
+            setOnLoadMoreListener { finishLoadMore() }
         }
     }
 

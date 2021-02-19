@@ -84,6 +84,11 @@ class MasterAdpater(private val context: Context) :
 
     override fun getItemCount() = data.size
 
+    fun reLoad() {
+        page = 1
+        getImgUrl()
+    }
+
     fun getImgUrl(page: Int = this.page, upgrad: Boolean = false) {
         val type = "sjbz/"
         val baseUrl = "https://www.3gbizhi.com"

@@ -54,7 +54,7 @@ class MasterFragment : Fragment() {
         }
 
         binding.masterList.apply {
-            this.list.layoutManager =
+            this.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
@@ -62,17 +62,18 @@ class MasterFragment : Fragment() {
                 adpater?.getImgUrl()
             }
 
-            this.list.adapter = adpater
-            this.smartRefresh.apply {
-                setOnRefreshListener {
-                    adpater?.getImgUrl()
-                    finishRefresh()
-                }
+            this.adapter = adpater
+        }
 
-                setOnLoadMoreListener {
-                    adpater?.getImgUrl(upgrad = true)
-                    finishLoadMore()
-                }
+        binding.masterRefresh.apply {
+            setOnRefreshListener {
+                adpater?.reLoad()
+                finishRefresh()
+            }
+
+            setOnLoadMoreListener {
+                adpater?.getImgUrl(upgrad = true)
+                finishLoadMore()
             }
         }
     }
