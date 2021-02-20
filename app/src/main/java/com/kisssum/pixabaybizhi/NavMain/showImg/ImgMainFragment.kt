@@ -74,18 +74,6 @@ class ImgMainFragment() : Fragment() {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        requireActivity().window.addFlags(FLAG_LAYOUT_NO_LIMITS)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

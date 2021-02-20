@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:paddingTop="30dp"
         android:theme="?attr/actionBarTheme"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24" />
 
