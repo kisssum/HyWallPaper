@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
-        window.addFlags(FLAG_LAYOUT_NO_LIMITS)
+//        window.addFlags(FLAG_LAYOUT_NO_LIMITS)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
