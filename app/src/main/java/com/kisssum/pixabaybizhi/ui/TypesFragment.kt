@@ -53,7 +53,7 @@ class TypesFragment : Fragment() {
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
-        binding.typesRefresh.smartRefresh.apply {
+        binding.typesRefresh.apply {
             setOnRefreshListener {
                 adpater!!.loadData()
                 finishRefresh()
@@ -62,7 +62,7 @@ class TypesFragment : Fragment() {
             setOnLoadMoreListener { finishLoadMore() }
         }
 
-        binding.typesRefresh.list.apply {
+        binding.typesList.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
