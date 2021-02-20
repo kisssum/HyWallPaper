@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_icon_background"
+    android:paddingLeft="15dp"
+    android:paddingTop="11dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="10dp">
+
+    <View
+        android:id="@+id/searchBorder"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:background="@drawable/search_style"
+        android:backgroundTint="@color/white"
+        android:backgroundTintMode="add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/searchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchBorder"
+        app:layout_constraintStart_toStartOf="@+id/searchBorder"
+        app:layout_constraintTop_toTopOf="@+id/searchBorder"
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+
+    <TextView
+        android:id="@+id/searchHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:text="搜索"
+        app:layout_constraintBottom_toBottomOf="@+id/searchBorder"
+        app:layout_constraintStart_toEndOf="@+id/searchIcon"
+        app:layout_constraintTop_toTopOf="@+id/searchBorder" />
+</androidx.constraintlayout.widget.ConstraintLayout>

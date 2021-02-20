@@ -38,19 +38,6 @@ class MeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_me, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        requireActivity().window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -53,7 +53,7 @@ class MasterFragment : Fragment() {
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
-        binding.masterList.apply {
+        binding.masterRefresh.list.apply {
             this.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
@@ -64,7 +64,7 @@ class MasterFragment : Fragment() {
             this.adapter = adpater
         }
 
-        binding.masterRefresh.apply {
+        binding.masterRefresh.smartRefresh.apply {
             setOnRefreshListener {
                 adpater?.reLoad()
                 finishRefresh()

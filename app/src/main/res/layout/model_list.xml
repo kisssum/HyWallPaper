@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.scwang.smart.refresh.header.ClassicsHeader
+    <com.scwang.smart.refresh.header.MaterialHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -14,9 +14,10 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         android:paddingLeft="2dp"
+        android:paddingTop="2dp"
         android:paddingRight="2dp" />
 
-    <com.scwang.smart.refresh.footer.ClassicsFooter
+    <com.scwang.smart.refresh.footer.BallPulseFooter
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

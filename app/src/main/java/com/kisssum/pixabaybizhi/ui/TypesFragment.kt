@@ -53,8 +53,17 @@ class TypesFragment : Fragment() {
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
-        binding.typesList.apply {
-            this.layoutManager =
+        binding.typesRefresh.smartRefresh.apply {
+            setOnRefreshListener {
+                adpater!!.loadData()
+                finishRefresh()
+            }
+
+            setOnLoadMoreListener { finishLoadMore() }
+        }
+
+        binding.typesRefresh.list.apply {
+            layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
@@ -62,15 +71,6 @@ class TypesFragment : Fragment() {
             }
 
             this.adapter = adpater
-        }
-
-        binding.typesRefresh.apply {
-            setOnRefreshListener {
-                adpater!!.loadData()
-                finishRefresh()
-            }
-
-            setOnLoadMoreListener { finishLoadMore() }
         }
     }
 

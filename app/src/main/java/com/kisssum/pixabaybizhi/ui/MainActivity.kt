@@ -3,6 +3,7 @@ package com.kisssum.pixabaybizhi.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -27,7 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initWindow() {
         supportActionBar?.hide()
-        window.statusBarColor = Color.TRANSPARENT
+//        window.statusBarColor = Color.TRANSPARENT
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 
     override fun onBackPressed() {

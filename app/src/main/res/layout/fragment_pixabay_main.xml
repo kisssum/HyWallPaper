@@ -1,47 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="never"
     tools:context=".NavHome.Pixabay.HomeFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:defaultQueryHint="Search"
-        app:iconifiedByDefault="false"
-        app:layout_constraintBottom_toTopOf="@+id/smartRefreshLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/smartRefreshLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
+        <include
+            android:id="@+id/pixabaySearch"
+            layout="@layout/search_layout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <include
+            android:id="@+id/pixabayRefresh"
+            layout="@layout/model_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="2dp"
-            android:paddingTop="2dp"
-            android:paddingRight="2dp" />
+            android:layout_height="match_parent" />
 
-        <com.scwang.smart.refresh.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
