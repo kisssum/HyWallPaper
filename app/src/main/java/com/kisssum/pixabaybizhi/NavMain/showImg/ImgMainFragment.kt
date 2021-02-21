@@ -74,32 +74,6 @@ class ImgMainFragment() : Fragment() {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        requireActivity().window.addFlags(FLAG_LAYOUT_NO_LIMITS)
-
-        // 改变状态栏文字颜色为浅色
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-            requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-
-        // 保持屏幕常亮
-        requireActivity().window.addFlags(FLAG_KEEP_SCREEN_ON)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
-            requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
-        requireActivity().window.clearFlags(FLAG_KEEP_SCREEN_ON)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

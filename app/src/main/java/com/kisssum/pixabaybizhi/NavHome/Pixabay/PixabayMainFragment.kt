@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentPixabayMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentPixabayMainBinding.inflate(inflater)
         return binding.root
@@ -74,19 +74,19 @@ class HomeFragment : Fragment() {
             ViewModelProvider.AndroidViewModelFactory(activity?.application!!)
         ).get(PixabayViewModel::class.java)
 
-        binding.smartRefreshLayout.apply {
+        binding.pixabayRefresh.smartRefresh.apply {
             this.setOnRefreshListener {
                 viewModel?.getJson()
-                binding.smartRefreshLayout.finishRefresh()
+                finishRefresh()
             }
 
             this.setOnLoadMoreListener {
                 viewModel?.getJson(true)
-                it.finishLoadMore()
+                finishLoadMore()
             }
         }
 
-        binding.recyclerView.apply {
+        binding.pixabayRefresh.list.apply {
             this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
             // 添加数据
@@ -104,23 +104,27 @@ class HomeFragment : Fragment() {
         }
 
         // 搜索
-        binding.search.apply {
-            this.isSubmitButtonEnabled = true
-
-            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-                OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    query?.let {
-                        viewModel?.let {
-                            it.getSearchQ()?.value = binding.search.query.toString()
-                            it.getJson()
-                        }
-                    }
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?) = true
-            })
+        binding.pixabaySearch.searchBorder.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
+            controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
+//        binding.search.apply {
+//            this.isSubmitButtonEnabled = true
+//
+//            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+//                OnQueryTextListener {
+//                override fun onQueryTextSubmit(query: String?): Boolean {
+//                    query?.let {
+//                        viewModel?.let {
+//                            it.getSearchQ()?.value = binding.search.query.toString()
+//                            it.getJson()
+//                        }
+//                    }
+//                    return true
+//                }
+//
+//                override fun onQueryTextChange(newText: String?) = true
+//            })
+//        }
     }
 }

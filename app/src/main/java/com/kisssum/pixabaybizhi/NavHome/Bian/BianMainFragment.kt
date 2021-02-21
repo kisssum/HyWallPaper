@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentBianMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,6 +50,11 @@ class BianFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.bianSearch.searchBorder.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
+            controller.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
 
         binding.viewPage.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = list.size

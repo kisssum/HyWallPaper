@@ -9,6 +9,8 @@ import android.widget.SearchView
 import androidx.navigation.Navigation
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentSearchBinding
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SearchFragment : Fragment() {
+open class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -43,31 +45,51 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    protected fun hideInput() {
+        val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+        val v = requireActivity().window.peekDecorView()
+        imm!!.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
+        binding.searchToolBar.setNavigationOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
+            controller.navigateUp()
 
-                if (query == null) {
-                    controller.popBackStack();
-                } else {
-                    val bundle = Bundle()
-                    bundle.putString("query", query)
+            hideInput()
+        }
 
-                    controller.popBackStack();
-                    controller.navigate(R.id.action_homeFragment_to_searchResultFragment, bundle)
+        binding.searchView.apply {
+            this.isIconified = false
+
+            this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    val controller =
+                        Navigation.findNavController(requireActivity(), R.id.fragment_main)
+
+                    if (query == null) {
+                        controller.popBackStack();
+                    } else {
+                        val bundle = Bundle()
+                        bundle.putString("query", query)
+
+                        controller.popBackStack();
+                        controller.navigate(R.id.action_homeFragment_to_searchResultFragment,
+                            bundle)
+
+                        hideInput()
+                    }
+
+                    return true
                 }
 
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
-
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            })
+        }
     }
 
     companion object {

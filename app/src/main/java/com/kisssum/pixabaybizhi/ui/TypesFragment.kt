@@ -53,17 +53,6 @@ class TypesFragment : Fragment() {
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
-        binding.typesList.apply {
-            this.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-            if (adpater == null) {
-                adpater = TypesAdpater(requireContext())
-            }
-
-            this.adapter = adpater
-        }
-
         binding.typesRefresh.apply {
             setOnRefreshListener {
                 adpater!!.loadData()
@@ -71,6 +60,17 @@ class TypesFragment : Fragment() {
             }
 
             setOnLoadMoreListener { finishLoadMore() }
+        }
+
+        binding.typesList.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            if (adpater == null) {
+                adpater = TypesAdpater(requireContext())
+            }
+
+            this.adapter = adpater
         }
     }
 

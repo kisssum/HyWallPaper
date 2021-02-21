@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:context=".ui.TypesFragment">
+
+    <include
+        android:id="@+id/typesSearch"
+        layout="@layout/search_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/typesRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.header.BezierRadarHeader
+        <com.scwang.smart.refresh.header.MaterialHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/typesSearch"
-                layout="@layout/search_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:overScrollMode="never">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/typesList"
@@ -32,13 +32,15 @@
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:paddingLeft="2dp"
+                android:paddingTop="2dp"
                 android:paddingRight="2dp" />
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.scwang.smart.refresh.footer.BallPulseFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-</androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

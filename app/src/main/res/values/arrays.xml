@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="types_list_name_cn">
+        <item>全部</item>
+        <item>美女</item>
+        <item>明星</item>
+        <item>影视</item>
+        <item>动漫</item>
+        <item>卡通</item>
+        <item>汽车</item>
+        <item>爱情</item>
+        <item>游戏</item>
+        <item>体育</item>
+        <item>车模</item>
+        <item>风景</item>
+        <item>品牌</item>
+        <item>可爱</item>
+        <item>节日</item>
+        <item>建筑</item>
+        <item>植物</item>
+        <item>动物</item>
+        <item>创意</item>
+        <item>精美</item>
+    </array>
+
+    <array name="types_list_url">
+        <item>https://www.3gbizhi.com/sjbz/</item>
+        <item>https://www.3gbizhi.com/wallMV/</item>
+        <item>https://www.3gbizhi.com/wallMX/</item>
+        <item>https://www.3gbizhi.com/wallYS/</item>
+        <item>https://www.3gbizhi.com/wallDM/</item>
+        <item>https://www.3gbizhi.com/wallKT/</item>
+        <item>https://www.3gbizhi.com/wallQC/</item>
+        <item>https://www.3gbizhi.com/wallAQ/</item>
+        <item>https://www.3gbizhi.com/wallYX/</item>
+        <item>https://www.3gbizhi.com/wallTY/</item>
+        <item>https://www.3gbizhi.com/wallCM/</item>
+        <item>https://www.3gbizhi.com/wallQFJ/</item>
+        <item>https://www.3gbizhi.com/wallPP/</item>
+        <item>https://www.3gbizhi.com/wallKA/</item>
+        <item>https://www.3gbizhi.com/wallJR/</item>
+        <item>https://www.3gbizhi.com/wallJZ/</item>
+        <item>https://www.3gbizhi.com/wallZW/</item>
+        <item>https://www.3gbizhi.com/wallDW/</item>
+        <item>https://www.3gbizhi.com/wallCY/</item>
+        <item>https://www.3gbizhi.com/wallQT/</item>
+    </array>
+</resources>
