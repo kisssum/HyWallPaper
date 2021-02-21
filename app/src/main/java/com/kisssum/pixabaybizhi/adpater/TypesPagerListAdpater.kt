@@ -5,48 +5,51 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
+import com.kisssum.pixabaybizhi.databinding.ModelListItem3Binding
 import rxhttp.wrapper.param.RxHttp
+import java.util.*
 
 class TypesPagerListAdpater(private val context: Context, private val typeIndex: Int) :
     RecyclerView.Adapter<TypesPagerListAdpater.MyViewHolder>() {
     private var data = arrayListOf<Map<String, String>>()
     private var page = 1
-    private val handler: Handler
+    private val handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
 
-    init {
-        handler = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                super.handleMessage(msg)
-
-                val list = msg.obj as ArrayList<Map<String, String>>
-                when (msg.what) {
-                    1 -> {
-                        addData(list)
-                        page++
-                    }
-                    2 -> {
-                        setData(list)
-                        page++
-                    }
-                    else -> ""
+            val list = msg.obj as ArrayList<Map<String, String>>
+            when (msg.what) {
+                1 -> {
+                    addData(list)
+                    page++
                 }
+                2 -> {
+                    setData(list)
+                    page++
+                }
+                else -> ""
             }
         }
-
-        getImgUrl()
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img = itemView.findViewById<ImageView>(R.id.img)
+    init {
+        loadData()
+    }
+
+    class MyViewHolder(binding: ModelListItem3Binding) : RecyclerView.ViewHolder(binding.root) {
+        val img = binding.img
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val binding =
+            ModelListItem3Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     private fun setData(data: ArrayList<Map<String, String>>) {
@@ -59,66 +62,46 @@ class TypesPagerListAdpater(private val context: Context, private val typeIndex:
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.base_pager_list_item, parent, false)
-        return MyViewHolder(view)
-    }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val url = data[position]
+        val obj = data[position]
 
         Glide.with(context)
-            .load(url["lazysrc"])
+            .load(obj["lazysrc"])
             .placeholder(R.drawable.ic_baseline_refresh_24)
             .into(holder.img)
 
         holder.itemView.setOnClickListener {
             val bundel = Bundle()
             bundel.putInt("type", 3)
-            bundel.putString("href", url["href"])
-            bundel.putString("lazysrc2x", url["lazysrc2x"])
+            bundel.putString("href", obj["href"])
+            bundel.putString("lazysrc2x", obj["lazysrc2x"])
 
-            Navigation.findNavController(context as Activity, R.id.fragment_main)
-                .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
+            if (typeIndex == 0) {
+                Navigation.findNavController(context as Activity, R.id.fragment_main)
+                    .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
+            } else {
+                Navigation.findNavController(context as Activity, R.id.fragment_main)
+                    .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
+            }
         }
     }
 
     override fun getItemCount() = data.size
 
-    fun getImgUrl(page: Int = this.page, upgrad: Boolean = false, typeIndex: Int = this.typeIndex) {
-        val types = arrayOf(
-//            "sjbz/",
-            "wallMV/",
-            "wallMX/",
-            "wallYS/",
-            "wallDM/",
-            "wallKT/",
-            "wallQC/",
-            "wallAQ/",
-            "wallYX/",
-            "wallTY/",
-            "wallCM/",
-            "wallQFJ/",
-            "wallPP/",
-            "wallKA/",
-            "wallJR/",
-            "wallJZ/",
-            "wallZW/",
-            "wallDW/",
-            "wallCY/",
-            "wallQT/",
-        )
-        val baseUrl = "https://www.3gbizhi.com"
-        val url = "${baseUrl}/${types[typeIndex]}" + when (page) {
-            1 -> ""
-            else -> "index_${page}.html"
+    fun reLoad() {
+        page = 1
+        loadData()
+    }
+
+    fun loadData(upgrad: Boolean = false) {
+        val stringArray = context.resources.getStringArray(R.array.types_list_url)
+        val url = when (page) {
+            1 -> stringArray[typeIndex]
+            else -> "${stringArray[typeIndex]}index_${page}.html"
         }
-        Log.d("BIAN", "getImgUrl: ${url}")
 
         // 设置单次加载最大图片数量
-        val maxImgCount = 18
+        val maxImgCount = if (typeIndex == 0) 24 else 18
 
         RxHttp.get(url)
             .add("User-Agent",

@@ -27,28 +27,6 @@ class TypesPagerFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentTypesPagerBinding
-    private val list = arrayOf(
-//        "全部",
-        "美女",
-        "明星",
-        "影视",
-        "动漫",
-        "卡通",
-        "汽车",
-        "爱情",
-        "游戏",
-        "体育",
-        "车模",
-        "风景",
-        "品牌",
-        "可爱",
-        "节日",
-        "建筑",
-        "植物",
-        "动物",
-        "创意",
-        "精美"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,18 +53,22 @@ class TypesPagerFragment : Fragment() {
             }
         }
 
-        binding.viewpager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount() = list.size
-            override fun createFragment(position: Int) = TypesPagerListFragment(position)
+        binding.viewpager.apply {
+            val stringArray = resources.getStringArray(R.array.types_list_name_cn)
+
+            this.adapter = object : FragmentStateAdapter(requireActivity()) {
+                override fun getItemCount() = stringArray.size - 1
+
+                override fun createFragment(position: Int) = TypesPagerListFragment(position + 1)
+            }
+
+            val cType = requireArguments().getInt("type")
+            this.setCurrentItem(cType, false)
+
+            TabLayoutMediator(binding.tablayout, binding.viewpager) { tab: TabLayout.Tab, i: Int ->
+                tab.text = stringArray[i + 1]
+            }.attach()
         }
-
-        val cType = requireArguments().getInt("type")
-        binding.viewpager.setCurrentItem(cType, false)
-
-        TabLayoutMediator(
-            binding.tablayout,
-            binding.viewpager
-        ) { tab: TabLayout.Tab, i: Int -> tab.text = list[i] }.attach()
     }
 
     companion object {

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.adpater.MasterAdpater
+import com.kisssum.pixabaybizhi.adpater.TypesPagerListAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentMasterBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +27,7 @@ class MasterFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentMasterBinding
-    private var adpater: MasterAdpater? = null
+    private var adpater: TypesPagerListAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,7 @@ class MasterFragment : Fragment() {
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
-                adpater = MasterAdpater(requireContext())
+                adpater = TypesPagerListAdpater(requireContext(), 0)
             }
 
             this.adapter = adpater
@@ -71,7 +71,7 @@ class MasterFragment : Fragment() {
             }
 
             setOnLoadMoreListener {
-                adpater?.getImgUrl(upgrad = true)
+                adpater?.loadData(upgrad = true)
                 finishLoadMore()
             }
         }

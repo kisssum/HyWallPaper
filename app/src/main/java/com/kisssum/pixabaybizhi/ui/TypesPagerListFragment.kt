@@ -59,12 +59,12 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
 
         binding.smartRefresh.let {
             it.setOnRefreshListener {
-                listAdpater?.getImgUrl()
+                listAdpater?.reLoad()
                 it.finishRefresh()
             }
 
             it.setOnLoadMoreListener {
-                listAdpater?.getImgUrl(upgrad = true)
+                listAdpater?.loadData(upgrad = true)
                 it.finishLoadMore()
             }
         }
