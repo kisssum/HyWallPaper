@@ -12,10 +12,10 @@
         <action
             android:id="@+id/action_navigationControlFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"
-            app:enterAnim="@anim/from_100_to_0"
-            app:exitAnim="@anim/alpha_keep_1"
-            app:popEnterAnim="@anim/alpha_keep_1"
-            app:popExitAnim="@anim/from_0_to_100" />
+            app:enterAnim="@anim/y_from_f100_to_0"
+            app:exitAnim="@anim/y_from_0_to_100"
+            app:popEnterAnim="@anim/y_from_100_to_0"
+            app:popExitAnim="@anim/y_from_0_to_f100" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment"

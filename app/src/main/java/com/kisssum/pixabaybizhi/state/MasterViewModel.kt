@@ -1,25 +1,19 @@
-package com.kisssum.pixabaybizhi.adpater
+package com.kisssum.pixabaybizhi.state
 
-import android.app.Activity
-import android.content.Context
-import android.os.Bundle
+import android.app.Application
 import android.os.Handler
 import android.os.Message
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.ModelListItem3Binding
 import rxhttp.wrapper.param.RxHttp
-import java.util.*
+import java.util.ArrayList
 
-class TypesPagerListAdpater(private val context: Context, private val typeIndex: Int) :
-    RecyclerView.Adapter<TypesPagerListAdpater.MyViewHolder>() {
+class MasterViewModel(application: Application) : AndroidViewModel(application) {
+    private var data = MutableLiveData<ArrayList<Map<String, String>>>()
     private val handler: Handler
-    private var data = arrayListOf<Map<String, String>>()
     private var page = 1
+    private val typeIndex = 0
 
     init {
         handler = object : Handler() {
@@ -30,11 +24,9 @@ class TypesPagerListAdpater(private val context: Context, private val typeIndex:
                 when (msg.what) {
                     1 -> {
                         addData(list)
-                        page++
                     }
                     2 -> {
                         setData(list)
-                        page++
                     }
                     else -> ""
                 }
@@ -44,59 +36,26 @@ class TypesPagerListAdpater(private val context: Context, private val typeIndex:
         loadData()
     }
 
-    class MyViewHolder(binding: ModelListItem3Binding) : RecyclerView.ViewHolder(binding.root) {
-        val img = binding.img
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            ModelListItem3Binding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
-    }
-
-    private fun setData(data: ArrayList<Map<String, String>>) {
-        this.data = data
-        notifyDataSetChanged()
-    }
-
-    private fun addData(data: ArrayList<Map<String, String>>) {
-        this.data.addAll(data)
-        notifyDataSetChanged()
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val obj = data[position]
-
-        Glide.with(context)
-            .load(obj["lazysrc"])
-            .placeholder(R.drawable.ic_baseline_refresh_24)
-            .into(holder.img)
-
-        holder.itemView.setOnClickListener {
-            val bundel = Bundle()
-            bundel.putInt("type", 3)
-            bundel.putString("href", obj["href"])
-            bundel.putString("lazysrc2x", obj["lazysrc2x"])
-
-            if (typeIndex == 0) {
-                Navigation.findNavController(context as Activity, R.id.fragment_main)
-                    .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
-            } else {
-                Navigation.findNavController(context as Activity, R.id.fragment_main)
-                    .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
-            }
-        }
-    }
-
-    override fun getItemCount() = data.size
-
     fun reLoad() {
         page = 1
         loadData()
     }
 
+    fun getData() = data
+
+    private fun setData(data: ArrayList<Map<String, String>>) {
+        this.data.value = data
+        page++
+    }
+
+    private fun addData(data: ArrayList<Map<String, String>>) {
+        this.data.value?.addAll(data)
+        page++
+    }
+
     fun loadData(upgrad: Boolean = false) {
-        val stringArray = context.resources.getStringArray(R.array.types_list_url)
+        val stringArray =
+            getApplication<Application>().resources.getStringArray(R.array.types_list_url)
         val url = when (page) {
             1 -> stringArray[typeIndex]
             else -> "${stringArray[typeIndex]}index_${page}.html"
