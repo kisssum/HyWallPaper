@@ -81,9 +81,13 @@ class MasterFragment : Fragment() {
             this.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
-            if (adpater == null) {
+            if (adpater == null)
                 adpater = MasterAdpater(requireContext())
+
+            if (viewModel.getPictureData(0).value == null) {
                 viewModel.resetPictureData(0)
+            } else {
+                adpater?.setData(viewModel.getPictureData(0).value!!)
             }
 
             this.adapter = adpater
