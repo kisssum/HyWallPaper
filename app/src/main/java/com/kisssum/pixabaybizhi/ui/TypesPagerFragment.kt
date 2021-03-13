@@ -66,7 +66,7 @@ class TypesPagerFragment : Fragment() {
             this.adapter = object : FragmentStateAdapter(requireActivity()) {
                 override fun getItemCount() = stringArray.size - 1
 
-                override fun createFragment(position: Int) = TypesPagerListFragment(position)
+                override fun createFragment(position: Int) = TypesPagerListFragment(position + 1)
             }
 
             val cType = requireArguments().getInt("type")

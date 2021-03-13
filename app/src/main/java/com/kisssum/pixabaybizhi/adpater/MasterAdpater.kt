@@ -12,7 +12,7 @@ import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.ModelListItem3Binding
 import kotlin.collections.ArrayList
 
-class MasterAdpater(private val context: Context, private val typeIndex: Int) :
+class MasterAdpater(private val context: Context) :
     RecyclerView.Adapter<MasterAdpater.MyViewHolder>() {
     private var data = arrayListOf<Map<String, String>>()
 
@@ -40,22 +40,13 @@ class MasterAdpater(private val context: Context, private val typeIndex: Int) :
             .into(holder.img)
 
         holder.itemView.setOnClickListener {
-            if (typeIndex == 0) {
-                val bundel = Bundle()
-                bundel.putInt("type", 9)
-                bundel.putInt("index", position)
-               
-                Navigation.findNavController(context as Activity, R.id.fragment_main)
-                    .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
-            } else {
-                val bundel = Bundle()
-                bundel.putInt("type", 3)
-                bundel.putString("href", obj["href"])
-                bundel.putString("lazysrc2x", obj["lazysrc2x"])
+            val bundel = Bundle()
+            bundel.putInt("type", 3)
+            bundel.putInt("index", 0)
+            bundel.putInt("position", position)
 
-                Navigation.findNavController(context as Activity, R.id.fragment_main)
-                    .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
-            }
+            Navigation.findNavController(context as Activity, R.id.fragment_main)
+                .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
         }
     }
 

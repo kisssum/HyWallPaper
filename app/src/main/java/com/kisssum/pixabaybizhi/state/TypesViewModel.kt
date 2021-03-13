@@ -1,6 +1,5 @@
 package com.kisssum.pixabaybizhi.state
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Handler
 import android.os.Message
@@ -14,6 +13,7 @@ import java.util.ArrayList
 
 class TypesViewModel(application: Application) : AndroidViewModel(application) {
     private val baseData = MutableLiveData<ArrayList<Map<String, String>>>()
+    private val allData = MutableLiveData<ArrayList<Map<String, String>>>()
     private val mvData = MutableLiveData<ArrayList<Map<String, String>>>()
     private val mxData = MutableLiveData<ArrayList<Map<String, String>>>()
     private val ysData = MutableLiveData<ArrayList<Map<String, String>>>()
@@ -37,25 +37,27 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val SPEED = 20
     private val RESET_BASEDATA = -1
-    private val RESET_MVDATA = 0
-    private val RESET_MXDATA = 1
-    private val RESET_YSDATA = 2
-    private val RESET_DMDATA = 3
-    private val RESET_KTDATA = 4
-    private val RESET_QCDATA = 5
-    private val RESET_AQDATA = 6
-    private val RESET_YXDATA = 7
-    private val RESET_TYDATA = 8
-    private val RESET_CMDATA = 9
-    private val RESET_QFJDATA = 10
-    private val RESET_PPDATA = 11
-    private val RESET_KADATA = 12
-    private val RESET_JRDATA = 13
-    private val RESET_JZDATA = 14
-    private val RESET_ZWDATA = 15
-    private val RESET_DWDATA = 16
-    private val RESET_CYDATA = 17
-    private val RESET_QTDATA = 18
+    private val RESET_ALLDATA = 0
+    private val RESET_MVDATA = 1
+    private val RESET_MXDATA = 2
+    private val RESET_YSDATA = 3
+    private val RESET_DMDATA = 4
+    private val RESET_KTDATA = 5
+    private val RESET_QCDATA = 6
+    private val RESET_AQDATA = 7
+    private val RESET_YXDATA = 8
+    private val RESET_TYDATA = 9
+    private val RESET_CMDATA = 10
+    private val RESET_QFJDATA = 11
+    private val RESET_PPDATA = 12
+    private val RESET_KADATA = 13
+    private val RESET_JRDATA = 14
+    private val RESET_JZDATA = 15
+    private val RESET_ZWDATA = 16
+    private val RESET_DWDATA = 17
+    private val RESET_CYDATA = 18
+    private val RESET_QTDATA = 19
+    private val ADD_ALLDATA = RESET_ALLDATA + SPEED
     private val ADD_MVDATA = RESET_MVDATA + SPEED
     private val ADD_MXDATA = RESET_MXDATA + SPEED
     private val ADD_YSDATA = RESET_YSDATA + SPEED
@@ -81,11 +83,10 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
         1, 1, 1, 1,
         1, 1, 1, 1,
         1, 1, 1, 1,
-        1, 1, 1)
+        1, 1, 1, 1)
 
     init {
         handler = object : Handler() {
-            @SuppressLint("HandlerLeak")
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
 
@@ -93,6 +94,9 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
 
                 when (msg.what) {
                     RESET_BASEDATA -> baseData.value = list
+
+                    RESET_ALLDATA -> allData.value = list
+                    ADD_ALLDATA -> allData.value?.addAll(list)
 
                     RESET_MVDATA -> mvData.value = list
                     ADD_MVDATA -> mvData.value?.addAll(list)
@@ -196,6 +200,7 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getPictureData(index: Int) = when (index) {
+        RESET_ALLDATA -> allData
         RESET_MVDATA -> mvData
         RESET_MXDATA -> mxData
         RESET_YSDATA -> ysData
@@ -229,13 +234,19 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun loadPictureData(index: Int, isAdd: Boolean = false) {
-        val url = when (pages[index]) {
-            1 -> baseData.value?.get(index)?.get("url").toString()
-            else -> baseData.value?.get(index)?.get("url").toString() + "index_${pages[index]}.html"
+        var url = when (index) {
+            0 -> "https://www.3gbizhi.com/sjbz/"
+            else -> baseData.value?.get(index - 1)?.get("url").toString()
         }
 
-//        val maxImgCount = if (index == 0) 24 else 18
-        val maxImgCount = 18
+        if (pages[index] > 1)
+            url += "index_${pages[index]}.html"
+//        url + = when (pages[index]) {
+//            1 -> baseData.value?.get(index)?.get("url").toString()
+//            else -> baseData.value?.get(index)?.get("url").toString() + "index_${pages[index]}.html"
+//        }
+
+        val maxImgCount = if (index == 0) 24 else 18
 
         RxHttp.get(url)
             .add("User-Agent",

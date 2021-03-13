@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.adpater.MasterAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentMasterBinding
-import com.kisssum.pixabaybizhi.state.MasterViewModel
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ class MasterFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentMasterBinding
-    private lateinit var viewModel: MasterViewModel
+    private lateinit var viewModel: TypesViewModel
     private var adpater: MasterAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +62,9 @@ class MasterFragment : Fragment() {
         viewModel = ViewModelProvider(
             requireActivity(),
             AndroidViewModelFactory(requireActivity().application))
-            .get(MasterViewModel::class.java)
+            .get(TypesViewModel::class.java)
 
-        viewModel.getData().observe(requireActivity()) {
+        viewModel.getPictureData(0).observe(requireActivity()) {
             adpater?.setData(it)
         }
     }
@@ -82,8 +82,8 @@ class MasterFragment : Fragment() {
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
-                adpater = MasterAdpater(requireContext(), 0)
-                viewModel.getData().value?.let { adpater?.setData(it) }
+                adpater = MasterAdpater(requireContext())
+                viewModel.resetPictureData(0)
             }
 
             this.adapter = adpater
@@ -93,12 +93,12 @@ class MasterFragment : Fragment() {
     private fun initRefresh() {
         binding.masterRefresh.smartRefresh.apply {
             setOnRefreshListener {
-                viewModel.reLoad()
+                viewModel.resetPictureData(0)
                 finishRefresh()
             }
 
             setOnLoadMoreListener {
-                viewModel.loadData(upgrad = true)
+                viewModel.upPictureData(0)
                 finishLoadMore()
             }
         }

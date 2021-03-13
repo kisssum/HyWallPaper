@@ -15,7 +15,6 @@ import com.kisssum.pixabaybizhi.state.TypesViewModel
 
 class TypesAdpater(private val context: Context, private val viewModel: TypesViewModel) :
     RecyclerView.Adapter<TypesAdpater.MyViewHolder>() {
-
     private var data = arrayListOf<Map<String, String>>()
 
     class MyViewHolder(binding: ModelListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -47,12 +46,13 @@ class TypesAdpater(private val context: Context, private val viewModel: TypesVie
         }
 
         // list
-        val adapters = TypesListAdpater(context, position)
-        viewModel.getPictureData(position).observe(context as LifecycleOwner) {
+        val adapters = TypesListAdpater(context, position + 1)
+        viewModel.getPictureData(position + 1).observe(context as LifecycleOwner) {
             adapters.setData(it)
         }
-        if (viewModel.getPictureData(position).value == null)
-            viewModel.resetPictureData(position)
+
+        if (viewModel.getPictureData(position + 1).value == null)
+            viewModel.resetPictureData(position + 1)
 
         holder.list.apply {
             layoutManager =

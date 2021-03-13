@@ -8,7 +8,6 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +17,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
-import com.kisssum.pixabaybizhi.state.MasterViewModel
 import com.kisssum.pixabaybizhi.state.TypesViewModel
 import org.jsoup.Jsoup
 
@@ -94,7 +92,6 @@ class ImgMainFragment() : Fragment() {
             1 -> initPxiUi()
             2 -> initBianUi()
             3 -> initTypes()
-            9 -> initMaster()
             else -> initBZ()
         }
     }
@@ -122,9 +119,13 @@ class ImgMainFragment() : Fragment() {
             override fun createFragment(position: Int): Fragment {
                 cposition = position
 
+                // add picture
+                if (cposition >= viewModel.getPictureData(index).value?.size!! - 5) {
+                    viewModel.upPictureData(index)
+                }
+
                 return ImageFragment(viewModel.getPictureData(index).value?.get(position)
-                    ?.get("lazysrc2x")!!,
-                    1)
+                    ?.get("lazysrc2x")!!, 1)
             }
         }
         binding.viewPager.setCurrentItem(requireArguments().getInt("position", 0), false)
@@ -140,68 +141,6 @@ class ImgMainFragment() : Fragment() {
                     R.id.Item_download -> {
                         val href =
                             viewModel.getPictureData(index).value?.get(cposition)?.get("href")
-
-                        Thread {
-                            val doc = Jsoup.connect(href).get()
-                            val url =
-                                doc.select("body > div.showtitle > div.morew > a")
-                                    .attr("href")
-
-                            val message = Message.obtain()
-                            message.obj = url
-                            hBZ.sendMessage(message)
-                        }.start()
-                        true
-                    }
-                    else -> true
-                }
-            }
-        }
-    }
-
-    private fun initMaster() {
-        val hBZ = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                super.handleMessage(msg)
-                val url = msg.obj as String
-                downLoadDialog(url)
-            }
-        }
-
-        val viewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
-            .get(MasterViewModel::class.java)
-
-        var index = 0
-
-        binding.viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
-        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount() = viewModel.getData().value?.count()!!
-            override fun createFragment(position: Int): Fragment {
-                index = position
-
-                // add picture
-                if (index == viewModel.getData().value?.size!! - 5) {
-                    viewModel.loadData(true)
-                }
-
-                return ImageFragment(viewModel.getData().value?.get(position)?.get("lazysrc2x")!!,
-                    1)
-            }
-        }
-        binding.viewPager.setCurrentItem(requireArguments().getInt("index", 0), false)
-
-        binding.toolbar.let {
-            it.setNavigationOnClickListener {
-                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
-                requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
-            }
-
-            it.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.Item_download -> {
-                        val href = viewModel.getData().value?.get(index)?.get("href")
 
                         Thread {
                             val doc = Jsoup.connect(href).get()
