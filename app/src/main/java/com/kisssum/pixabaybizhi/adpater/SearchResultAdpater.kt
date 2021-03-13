@@ -76,7 +76,7 @@ class SearchResultAdpater(private val context: Context) :
 
         holder.itemView.setOnClickListener {
             val bundel = Bundle()
-            bundel.putInt("type", 3)
+            bundel.putInt("type", 4)
             bundel.putString("href", url["href"])
             bundel.putString("lazysrc2x", url["src"])
 
