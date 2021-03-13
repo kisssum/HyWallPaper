@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.adpater.TypesAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesBinding
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +29,7 @@ class TypesFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentTypesBinding
+    private lateinit var viewModel: TypesViewModel
     private var adpater: TypesAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,29 +51,52 @@ class TypesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
+        initSearch()
+        initList()
+        initRefresh()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
+            .get(TypesViewModel::class.java)
+
+        viewModel.getBaseData().observe(requireActivity()) {
+            adpater?.setData(it)
+        }
+    }
+
+    private fun initSearch() {
         binding.typesSearch.searchBorder.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.fragment_main)
             controller.navigate(R.id.action_homeFragment_to_searchFragment)
         }
+    }
 
-        binding.typesRefresh.apply {
-            setOnRefreshListener {
-                adpater!!.loadData()
-                finishRefresh()
-            }
-
-            setOnLoadMoreListener { finishLoadMore() }
-        }
-
+    private fun initList() {
         binding.typesList.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             if (adpater == null) {
-                adpater = TypesAdpater(requireContext())
+                adpater = TypesAdpater(requireContext(), viewModel)
+                viewModel.getBaseData().value?.let { adpater?.setData(it) }
             }
 
             this.adapter = adpater
+        }
+    }
+
+    private fun initRefresh() {
+        binding.typesRefresh.apply {
+            setOnRefreshListener {
+                viewModel.loadBaseData()
+                finishRefresh()
+            }
+
+            setOnLoadMoreListener { finishLoadMore() }
         }
     }
 

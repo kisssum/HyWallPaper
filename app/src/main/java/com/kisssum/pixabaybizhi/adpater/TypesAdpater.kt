@@ -3,41 +3,20 @@ package com.kisssum.pixabaybizhi.adpater
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.ModelListItemBinding
-import org.jsoup.Jsoup
-import java.lang.Exception
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 
-class TypesAdpater(private val context: Context) :
+class TypesAdpater(private val context: Context, private val viewModel: TypesViewModel) :
     RecyclerView.Adapter<TypesAdpater.MyViewHolder>() {
 
     private var data = arrayListOf<Map<String, String>>()
-    private val handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-
-            when (msg.what) {
-                SUCCESFUL -> {
-                    val list = msg.obj as ArrayList<Map<String, String>>
-                    setData(list)
-                }
-                else -> ""
-            }
-        }
-    }
-    private val SUCCESFUL = 1
-    private val FAIL = 2
-
-    init {
-        loadData()
-    }
 
     class MyViewHolder(binding: ModelListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val type = binding.type
@@ -66,50 +45,26 @@ class TypesAdpater(private val context: Context) :
             Navigation.findNavController(activity, R.id.fragment_main)
                 .navigate(R.id.action_navigationControlFragment_to_typesPagerFragment, bundle)
         }
+
+        // list
+        val adapters = TypesListAdpater(context, position)
+        viewModel.getPictureData(position).observe(context as LifecycleOwner) {
+            adapters.setData(it)
+        }
+        viewModel.loadPictureData(position)
+
         holder.list.apply {
             layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-            adapter = TypesListAdpater(context, position)
+            adapter = adapters
         }
     }
 
-    override fun getItemCount() = data.size
-
-    private fun setData(data: ArrayList<Map<String, String>>) {
+    fun setData(data: ArrayList<Map<String, String>>) {
         this.data = data
         notifyDataSetChanged()
     }
 
-    fun loadData() {
-        val url = "https://www.3gbizhi.com/sjbz/"
-
-        Thread {
-            try {
-                val client = Jsoup.connect(url).get().body()
-                val doc = client.select("body > div.menuw.mtm > div > ul > li > a")
-
-                val list = arrayListOf<Map<String, String>>()
-                var map: HashMap<String, String>
-
-                for (i in 1 until doc.size) {
-                    map = HashMap()
-                    map["name"] = doc[i].select("em:nth-child(1)").text()
-
-                    val c1 = doc[i].select("em:nth-child(2)").text()
-                    val c2 = """\d+""".toRegex().find(c1)?.value
-                    map["count"] = c2!!
-
-                    list.add(map)
-                }
-
-                val message = Message.obtain()
-                message.what = SUCCESFUL
-                message.obj = list
-                handler.sendMessage(message)
-            } catch (e: Exception) {
-                handler.sendEmptyMessage(FAIL)
-            }
-        }.start()
-    }
+    override fun getItemCount() = data.size
 }

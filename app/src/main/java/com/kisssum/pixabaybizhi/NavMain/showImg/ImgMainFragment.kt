@@ -19,6 +19,7 @@ import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
 import com.kisssum.pixabaybizhi.state.MasterViewModel
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 import org.jsoup.Jsoup
 
 
@@ -92,8 +93,69 @@ class ImgMainFragment() : Fragment() {
         when (requireArguments().getInt("type")) {
             1 -> initPxiUi()
             2 -> initBianUi()
+            3 -> initTypes()
             9 -> initMaster()
             else -> initBZ()
+        }
+    }
+
+    private fun initTypes() {
+        val hBZ = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                val url = msg.obj as String
+                downLoadDialog(url)
+            }
+        }
+
+        val viewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
+            .get(TypesViewModel::class.java)
+
+        val index = requireArguments().getInt("index", 0)
+        var cposition = requireArguments().getInt("position", 0)
+
+        binding.viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount() = viewModel.getPictureData(index).value?.count()!!
+            override fun createFragment(position: Int): Fragment {
+                cposition = position
+
+                return ImageFragment(viewModel.getPictureData(index).value?.get(position)
+                    ?.get("lazysrc2x")!!,
+                    1)
+            }
+        }
+        binding.viewPager.setCurrentItem(requireArguments().getInt("position", 0), false)
+
+        binding.toolbar.let {
+            it.setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+                requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
+            }
+
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.Item_download -> {
+                        val href =
+                            viewModel.getPictureData(index).value?.get(cposition)?.get("href")
+
+                        Thread {
+                            val doc = Jsoup.connect(href).get()
+                            val url =
+                                doc.select("body > div.showtitle > div.morew > a")
+                                    .attr("href")
+
+                            val message = Message.obtain()
+                            message.obj = url
+                            hBZ.sendMessage(message)
+                        }.start()
+                        true
+                    }
+                    else -> true
+                }
+            }
         }
     }
 
