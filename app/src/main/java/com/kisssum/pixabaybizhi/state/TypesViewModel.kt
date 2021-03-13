@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.jsoup.Jsoup
@@ -34,6 +35,54 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
     private val qtData = MutableLiveData<ArrayList<Map<String, String>>>()
     private val handler: Handler
 
+    private val SPEED = 20
+    private val RESET_BASEDATA = -1
+    private val RESET_MVDATA = 0
+    private val RESET_MXDATA = 1
+    private val RESET_YSDATA = 2
+    private val RESET_DMDATA = 3
+    private val RESET_KTDATA = 4
+    private val RESET_QCDATA = 5
+    private val RESET_AQDATA = 6
+    private val RESET_YXDATA = 7
+    private val RESET_TYDATA = 8
+    private val RESET_CMDATA = 9
+    private val RESET_QFJDATA = 10
+    private val RESET_PPDATA = 11
+    private val RESET_KADATA = 12
+    private val RESET_JRDATA = 13
+    private val RESET_JZDATA = 14
+    private val RESET_ZWDATA = 15
+    private val RESET_DWDATA = 16
+    private val RESET_CYDATA = 17
+    private val RESET_QTDATA = 18
+    private val ADD_MVDATA = RESET_MVDATA + SPEED
+    private val ADD_MXDATA = RESET_MXDATA + SPEED
+    private val ADD_YSDATA = RESET_YSDATA + SPEED
+    private val ADD_DMDATA = RESET_DMDATA + SPEED
+    private val ADD_KTDATA = RESET_KTDATA + SPEED
+    private val ADD_QCDATA = RESET_QCDATA + SPEED
+    private val ADD_AQDATA = RESET_AQDATA + SPEED
+    private val ADD_YXDATA = RESET_YXDATA + SPEED
+    private val ADD_TYDATA = RESET_TYDATA + SPEED
+    private val ADD_CMDATA = RESET_CMDATA + SPEED
+    private val ADD_QFJDATA = RESET_QFJDATA + SPEED
+    private val ADD_PPDATA = RESET_PPDATA + SPEED
+    private val ADD_KADATA = RESET_KADATA + SPEED
+    private val ADD_JRDATA = RESET_JRDATA + SPEED
+    private val ADD_JZDATA = RESET_JZDATA + SPEED
+    private val ADD_ZWDATA = RESET_ZWDATA + SPEED
+    private val ADD_DWDATA = RESET_DWDATA + SPEED
+    private val ADD_CYDATA = RESET_CYDATA + SPEED
+    private val ADD_QTDATA = RESET_QTDATA + SPEED
+
+    private var pages = arrayListOf(
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1)
+
     init {
         handler = object : Handler() {
             @SuppressLint("HandlerLeak")
@@ -43,67 +92,67 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                 val list = msg.obj as ArrayList<Map<String, String>>
 
                 when (msg.what) {
-                    -1 -> {
-                        baseData.value = list
-                    }
-                    0 -> {
-                        mvData.value = list
-                    }
-                    1 -> {
-                        mxData.value = list
-                    }
-                    2 -> {
-                        ysData.value = list
-                    }
-                    3 -> {
-                        dmData.value = list
-                    }
-                    4 -> {
-                        ktData.value = list
-                    }
-                    5 -> {
-                        qcData.value = list
-                    }
-                    6 -> {
-                        aqData.value = list
-                    }
-                    7 -> {
-                        yxData.value = list
-                    }
-                    8 -> {
-                        tyData.value = list
-                    }
-                    9 -> {
-                        cmData.value = list
-                    }
-                    10 -> {
-                        qfjData.value = list
-                    }
-                    11 -> {
-                        ppData.value = list
-                    }
-                    12 -> {
-                        kaData.value = list
-                    }
-                    13 -> {
-                        jrData.value = list
-                    }
-                    14 -> {
-                        jzData.value = list
-                    }
-                    15 -> {
-                        zwData.value = list
-                    }
-                    16 -> {
-                        dwData.value = list
-                    }
-                    17 -> {
-                        cyData.value = list
-                    }
-                    18 -> {
-                        qtData.value = list
-                    }
+                    RESET_BASEDATA -> baseData.value = list
+
+                    RESET_MVDATA -> mvData.value = list
+                    ADD_MVDATA -> mvData.value?.addAll(list)
+
+                    RESET_MXDATA -> mxData.value = list
+                    ADD_MXDATA -> mxData.value?.addAll(list)
+
+                    RESET_YSDATA -> ysData.value = list
+                    ADD_YSDATA -> ysData.value?.addAll(list)
+
+                    RESET_DMDATA -> dmData.value = list
+                    ADD_DMDATA -> dmData.value?.addAll(list)
+
+                    RESET_KTDATA -> ktData.value = list
+                    ADD_KTDATA -> ktData.value?.addAll(list)
+
+                    RESET_QCDATA -> qcData.value = list
+                    ADD_QCDATA -> qcData.value?.addAll(list)
+
+                    RESET_AQDATA -> aqData.value = list
+                    ADD_AQDATA -> aqData.value?.addAll(list)
+
+                    RESET_YXDATA -> yxData.value = list
+                    ADD_YXDATA -> yxData.value?.addAll(list)
+
+                    RESET_TYDATA -> tyData.value = list
+                    ADD_TYDATA -> tyData.value?.addAll(list)
+
+                    RESET_CMDATA -> cmData.value = list
+                    ADD_CMDATA -> cmData.value?.addAll(list)
+
+                    RESET_QFJDATA -> qfjData.value = list
+                    ADD_QFJDATA -> qfjData.value?.addAll(list)
+
+                    RESET_PPDATA -> ppData.value = list
+                    ADD_PPDATA -> ppData.value?.addAll(list)
+
+                    RESET_KADATA -> kaData.value = list
+                    ADD_KADATA -> kaData.value?.addAll(list)
+
+                    RESET_JRDATA -> jrData.value = list
+                    ADD_JRDATA -> jrData.value?.addAll(list)
+
+                    RESET_JZDATA -> jzData.value = list
+                    ADD_JZDATA -> jzData.value?.addAll(list)
+
+                    RESET_ZWDATA -> zwData.value = list
+                    ADD_ZWDATA -> zwData.value?.addAll(list)
+
+                    RESET_DWDATA -> dwData.value = list
+                    ADD_DWDATA -> dwData.value?.addAll(list)
+
+                    RESET_CYDATA -> cyData.value = list
+                    ADD_CYDATA -> cyData.value?.addAll(list)
+
+                    RESET_QTDATA -> qtData.value = list
+                    ADD_QTDATA -> qtData.value?.addAll(list)
                 }
+
+                Log.d("BIAN", list.count().toString() + " " + mvData.value?.count().toString())
             }
         }
 
@@ -137,7 +186,7 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 val message = Message.obtain()
-                message.what = -1
+                message.what = RESET_BASEDATA
                 message.obj = list
                 handler.sendMessage(message)
             } catch (e: Exception) {
@@ -147,30 +196,46 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getPictureData(index: Int) = when (index) {
-        0 -> mvData
-        1 -> mxData
-        2 -> ysData
-        3 -> dmData
-        4 -> ktData
-        5 -> qcData
-        6 -> aqData
-        7 -> yxData
-        8 -> tyData
-        9 -> cmData
-        10 -> qfjData
-        11 -> ppData
-        12 -> kaData
-        13 -> jrData
-        14 -> jzData
-        15 -> zwData
-        16 -> dwData
-        17 -> cyData
-        18 -> qtData
+        RESET_MVDATA -> mvData
+        RESET_MXDATA -> mxData
+        RESET_YSDATA -> ysData
+        RESET_DMDATA -> dmData
+        RESET_KTDATA -> ktData
+        RESET_QCDATA -> qcData
+        RESET_AQDATA -> aqData
+        RESET_YXDATA -> yxData
+        RESET_TYDATA -> tyData
+        RESET_CMDATA -> cmData
+        RESET_QFJDATA -> qfjData
+        RESET_PPDATA -> ppData
+        RESET_KADATA -> kaData
+        RESET_JRDATA -> jrData
+        RESET_JZDATA -> jzData
+        RESET_ZWDATA -> zwData
+        RESET_DWDATA -> dwData
+        RESET_CYDATA -> cyData
+        RESET_QTDATA -> qtData
         else -> MutableLiveData()
     }
 
-    fun loadPictureData(index: Int) {
-        val url = baseData.value?.get(index)?.get("url").toString()
+    fun resetPictureData(index: Int) {
+        pages[index] = 1
+        loadPictureData(index)
+    }
+
+    fun upPictureData(index: Int) {
+        pages[index]++
+        loadPictureData(index, true)
+    }
+
+    private fun loadPictureData(index: Int, isAdd: Boolean = false) {
+        val url = when (pages[index]) {
+            1 -> baseData.value?.get(index)?.get("url").toString()
+            else -> baseData.value?.get(index)?.get("url").toString() + "index_${pages[index]}.html"
+        }
+
+//        val maxImgCount = if (index == 0) 24 else 18
+        val maxImgCount = 18
 
         RxHttp.get(url)
             .add("User-Agent",
@@ -183,7 +248,7 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
 
                 val list = arrayListOf<Map<String, String>>()
                 if (href.count() != 0) {
-                    for (i in 0 until href.count()) {
+                    for (i in 0 until maxImgCount) {
                         val map = hashMapOf<String, String>()
                         map["href"] = href.toList()[i].destructured.component1()
                         map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
@@ -193,7 +258,10 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 val message = Message.obtain()
-                message.what = index
+                message.what = when (isAdd) {
+                    true -> index + SPEED
+                    else -> index
+                }
                 message.obj = list
                 handler.sendMessage(message)
             }, {})

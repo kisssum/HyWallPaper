@@ -51,7 +51,8 @@ class TypesAdpater(private val context: Context, private val viewModel: TypesVie
         viewModel.getPictureData(position).observe(context as LifecycleOwner) {
             adapters.setData(it)
         }
-        viewModel.loadPictureData(position)
+        if (viewModel.getPictureData(position).value == null)
+            viewModel.resetPictureData(position)
 
         holder.list.apply {
             layoutManager =

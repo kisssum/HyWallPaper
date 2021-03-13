@@ -47,19 +47,26 @@ class TypesPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolBar()
+        initViewPager()
+    }
+
+    private fun initToolBar() {
         binding.typesPagerToolbar.apply {
             setNavigationOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
             }
         }
+    }
 
+    private fun initViewPager() {
         binding.viewpager.apply {
             val stringArray = resources.getStringArray(R.array.types_list_name_cn)
 
             this.adapter = object : FragmentStateAdapter(requireActivity()) {
                 override fun getItemCount() = stringArray.size - 1
 
-                override fun createFragment(position: Int) = TypesPagerListFragment(position + 1)
+                override fun createFragment(position: Int) = TypesPagerListFragment(position)
             }
 
             val cType = requireArguments().getInt("type")

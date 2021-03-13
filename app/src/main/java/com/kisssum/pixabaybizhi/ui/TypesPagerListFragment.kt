@@ -1,13 +1,17 @@
 package com.kisssum.pixabaybizhi.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.adpater.TypesPagerListAdpater
 import com.kisssum.pixabaybizhi.databinding.ModelListBinding
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +29,8 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: ModelListBinding
-    private var listAdpater: TypesPagerListAdpater? = null
+    private lateinit var listAdpater: TypesPagerListAdpater
+    private lateinit var viewModel: TypesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,25 +51,42 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
+        initList()
+        initRefresh()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            AndroidViewModelFactory(requireActivity().application)
+        ).get(TypesViewModel::class.java)
+
+
+        viewModel.getPictureData(typeIndex).observe(requireActivity()) {
+            listAdpater = TypesPagerListAdpater(requireContext(), typeIndex)
+            listAdpater.setData(it)
+        }
+    }
+
+    private fun initList() {
         binding.list.let {
             it.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
-            if (listAdpater == null) {
-                listAdpater = TypesPagerListAdpater(requireContext(), typeIndex)
-            }
-
             it.adapter = listAdpater
         }
+    }
 
+    private fun initRefresh() {
         binding.smartRefresh.let {
             it.setOnRefreshListener {
-                listAdpater?.reLoad()
+                viewModel.resetPictureData(typeIndex)
                 it.finishRefresh()
             }
 
             it.setOnLoadMoreListener {
-                listAdpater?.loadData(upgrad = true)
+                viewModel.upPictureData(typeIndex)
                 it.finishLoadMore()
             }
         }
