@@ -1,7 +1,6 @@
 package com.kisssum.pixabaybizhi.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kisssum.pixabaybizhi.adpater.TypesPagerListAdpater
+import com.kisssum.pixabaybizhi.adpater.TypesAdpater
 import com.kisssum.pixabaybizhi.databinding.ModelListBinding
 import com.kisssum.pixabaybizhi.state.TypesViewModel
 
@@ -29,7 +28,7 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: ModelListBinding
-    private lateinit var listAdpater: TypesPagerListAdpater
+    private var listAdpater: TypesAdpater? = null
     private lateinit var viewModel: TypesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,8 +63,7 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
 
 
         viewModel.getPictureData(typeIndex).observe(requireActivity()) {
-            listAdpater = TypesPagerListAdpater(requireContext(), typeIndex)
-            listAdpater.setData(it)
+            listAdpater?.setData(it)
         }
     }
 
@@ -73,6 +71,15 @@ class TypesPagerListFragment(private val typeIndex: Int) : Fragment() {
         binding.list.let {
             it.layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+
+            if (listAdpater == null)
+                listAdpater = TypesAdpater(requireContext(), typeIndex,false)
+
+            if (viewModel.getPictureData(typeIndex).value == null) {
+                viewModel.resetPictureData(typeIndex)
+            } else {
+                listAdpater?.setData(viewModel.getPictureData(typeIndex).value!!)
+            }
 
             it.adapter = listAdpater
         }

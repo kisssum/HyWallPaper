@@ -3,7 +3,6 @@ package com.kisssum.pixabaybizhi.state
 import android.app.Application
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.jsoup.Jsoup
@@ -96,71 +95,79 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                     RESET_BASEDATA -> baseData.value = list
 
                     RESET_ALLDATA -> allData.value = list
-                    ADD_ALLDATA -> allData.value?.addAll(list)
+                    ADD_ALLDATA -> mergeData(allData, list)
 
                     RESET_MVDATA -> mvData.value = list
-                    ADD_MVDATA -> mvData.value?.addAll(list)
+                    ADD_MVDATA -> mergeData(mvData, list)
 
                     RESET_MXDATA -> mxData.value = list
-                    ADD_MXDATA -> mxData.value?.addAll(list)
+                    ADD_MXDATA -> mergeData(mxData, list)
 
                     RESET_YSDATA -> ysData.value = list
-                    ADD_YSDATA -> ysData.value?.addAll(list)
+                    ADD_YSDATA -> mergeData(ysData, list)
 
                     RESET_DMDATA -> dmData.value = list
-                    ADD_DMDATA -> dmData.value?.addAll(list)
+                    ADD_DMDATA -> mergeData(dmData, list)
 
                     RESET_KTDATA -> ktData.value = list
-                    ADD_KTDATA -> ktData.value?.addAll(list)
+                    ADD_KTDATA -> mergeData(ktData, list)
 
                     RESET_QCDATA -> qcData.value = list
-                    ADD_QCDATA -> qcData.value?.addAll(list)
+                    ADD_QCDATA -> mergeData(qcData, list)
 
                     RESET_AQDATA -> aqData.value = list
-                    ADD_AQDATA -> aqData.value?.addAll(list)
+                    ADD_AQDATA -> mergeData(aqData, list)
 
                     RESET_YXDATA -> yxData.value = list
-                    ADD_YXDATA -> yxData.value?.addAll(list)
+                    ADD_YXDATA -> mergeData(yxData, list)
 
                     RESET_TYDATA -> tyData.value = list
-                    ADD_TYDATA -> tyData.value?.addAll(list)
+                    ADD_TYDATA -> mergeData(tyData, list)
 
                     RESET_CMDATA -> cmData.value = list
-                    ADD_CMDATA -> cmData.value?.addAll(list)
+                    ADD_CMDATA -> mergeData(cmData, list)
 
                     RESET_QFJDATA -> qfjData.value = list
-                    ADD_QFJDATA -> qfjData.value?.addAll(list)
+                    ADD_QFJDATA -> mergeData(qfjData, list)
 
                     RESET_PPDATA -> ppData.value = list
-                    ADD_PPDATA -> ppData.value?.addAll(list)
+                    ADD_PPDATA -> mergeData(ppData, list)
 
                     RESET_KADATA -> kaData.value = list
-                    ADD_KADATA -> kaData.value?.addAll(list)
+                    ADD_KADATA -> mergeData(kaData, list)
 
                     RESET_JRDATA -> jrData.value = list
-                    ADD_JRDATA -> jrData.value?.addAll(list)
+                    ADD_JRDATA -> mergeData(jrData, list)
 
                     RESET_JZDATA -> jzData.value = list
-                    ADD_JZDATA -> jzData.value?.addAll(list)
+                    ADD_JZDATA -> mergeData(jzData, list)
 
                     RESET_ZWDATA -> zwData.value = list
-                    ADD_ZWDATA -> zwData.value?.addAll(list)
+                    ADD_ZWDATA -> mergeData(zwData, list)
 
                     RESET_DWDATA -> dwData.value = list
-                    ADD_DWDATA -> dwData.value?.addAll(list)
+                    ADD_DWDATA -> mergeData(dwData, list)
 
                     RESET_CYDATA -> cyData.value = list
-                    ADD_CYDATA -> cyData.value?.addAll(list)
+                    ADD_CYDATA -> mergeData(cyData, list)
 
                     RESET_QTDATA -> qtData.value = list
-                    ADD_QTDATA -> qtData.value?.addAll(list)
+                    ADD_QTDATA -> mergeData(qtData, list)
                 }
-
-                Log.d("BIAN", list.count().toString() + " " + mvData.value?.count().toString())
             }
         }
 
         loadBaseData()
+    }
+
+    private fun mergeData(
+        firstData: MutableLiveData<ArrayList<Map<String, String>>>,
+        lastData: ArrayList<Map<String, String>>,
+    ) {
+        val allData = ArrayList<Map<String, String>>()
+        allData.addAll(firstData.value!!)
+        allData.addAll(lastData)
+        firstData.value = allData
     }
 
     fun getBaseData() = baseData
@@ -241,10 +248,6 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
 
         if (pages[index] > 1)
             url += "index_${pages[index]}.html"
-//        url + = when (pages[index]) {
-//            1 -> baseData.value?.get(index)?.get("url").toString()
-//            else -> baseData.value?.get(index)?.get("url").toString() + "index_${pages[index]}.html"
-//        }
 
         val maxImgCount = if (index == 0) 24 else 18
 

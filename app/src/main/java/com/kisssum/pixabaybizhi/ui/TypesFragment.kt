@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.adpater.TypesAdpater
+import com.kisssum.pixabaybizhi.adpater.TypesBaseAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentTypesBinding
 import com.kisssum.pixabaybizhi.state.TypesViewModel
 
@@ -30,7 +30,7 @@ class TypesFragment : Fragment() {
 
     private lateinit var binding: FragmentTypesBinding
     private lateinit var viewModel: TypesViewModel
-    private var adpater: TypesAdpater? = null
+    private var baseAdpater: TypesBaseAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,7 @@ class TypesFragment : Fragment() {
             .get(TypesViewModel::class.java)
 
         viewModel.getBaseData().observe(requireActivity()) {
-            adpater?.setData(it)
+            baseAdpater?.setData(it)
         }
     }
 
@@ -80,12 +80,12 @@ class TypesFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            if (adpater == null) {
-                adpater = TypesAdpater(requireContext(), viewModel)
-                viewModel.getBaseData().value?.let { adpater?.setData(it) }
+            if (baseAdpater == null) {
+                baseAdpater = TypesBaseAdpater(requireContext(), viewModel)
+                viewModel.getBaseData().value?.let { baseAdpater?.setData(it) }
             }
 
-            this.adapter = adpater
+            this.adapter = baseAdpater
         }
     }
 

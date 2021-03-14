@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.adpater.MasterAdpater
+import com.kisssum.pixabaybizhi.adpater.TypesAdpater
 import com.kisssum.pixabaybizhi.databinding.FragmentMasterBinding
 import com.kisssum.pixabaybizhi.state.TypesViewModel
 
@@ -31,7 +31,7 @@ class MasterFragment : Fragment() {
 
     private lateinit var binding: FragmentMasterBinding
     private lateinit var viewModel: TypesViewModel
-    private var adpater: MasterAdpater? = null
+    private var adpater: TypesAdpater? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +82,7 @@ class MasterFragment : Fragment() {
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
             if (adpater == null)
-                adpater = MasterAdpater(requireContext())
+                adpater = TypesAdpater(requireContext(), 0, true)
 
             if (viewModel.getPictureData(0).value == null) {
                 viewModel.resetPictureData(0)
