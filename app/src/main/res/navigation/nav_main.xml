@@ -37,6 +37,13 @@
             app:exitAnim="@anim/from_0_to_f100"
             app:popEnterAnim="@anim/from_f100_to_0"
             app:popExitAnim="@anim/from_0_to_100" />
+        <action
+            android:id="@+id/action_navigationControlFragment_to_aboutApplicationFragment"
+            app:destination="@id/aboutApplicationFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/from_0_to_f100"
+            app:popEnterAnim="@anim/from_f100_to_0"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
@@ -87,5 +94,10 @@
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutApplicationFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.me.AboutApplicationFragment"
+        android:label="fragment_about_application"
+        tools:layout="@layout/fragment_about_application" />
 
 </navigation>

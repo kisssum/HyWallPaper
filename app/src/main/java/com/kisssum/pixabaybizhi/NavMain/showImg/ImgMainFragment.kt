@@ -113,22 +113,34 @@ class ImgMainFragment() : Fragment() {
         val index = requireArguments().getInt("index", 0)
         var cposition = requireArguments().getInt("position", 0)
 
-        binding.viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
-        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount() = viewModel.getPictureData(index).value?.count()!!
-            override fun createFragment(position: Int): Fragment {
-                cposition = position
+        binding.viewPager.apply {
+            this.orientation = ViewPager2.ORIENTATION_VERTICAL
 
-                // add picture
-                if (cposition >= viewModel.getPictureData(index).value?.size!! - 5) {
-                    viewModel.upPictureData(index)
+            this.adapter = object : FragmentStateAdapter(requireActivity()) {
+                override fun getItemCount() = viewModel.getPictureData(index).value?.count()!!
+                override fun createFragment(position: Int): Fragment {
+                    // add picture
+                    if (cposition >= viewModel.getPictureData(index).value?.size!! - 5) {
+                        viewModel.upPictureData(index)
+                    }
+
+                    return ImageFragment(viewModel.getPictureData(index).value?.get(position)
+                        ?.get("lazysrc2x")!!, 1)
                 }
-
-                return ImageFragment(viewModel.getPictureData(index).value?.get(position)
-                    ?.get("lazysrc2x")!!, 1)
             }
+
+            this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int,
+                ) {
+                    cposition = position
+                }
+            })
+
+            this.setCurrentItem(requireArguments().getInt("position", 0), false)
         }
-        binding.viewPager.setCurrentItem(requireArguments().getInt("position", 0), false)
 
         binding.toolbar.let {
             it.setNavigationOnClickListener {

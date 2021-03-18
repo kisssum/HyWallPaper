@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_pixabay_main" />
     <fragment
         android:id="@+id/meFragment"
-        android:name="com.kisssum.pixabaybizhi.NavHome.Me.MeFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.me.MeFragment"
         android:label="fragment_me"
         tools:layout="@layout/fragment_me" />
     <fragment

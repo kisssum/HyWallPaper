@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#eeeeee"
     app:layoutDescription="@xml/fragment_me_scene"
-    tools:context=".NavHome.Me.MeFragment">
+    tools:context=".ui.me.MeFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -61,13 +61,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/include_more"
+            app:layout_constraintBottom_toTopOf="@+id/meMore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <include
-            android:id="@+id/include_more"
+            android:id="@+id/meMore"
             layout="@layout/me_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
