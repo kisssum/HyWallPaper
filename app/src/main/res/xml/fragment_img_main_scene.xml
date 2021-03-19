@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="300">
+       <KeyFrameSet>
+           <KeyAttribute
+               motion:motionTarget="@+id/toolbar"
+               motion:framePosition="0"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/toolbar"
+               motion:framePosition="100"
+               android:translationY="-86dp" />
+       </KeyFrameSet>
+        <OnClick motion:targetId="@id/viewLeft" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/toolbar"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="@+id/viewPager"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/toolbar"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="@+id/viewPager"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp" />
+    </ConstraintSet>
+</MotionScene>
