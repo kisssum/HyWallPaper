@@ -151,7 +151,7 @@ class ImgMainFragment() : Fragment() {
 
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.Item_download -> {
+                    R.id.Item_More -> {
                         val href =
                             viewModel.getPictureData(index).value?.get(cposition)?.get("href")
 
@@ -195,7 +195,7 @@ class ImgMainFragment() : Fragment() {
 
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.Item_download -> {
+                    R.id.Item_More -> {
                         val href = requireArguments().getString("href")!!
                         Thread {
                             val doc = Jsoup.connect(href).get()
@@ -229,7 +229,7 @@ class ImgMainFragment() : Fragment() {
 
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.Item_download -> {
+                    R.id.Item_More -> {
                         val url = requireArguments().getString("imgUrl")!!
                         downLoadDialog(url)
                         true
@@ -285,7 +285,7 @@ class ImgMainFragment() : Fragment() {
 
             it.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.Item_download -> {
+                    R.id.Item_More -> {
                         val url =
                             viewModel.getData()?.value?.get(index - 1)?.get("largeImageURL")!!
                         downLoadDialog(url)
