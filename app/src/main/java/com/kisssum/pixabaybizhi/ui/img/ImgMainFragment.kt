@@ -143,6 +143,25 @@ class ImgMainFragment() : Fragment() {
             this.setCurrentItem(requireArguments().getInt("position", 0), false)
         }
 
+        binding.imgButton.button.setOnClickListener {
+            val downloadViewModel = ViewModelProvider(
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            ).get(ToolViewModel::class.java)
+
+            val href =
+                viewModel.getPictureData(index).value?.get(cposition)?.get("href")
+
+            Thread {
+                val doc = Jsoup.connect(href).get()
+                val url =
+                    doc.select("body > div.showtitle > div.morew > a")
+                        .attr("href")
+
+                downloadViewModel.setWallpaer(url)
+            }.start()
+        }
+
         binding.toolbar.let {
             it.setNavigationOnClickListener {
                 Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
