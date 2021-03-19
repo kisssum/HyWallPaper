@@ -79,11 +79,16 @@ class ImgMainFragment() : Fragment() {
     override fun onStart() {
         super.onStart()
         requireActivity().window.addFlags(FLAG_LAYOUT_NO_LIMITS)
+
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
 
     override fun onStop() {
         super.onStop()
         requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
+
+        requireActivity().window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
