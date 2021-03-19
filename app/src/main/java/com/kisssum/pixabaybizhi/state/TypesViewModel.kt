@@ -259,6 +259,7 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                 val href = """<a href="(.+?)".*?imgw.*?>""".toRegex().findAll(it)
                 val lazysrc = """lazysrc="(.+?)"""".toRegex().findAll(it)
                 val lazysrc2x = """lazysrc2x="(.+?) 2x"""".toRegex().findAll(it)
+                val px = """class="imgxxs bzfbl".*?>(\d{4}x\d{4})</a>""".toRegex().findAll(it)
 
                 val list = arrayListOf<Map<String, String>>()
                 if (href.count() != 0) {
@@ -267,6 +268,8 @@ class TypesViewModel(application: Application) : AndroidViewModel(application) {
                         map["href"] = href.toList()[i].destructured.component1()
                         map["lazysrc"] = lazysrc.toList()[i].destructured.component1()
                         map["lazysrc2x"] = lazysrc2x.toList()[i].destructured.component1()
+                        map["px"] = px.toList()[i].destructured.component1()
+
                         list.add(map)
                     }
                 }

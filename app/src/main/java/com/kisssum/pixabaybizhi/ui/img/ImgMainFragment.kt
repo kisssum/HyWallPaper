@@ -151,6 +151,9 @@ class ImgMainFragment() : Fragment() {
                     positionOffsetPixels: Int,
                 ) {
                     cposition = position
+
+                    binding.imgPx.text = "@" +
+                            viewModel.getPictureData(index).value?.get(cposition)?.get("px")
                 }
             })
 

@@ -36,6 +36,14 @@
                motion:motionTarget="@+id/imgRightBar"
                motion:framePosition="100"
                android:translationX="70dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/imgPx"
+               motion:framePosition="0"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/imgPx"
+               motion:framePosition="100"
+               android:translationY="130dp" />
        </KeyFrameSet>
         <OnClick motion:targetId="@id/viewLeft" />
     </Transition>
@@ -66,6 +74,14 @@
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp" />
+        <Constraint
+            android:id="@+id/imgPx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="100dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -94,5 +110,13 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="24dp"
             motion:layout_constraintHorizontal_bias="0.5" />
+        <Constraint
+            android:id="@+id/imgPx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            motion:layout_constraintBottom_toTopOf="@+id/imgButton"
+            android:layout_marginStart="8dp"
+            motion:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 </MotionScene>
