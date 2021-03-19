@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavMain.showImg
+package com.kisssum.pixabaybizhi.ui.img
 
 import android.os.Bundle
 import android.view.LayoutInflater

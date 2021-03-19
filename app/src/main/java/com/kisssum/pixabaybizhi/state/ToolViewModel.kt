@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavMain.showImg
+package com.kisssum.pixabaybizhi.state
 
 import android.app.Application
 import android.app.WallpaperManager
@@ -10,7 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import rxhttp.wrapper.param.RxHttp
 import java.util.*
 
-class DownLoadViewModel(application: Application) : AndroidViewModel(application) {
+class ToolViewModel(application: Application) : AndroidViewModel(application) {
     private val SAVE_OK = 0
     private val SAVE_FAIL = 1
     private val SET_WALLPAPER_OK = 2
@@ -18,7 +18,7 @@ class DownLoadViewModel(application: Application) : AndroidViewModel(application
     private val handler = Handler() {
         when (it.what) {
             SAVE_OK -> {
-                showToast("下载成功")
+                showToast("已下载")
                 true
             }
             SAVE_FAIL -> {
@@ -26,11 +26,11 @@ class DownLoadViewModel(application: Application) : AndroidViewModel(application
                 true
             }
             SET_WALLPAPER_OK -> {
-                showToast("壁纸设置成功")
+                showToast("已设为壁纸")
                 true
             }
             SET_WALLPAPER_FAIL -> {
-                showToast("壁纸设置失败")
+                showToast("设置壁纸失败")
                 true
             }
             else -> true

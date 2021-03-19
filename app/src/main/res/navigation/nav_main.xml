@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
-        android:name="com.kisssum.pixabaybizhi.NavMain.showImg.ImgMainFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.img.ImgMainFragment"
         android:label="fragment_img_main"
         tools:layout="@layout/fragment_img_main" />
     <fragment

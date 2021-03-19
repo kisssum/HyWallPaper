@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavMain.showImg
+package com.kisssum.pixabaybizhi.ui.img
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
+import com.kisssum.pixabaybizhi.state.ToolViewModel
 import com.kisssum.pixabaybizhi.state.TypesViewModel
 import org.jsoup.Jsoup
 
@@ -300,7 +301,7 @@ class ImgMainFragment() : Fragment() {
         val downloadViewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-        ).get(DownLoadViewModel::class.java)
+        ).get(ToolViewModel::class.java)
 
         val items = arrayOf("收藏", "下载", "分享", "设为壁纸", "制作日签", "反馈图片问题")
 
