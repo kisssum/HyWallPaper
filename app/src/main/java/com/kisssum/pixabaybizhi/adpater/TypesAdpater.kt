@@ -3,113 +3,66 @@ package com.kisssum.pixabaybizhi.adpater
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kisssum.pixabaybizhi.R
-import com.kisssum.pixabaybizhi.databinding.ModelListItemBinding
-import org.jsoup.Jsoup
-import java.lang.Exception
+import kotlin.collections.ArrayList
 
-class TypesAdpater(private val context: Context) :
+class TypesAdpater(
+    private val context: Context,
+    private val typeIndex: Int,
+    private val isNavPager: Boolean,
+    private val isLargeImg: Boolean = false,
+) :
     RecyclerView.Adapter<TypesAdpater.MyViewHolder>() {
-
     private var data = arrayListOf<Map<String, String>>()
-    private val handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
 
-            when (msg.what) {
-                SUCCESFUL -> {
-                    val list = msg.obj as ArrayList<Map<String, String>>
-                    setData(list)
-                }
-                else -> ""
-            }
-        }
-    }
-    private val SUCCESFUL = 1
-    private val FAIL = 2
-
-    init {
-        loadData()
-    }
-
-    class MyViewHolder(binding: ModelListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val type = binding.type
-        val count = binding.count
-        val enter = binding.enter
-        val list = binding.list
-        val topTitle = binding.topTitle
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val img = itemView.findViewById<ImageView>(R.id.img)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            ModelListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        val item = if (isLargeImg) {
+            LayoutInflater.from(parent.context).inflate(R.layout.model_list_item_2, parent, false)
+        } else {
+            LayoutInflater.from(parent.context).inflate(R.layout.model_list_item_3, parent, false)
+        }
+        return MyViewHolder(item)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val obj = data[position]
-        val activity = context as Activity
-
-        holder.type.text = obj["name"]
-        holder.count.text = obj["count"]
-        holder.topTitle.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt("type", position)
-
-            Navigation.findNavController(activity, R.id.fragment_main)
-                .navigate(R.id.action_navigationControlFragment_to_typesPagerFragment, bundle)
-        }
-        holder.list.apply {
-            layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-
-            adapter = TypesListAdpater(context, position)
-        }
-    }
-
-    override fun getItemCount() = data.size
-
-    private fun setData(data: ArrayList<Map<String, String>>) {
+    fun setData(data: ArrayList<Map<String, String>>) {
         this.data = data
         notifyDataSetChanged()
     }
 
-    fun loadData() {
-        val url = "https://www.3gbizhi.com/sjbz/"
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val obj = data[position]
 
-        Thread {
-            try {
-                val client = Jsoup.connect(url).get().body()
-                val doc = client.select("body > div.menuw.mtm > div > ul > li > a")
+        Glide.with(context)
+            .load(obj["lazysrc"])
+            .placeholder(R.drawable.ic_baseline_refresh_24)
+            .into(holder.img)
 
-                val list = arrayListOf<Map<String, String>>()
-                var map: HashMap<String, String>
+        holder.itemView.setOnClickListener {
+            val bundel = Bundle()
+            bundel.putInt("type", 3)
+            bundel.putInt("index", typeIndex)
+            bundel.putInt("position", position)
 
-                for (i in 1 until doc.size) {
-                    map = HashMap()
-                    map["name"] = doc[i].select("em:nth-child(1)").text()
-
-                    val c1 = doc[i].select("em:nth-child(2)").text()
-                    val c2 = """\d+""".toRegex().find(c1)?.value
-                    map["count"] = c2!!
-
-                    list.add(map)
-                }
-
-                val message = Message.obtain()
-                message.what = SUCCESFUL
-                message.obj = list
-                handler.sendMessage(message)
-            } catch (e: Exception) {
-                handler.sendEmptyMessage(FAIL)
+            if (isNavPager) {
+                Navigation.findNavController(context as Activity, R.id.fragment_main)
+                    .navigate(R.id.action_navigationControlFragment_to_imgMainFragment, bundel)
+            } else {
+                Navigation.findNavController(context as Activity, R.id.fragment_main)
+                    .navigate(R.id.action_typesPagerFragment_to_imgMainFragment, bundel)
             }
-        }.start()
+        }
     }
+
+    override fun getItemCount() = data.size
 }

@@ -1,4 +1,4 @@
-package com.kisssum.pixabaybizhi.NavMain.showImg
+package com.kisssum.pixabaybizhi.ui.img
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -8,15 +8,17 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.kisssum.pixabaybizhi.NavHome.Pixabay.PixabayViewModel
 import com.kisssum.pixabaybizhi.R
 import com.kisssum.pixabaybizhi.databinding.FragmentImgMainBinding
+import com.kisssum.pixabaybizhi.state.ToolViewModel
+import com.kisssum.pixabaybizhi.state.TypesViewModel
 import org.jsoup.Jsoup
 
 
@@ -74,13 +76,100 @@ class ImgMainFragment() : Fragment() {
             }
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireActivity().window.addFlags(FLAG_LAYOUT_NO_LIMITS)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         when (requireArguments().getInt("type")) {
             1 -> initPxiUi()
             2 -> initBianUi()
+            3 -> initTypes()
             else -> initBZ()
+        }
+    }
+
+    private fun initTypes() {
+        val hBZ = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                val url = msg.obj as String
+                downLoadDialog(url)
+            }
+        }
+
+        val viewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
+            .get(TypesViewModel::class.java)
+
+        val index = requireArguments().getInt("index", 0)
+        var cposition = requireArguments().getInt("position", 0)
+
+        binding.viewPager.apply {
+            this.orientation = ViewPager2.ORIENTATION_VERTICAL
+
+            this.adapter = object : FragmentStateAdapter(requireActivity()) {
+                override fun getItemCount() = viewModel.getPictureData(index).value?.count()!!
+                override fun createFragment(position: Int): Fragment {
+                    // add picture
+                    if (cposition >= viewModel.getPictureData(index).value?.size!! - 5) {
+                        viewModel.upPictureData(index)
+                    }
+
+                    return ImageFragment(viewModel.getPictureData(index).value?.get(position)
+                        ?.get("lazysrc2x")!!, 1)
+                }
+            }
+
+            this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int,
+                ) {
+                    cposition = position
+                }
+            })
+
+            this.setCurrentItem(requireArguments().getInt("position", 0), false)
+        }
+
+        binding.toolbar.let {
+            it.setNavigationOnClickListener {
+                Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+                requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
+            }
+
+            it.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.Item_download -> {
+                        val href =
+                            viewModel.getPictureData(index).value?.get(cposition)?.get("href")
+
+                        Thread {
+                            val doc = Jsoup.connect(href).get()
+                            val url =
+                                doc.select("body > div.showtitle > div.morew > a")
+                                    .attr("href")
+
+                            val message = Message.obtain()
+                            message.obj = url
+                            hBZ.sendMessage(message)
+                        }.start()
+                        true
+                    }
+                    else -> true
+                }
+            }
         }
     }
 
@@ -212,7 +301,7 @@ class ImgMainFragment() : Fragment() {
         val downloadViewModel = ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-        ).get(DownLoadViewModel::class.java)
+        ).get(ToolViewModel::class.java)
 
         val items = arrayOf("收藏", "下载", "分享", "设为壁纸", "制作日签", "反馈图片问题")
 

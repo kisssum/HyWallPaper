@@ -12,10 +12,10 @@
         <action
             android:id="@+id/action_navigationControlFragment_to_imgMainFragment"
             app:destination="@id/imgMainFragment"
-            app:enterAnim="@anim/from_100_to_0"
-            app:exitAnim="@anim/alpha_keep_1"
-            app:popEnterAnim="@anim/alpha_keep_1"
-            app:popExitAnim="@anim/from_0_to_100" />
+            app:enterAnim="@anim/y_from_f100_to_0"
+            app:exitAnim="@anim/y_from_0_to_100"
+            app:popEnterAnim="@anim/y_from_100_to_0"
+            app:popExitAnim="@anim/y_from_0_to_f100" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment"
@@ -37,10 +37,17 @@
             app:exitAnim="@anim/from_0_to_f100"
             app:popEnterAnim="@anim/from_f100_to_0"
             app:popExitAnim="@anim/from_0_to_100" />
+        <action
+            android:id="@+id/action_navigationControlFragment_to_aboutApplicationFragment"
+            app:destination="@id/aboutApplicationFragment"
+            app:enterAnim="@anim/from_100_to_0"
+            app:exitAnim="@anim/from_0_to_f100"
+            app:popEnterAnim="@anim/from_f100_to_0"
+            app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
     <fragment
         android:id="@+id/imgMainFragment"
-        android:name="com.kisssum.pixabaybizhi.NavMain.showImg.ImgMainFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.img.ImgMainFragment"
         android:label="fragment_img_main"
         tools:layout="@layout/fragment_img_main" />
     <fragment
@@ -87,5 +94,10 @@
             app:popEnterAnim="@anim/alpha_keep_1"
             app:popExitAnim="@anim/from_0_to_100" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutApplicationFragment"
+        android:name="com.kisssum.pixabaybizhi.ui.me.AboutApplicationFragment"
+        android:label="fragment_about_application"
+        tools:layout="@layout/fragment_about_application" />
 
 </navigation>
