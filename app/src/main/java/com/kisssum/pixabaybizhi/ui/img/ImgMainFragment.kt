@@ -98,11 +98,25 @@ class ImgMainFragment() : Fragment() {
     }
 
     private fun initTypes() {
+        val DOWNLOAD = 1
+        val SET_WALLPAPER = 2
+        val TOOLBAR = 3
+
+        val downloadViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(ToolViewModel::class.java)
+
         val hBZ = object : Handler() {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 val url = msg.obj as String
-                downLoadDialog(url)
+
+                when (msg.what) {
+                    DOWNLOAD -> downloadViewModel.downLoad(url)
+                    SET_WALLPAPER -> downloadViewModel.setWallpaer(url)
+                    TOOLBAR -> downLoadDialog(url)
+                }
             }
         }
 
@@ -143,12 +157,26 @@ class ImgMainFragment() : Fragment() {
             this.setCurrentItem(requireArguments().getInt("position", 0), false)
         }
 
-        binding.imgButton.button.setOnClickListener {
-            val downloadViewModel = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-            ).get(ToolViewModel::class.java)
+        binding.imgRightBar.apply {
+            this.rDownLoad.setOnClickListener {
+                val href =
+                    viewModel.getPictureData(index).value?.get(cposition)?.get("href")
 
+                Thread {
+                    val doc = Jsoup.connect(href).get()
+                    val url =
+                        doc.select("body > div.showtitle > div.morew > a")
+                            .attr("href")
+
+                    val msg = Message()
+                    msg.what = DOWNLOAD
+                    msg.obj = url
+                    hBZ.sendMessage(msg)
+                }.start()
+            }
+        }
+
+        binding.imgButton.button.setOnClickListener {
             val href =
                 viewModel.getPictureData(index).value?.get(cposition)?.get("href")
 
@@ -158,7 +186,10 @@ class ImgMainFragment() : Fragment() {
                     doc.select("body > div.showtitle > div.morew > a")
                         .attr("href")
 
-                downloadViewModel.setWallpaer(url)
+                val msg = Message()
+                msg.what = SET_WALLPAPER
+                msg.obj = url
+                hBZ.sendMessage(msg)
             }.start()
         }
 
@@ -180,7 +211,8 @@ class ImgMainFragment() : Fragment() {
                                 doc.select("body > div.showtitle > div.morew > a")
                                     .attr("href")
 
-                            val message = Message.obtain()
+                            val message = Message()
+                            message.what = TOOLBAR
                             message.obj = url
                             hBZ.sendMessage(message)
                         }.start()
