@@ -25,7 +25,7 @@ class ImageFragment(val url: String, val type: Int = 0) : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding:FragmentImgShowBinding
+    private lateinit var binding: FragmentImgShowBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,8 @@ class ImageFragment(val url: String, val type: Int = 0) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
         binding = FragmentImgShowBinding.inflate(inflater)
         return binding.root
     }
@@ -46,11 +46,7 @@ class ImageFragment(val url: String, val type: Int = 0) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 全屏显示图片(0:桌面,1:手机)
-        binding.imageView.scaleType = when (type) {
-            1 -> ImageView.ScaleType.CENTER_CROP
-            else -> ImageView.ScaleType.FIT_START
-        }
+        binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
         // 加载图片
         Glide.with(requireContext())

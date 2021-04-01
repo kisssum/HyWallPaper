@@ -98,7 +98,6 @@ class ImgMainFragment() : Fragment() {
             1 -> initPxiUi()
             2 -> initBianUi()
             3 -> initTypes()
-            else -> initBZ()
         }
     }
 
