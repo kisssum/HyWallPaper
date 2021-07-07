@@ -57,12 +57,12 @@ class NavigationControlFragment : Fragment() {
                 R.id.Item_bian -> {
                     if (nav.currentDestination?.id != R.id.bianMainFragment) nav.navigate(R.id.bianMainFragment)
                 }
-                R.id.Item_pix -> {
-                    if (nav.currentDestination?.id != R.id.pixabayMainFragment) nav.navigate(R.id.pixabayMainFragment)
-                }
-                R.id.Item_me -> {
-                    if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
-                }
+//                R.id.Item_pix -> {
+//                    if (nav.currentDestination?.id != R.id.pixabayMainFragment) nav.navigate(R.id.pixabayMainFragment)
+//                }
+//                R.id.Item_me -> {
+//                    if (nav.currentDestination?.id != R.id.meFragment) nav.navigate(R.id.meFragment)
+//                }
             }
 
             true

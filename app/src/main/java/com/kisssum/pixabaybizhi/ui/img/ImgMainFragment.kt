@@ -98,6 +98,108 @@ class ImgMainFragment() : Fragment() {
             1 -> initPxiUi()
             2 -> initBianUi()
             3 -> initTypes()
+            4 -> initReSult()
+        }
+    }
+
+    private fun initReSult() {
+        val DOWNLOAD = 1
+        val SET_WALLPAPER = 2
+        val TOOLBAR = 3
+
+        val downloadViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(ToolViewModel::class.java)
+
+        val hBZ = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                val url = msg.obj as String
+
+                when (msg.what) {
+                    DOWNLOAD -> downloadViewModel.downLoad(url)
+                    SET_WALLPAPER -> downloadViewModel.setWallpaer(url)
+                    TOOLBAR -> downLoadDialog(url)
+                }
+            }
+        }
+
+        val chref = requireArguments().getString("href", "")
+        val lazysrc2x = requireArguments().getString("lazysrc2x", "")
+
+        binding.viewPager.apply {
+            this.orientation = ViewPager2.ORIENTATION_VERTICAL
+
+            this.adapter = object : FragmentStateAdapter(requireActivity()) {
+                override fun getItemCount() = 1
+                override fun createFragment(position: Int): Fragment {
+                    return ImageFragment(lazysrc2x, 1)
+                }
+            }
+
+            binding.imgRightBar.apply {
+                this.rDownLoad.setOnClickListener {
+                    val href = chref
+
+                    Thread {
+                        val doc = Jsoup.connect(href).get()
+                        val url =
+                            doc.select("body > div.showtitle > div.morew > a")
+                                .attr("href")
+
+                        val msg = Message()
+                        msg.what = DOWNLOAD
+                        msg.obj = url
+                        hBZ.sendMessage(msg)
+                    }.start()
+                }
+            }
+
+            binding.imgButton.button.setOnClickListener {
+                val href = chref
+
+                Thread {
+                    val doc = Jsoup.connect(href).get()
+                    val url =
+                        doc.select("body > div.showtitle > div.morew > a")
+                            .attr("href")
+
+                    val msg = Message()
+                    msg.what = SET_WALLPAPER
+                    msg.obj = url
+                    hBZ.sendMessage(msg)
+                }.start()
+            }
+
+            binding.toolbar.let {
+                it.setNavigationOnClickListener {
+                    Navigation.findNavController(requireActivity(), R.id.fragment_main).navigateUp()
+                    requireActivity().window.clearFlags(FLAG_LAYOUT_NO_LIMITS)
+                }
+
+                it.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.Item_More -> {
+                            val href = chref
+
+                            Thread {
+                                val doc = Jsoup.connect(href).get()
+                                val url =
+                                    doc.select("body > div.showtitle > div.morew > a")
+                                        .attr("href")
+
+                                val message = Message()
+                                message.what = TOOLBAR
+                                message.obj = url
+                                hBZ.sendMessage(message)
+                            }.start()
+                            true
+                        }
+                        else -> true
+                    }
+                }
+            }
         }
     }
 
